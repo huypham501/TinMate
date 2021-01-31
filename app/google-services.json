@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "799050483854",
+    "project_id": "tinuni",
+    "storage_bucket": "tinuni.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799050483854:android:446e3c67decafc8bbf21df",
+        "android_client_info": {
+          "package_name": "com.hcmus.tinuni"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799050483854-cn8t9aivve1o710l0npjc82mojnbhvum.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hcmus.tinuni",
+            "certificate_hash": "9510e891204b359e950a62f0104b3e7b51c857ba"
+          }
+        },
+        {
+          "client_id": "799050483854-9qau0cllhqvc0ulr3tvlt58uvv07vif9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKdL1Fn1WQgx3nVlv8YlaDmUyOzMJ5mHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799050483854-9qau0cllhqvc0ulr3tvlt58uvv07vif9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
