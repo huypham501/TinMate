@@ -28,7 +28,7 @@ public class SignInActivity extends Activity {
     private Button mBtnSignin, mBtnSignup;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,19 +44,6 @@ public class SignInActivity extends Activity {
 
     private void initializeFireBaseAuth() {
         mAuth = FirebaseAuth.getInstance();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser currentUser = mAuth.getCurrentUser();
-//                if(currentUser != null){
-//                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                    return;
-//                }
-            }
-        };
     }
 
     private void initializeID() {
@@ -100,7 +87,11 @@ public class SignInActivity extends Activity {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()) {
+                if(task.isSuccessful()) {
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(SignInActivity.this, "Sign in failed.",
                             Toast.LENGTH_SHORT).show();
@@ -114,13 +105,25 @@ public class SignInActivity extends Activity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         // Check if user is signed in (non-null) and update UI accordingly.
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
     }
 }
