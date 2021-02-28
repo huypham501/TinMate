@@ -3,6 +3,7 @@ package com.hcmus.tinuni;
 import androidx.annotation.NonNull;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,9 @@ public class SignUpActivity extends Activity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +50,16 @@ public class SignUpActivity extends Activity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 if(currentUser != null){
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return;
+                    moveActivity(SignUpActivity.this, MainActivity.class);
                 }
             }
         };
+    }
+
+    private void moveActivity(Context from, Class<?> to) {
+        Intent intent = new Intent(from, to);
+        startActivity(intent);
+        finish();
     }
 
     private void initializeID() {
@@ -66,10 +73,8 @@ public class SignUpActivity extends Activity {
         mBtnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-                startActivity(intent);
-                finish();
-                return;
+                moveActivity(SignUpActivity.this, SignInActivity.class);
+
             }
         });
 
