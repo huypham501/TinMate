@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -47,13 +48,13 @@ public class SignInActivity extends Activity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                if(currentUser != null){
-                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
+//                FirebaseUser currentUser = mAuth.getCurrentUser();
+//                if(currentUser != null){
+//                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                    return;
+//                }
             }
         };
     }
@@ -70,16 +71,15 @@ public class SignInActivity extends Activity {
                 final String email = mEdtEmail.getEditText().getText().toString();
                 final String password = mEdtPassword.getEditText().getText().toString();
 
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()) {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(SignInActivity.this, "Sign in failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                if(TextUtils.isEmpty(email)) {
+                    mEdtEmail.setError("Please fill in email!");
+                } else if(TextUtils.isEmpty(password)) {
+                    mEdtPassword.setError("Please fill in password!");
+                } else {
+                    signInAccount(email, password);
+                }
+
+
             }
         });
 
@@ -94,6 +94,19 @@ public class SignInActivity extends Activity {
             }
         });
 
+    }
+
+    private void signInAccount(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()) {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(SignInActivity.this, "Sign in failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // When initializing Activity, check to see if the user is currently signed in.
