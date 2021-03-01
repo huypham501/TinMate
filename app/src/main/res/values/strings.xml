@@ -9,7 +9,13 @@
     <string name="sign_up_2">Sign Up</string>
     <string name="confirm_password">Confirm password</string>
     <string name="username">Your name</string>
-    <string name="forget_password">FORGET PASSWORD?</string>
+    <string name="forgot_password">FORGOT PASSWORD?</string>
     <string name="go_back">Go back</string>
     <string name="dont_have_account">DON\'T HAVE AN ACCOUNT?</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="content_reset_password">Enter your email and click reset, you will receive an email to reset your password!</string>
+    <string name="reset">Reset</string>
 </resources>

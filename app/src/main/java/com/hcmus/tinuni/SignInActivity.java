@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignInActivity extends Activity {
     private TextInputLayout mEdtEmail, mEdtPassword;
-    private Button mBtnSignin, mBtnSignup;
+    private Button mBtnSignin, mBtnSignup, mBtnForgot;
 
     private FirebaseAuth mAuth;
 
@@ -77,13 +77,22 @@ public class SignInActivity extends Activity {
                 Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(intent);
                 finish();
-                return;
+            }
+        });
+
+        mBtnForgot = (Button) findViewById(R.id.btnForgot);
+        mBtnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignInActivity.this, ResetPasswordActivity.class));
+                finish();
             }
         });
 
     }
 
     private void signInAccount(String email, String password) {
+
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -110,7 +119,6 @@ public class SignInActivity extends Activity {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-            return;
         }
     }
 
@@ -123,7 +131,6 @@ public class SignInActivity extends Activity {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-            return;
         }
     }
 }
