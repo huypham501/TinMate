@@ -86,8 +86,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.signOut:
                 FirebaseAuth.getInstance().signOut();
-                Intent intent_signOut = new Intent(MainActivity.this, SignInActivity.class);
-                startActivity(intent_signOut);
+                System.out.println("***********************************************");
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
                 finish();
                 return true;
             default:

@@ -17,9 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hcmus.tinuni.Model.User;
 
 import java.util.HashMap;
 
@@ -78,15 +81,13 @@ public class SignUpActivity extends Activity {
                 final String confirmPassword = mEdtConfirmPassword.getEditText().getText().toString();
                 final String username = mEdtUsername.getEditText().getText().toString();
 
-                if(TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(email)) {
                     mEdtEmail.setError("Please fill in email!");
-                } else if(TextUtils.isEmpty(username)) {
+                } else if (TextUtils.isEmpty(username)) {
                     mEdtUsername.setError("Please fill in username!");
-                } else if(TextUtils.isEmpty(password)){
+                } else if (TextUtils.isEmpty(password)) {
                     mEdtPassword.setError("Please fill in password!");
-                } else if(password.length() < 6) {
-                    mEdtPassword.setError("6 chars minimum!");
-                } else if(!TextUtils.equals(password, confirmPassword)){
+                } else if (!TextUtils.equals(password, confirmPassword)) {
                     // If sign up fails, display a message to the user.
                     mEdtConfirmPassword.setError("Password don't be matched. Please check again!");
                 } else {
@@ -99,7 +100,7 @@ public class SignUpActivity extends Activity {
 
     private void signUpAccount(String email, String password, String username) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -112,16 +113,13 @@ public class SignUpActivity extends Activity {
                                     .child(firebaseUser.getUid());
 
                             // Create HashMap to put into Database
-                            HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("id", firebaseUser.getUid());
-                            hashMap.put("username", username);
-                            hashMap.put("imageURL", "default");
+                            User user = new User(firebaseUser.getUid(), username, "default");
 
                             // Put into Database
-                            mRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            mRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()) {
+                                    if (task.isSuccessful()) {
                                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
@@ -130,10 +128,14 @@ public class SignUpActivity extends Activity {
                             });
                         } else {
                             // If sign up fails, display a message to the user.
-                            Toast.makeText(SignUpActivity.this, "Sign up failed.",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(SignUpActivity.this, "Sign up failed.",
+//                                    Toast.LENGTH_SHORT).show();
+                            if (task.getException() instanceof FirebaseAuthWeakPasswordException)
+                                mEdtPassword.setError(task.getException().getMessage());
+                            else if (task.getException() instanceof FirebaseAuthUserCollisionException)
+                                mEdtEmail.setError(task.getException().getMessage());
                         }
                     }
-        });
+                });
     }
 }
