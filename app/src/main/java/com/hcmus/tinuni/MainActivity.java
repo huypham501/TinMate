@@ -77,23 +77,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //    // Listening Menu Item selected
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch(item.getItemId()) {
-//            case R.id.profile:
-//                // TODO: View user's profile
-//                return true;
-//            case R.id.signOut:
-//                FirebaseAuth.getInstance().signOut();
-//                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-//                startActivity(intent);
-//                finish();
-//                return true;
-//            default:
-//                break;
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.profile:
+                Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
+                startActivity(intent_profile);
+                return true;
+            case R.id.signOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent_signOut = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent_signOut);
+                finish();
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
 
     // ViewPageAdapter
     class ViewPageAdapter extends FragmentPagerAdapter {

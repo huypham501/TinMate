@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TinUni">
-
+        <activity android:name=".UserProfileActitivy"></activity>
         <activity
             android:name=".MessageActivity"
-            android:label="@string/title_activity_message">
-        </activity>
+            android:label="@string/title_activity_message"></activity>
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignUpActivity" />
