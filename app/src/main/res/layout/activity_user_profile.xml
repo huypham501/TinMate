@@ -21,7 +21,7 @@
             android:layout_marginTop="5dp"
             android:src="@drawable/profile_image" />
         <TextView
-            android:id="@+id/tvFullname"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="On Hao Nguyen"
@@ -53,55 +53,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="First name"
+            android:text="Full name"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:layout_marginLeft="5dp"/>
         <TextView
-            android:id="@+id/tvFirstName"
+            android:id="@+id/tvFullname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="On"
+            android:text="On Hao Nguyen"
             android:textColor="@color/darkGrey"
-            android:layout_marginLeft="25dp"
-            android:textSize="20dp"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/darkGrey"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_person"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Last name"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_marginLeft="5dp"/>
-        <TextView
-            android:id="@+id/tvLastName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hao Nguyen"
-            android:textColor="@color/darkGrey"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="31dp"
             android:textSize="20dp"/>
     </LinearLayout>
     <View
@@ -249,7 +212,7 @@
             android:layout_height="wrap_content"
             android:text="HCMUS"
             android:textColor="@color/darkGrey"
-            android:layout_marginLeft="57dp"
+            android:layout_marginLeft="60dp"
             android:textSize="20dp"/>
     </LinearLayout>
     <View
