@@ -4,6 +4,9 @@ public class User {
     private String id;
     private String username;
     private String imageURL;
+    private String phone;
+    private String gender;
+    private String school;
 
     public User() {
     }
@@ -12,6 +15,15 @@ public class User {
         this.id = id;
         this.username = username;
         this.imageURL = imageURL;
+    }
+
+    public User(String id, String username, String imageURL, String phone, String gender, String school) {
+        this.id = id;
+        this.username = username;
+        this.imageURL = imageURL;
+        this.phone = phone;
+        this.gender = gender;
+        this.school = school;
     }
 
     public String getId() {
@@ -36,5 +48,29 @@ public class User {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
     }
 }
