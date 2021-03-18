@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,8 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignInActivity extends Activity {
     private TextInputLayout mEdtEmail, mEdtPassword;
     private Button mBtnSignin, mBtnSignup, mBtnForgot;
-
     private FirebaseAuth mAuth;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class SignInActivity extends Activity {
     private void initializeID() {
         mEdtEmail = (TextInputLayout) findViewById(R.id.edtEmail);
         mEdtPassword = (TextInputLayout) findViewById(R.id.edtPassword);
-
+        mProgressBar = findViewById(R.id.progressBar);
         mBtnSignin = (Button) findViewById(R.id.btnSignIn);
         mBtnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,7 @@ public class SignInActivity extends Activity {
                     mEdtPassword.setError("Please fill in password!");
                 } else {
                     signInAccount(email, password);
+                    mProgressBar.setVisibility(View.VISIBLE);
                 }
 
 

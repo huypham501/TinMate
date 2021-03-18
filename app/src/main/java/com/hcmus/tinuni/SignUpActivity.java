@@ -7,9 +7,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +34,8 @@ public class SignUpActivity extends Activity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
+
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class SignUpActivity extends Activity {
         mEdtPassword = (TextInputLayout) findViewById(R.id.edtPassword);
         mEdtConfirmPassword = (TextInputLayout) findViewById(R.id.edtConfirmPassword);
         mEdtUsername = (TextInputLayout) findViewById(R.id.edtUsername);
+        mProgressBar = findViewById(R.id.progressBar);
 
 
         mBtnGoBack = (Button) findViewById(R.id.btnGoBack);
@@ -92,6 +97,7 @@ public class SignUpActivity extends Activity {
                     mEdtConfirmPassword.setError("Password don't be matched. Please check again!");
                 } else {
                     signUpAccount(email, password, username);
+                    mProgressBar.setVisibility(View.VISIBLE);
                 }
             }
         });
