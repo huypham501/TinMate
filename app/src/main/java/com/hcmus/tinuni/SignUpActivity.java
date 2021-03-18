@@ -118,7 +118,7 @@ public class SignUpActivity extends Activity {
                                     .getReference("Users")
                                     .child(firebaseUser.getUid());
 
-                            // Create HashMap to put into Database
+                            // Create User class to put into Database
                             User user = new User(firebaseUser.getUid(), username, "default");
 
                             // Put into Database

@@ -126,4 +126,17 @@
     </LinearLayout>
 
 
+    <Button
+        android:id="@+id/btnSignInGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Sign in with Google"
+        android:background="@drawable/button_google"
+        android:paddingLeft="80dp"
+        android:paddingRight="80dp"
+
+        android:drawableLeft="@drawable/google">
+    </Button>
+
 </LinearLayout>
