@@ -119,7 +119,7 @@ public class SignUpActivity extends Activity {
                                     .child(firebaseUser.getUid());
 
                             // Create HashMap to put into Database
-                            User user = new User(firebaseUser.getUid(), username, "default");
+                            User user = new User(firebaseUser.getUid(), username, email,"default");
 
                             // Put into Database
                             mRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

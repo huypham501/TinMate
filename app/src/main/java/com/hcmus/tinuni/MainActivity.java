@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.profile:
                 Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
+                intent_profile.putExtra("id", mUser.getUid().toString());
                 startActivity(intent_profile);
                 return true;
             case R.id.signOut:

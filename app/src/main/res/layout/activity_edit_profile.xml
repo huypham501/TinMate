@@ -59,6 +59,7 @@
                 android:text="Email"/>
 
             <EditText
+                android:editable="false"
                 android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,20 +123,20 @@
                 android:textSize="18dp"
                 android:layout_marginTop="10dp"/>
             <RadioGroup
-                android:id="@+id/rdo_group_sex"
+                android:id="@+id/rgGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp">
                 <RadioButton
-                    android:id="@+id/rdoMale"
+                    android:id="@+id/rbMale"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Male" />
                 <RadioButton
-                    android:id="@+id/rdoFemale"
+                    android:id="@+id/rbFemale"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="120dp"

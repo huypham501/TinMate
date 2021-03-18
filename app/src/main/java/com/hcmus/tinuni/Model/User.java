@@ -3,6 +3,7 @@ package com.hcmus.tinuni.Model;
 public class User {
     private String id;
     private String username;
+    private String email;
     private String imageURL;
     private String phone;
     private String gender;
@@ -11,15 +12,17 @@ public class User {
     public User() {
     }
 
-    public User(String id, String username, String imageURL) {
+    public User(String id, String username, String email, String imageURL) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.imageURL = imageURL;
     }
 
-    public User(String id, String username, String imageURL, String phone, String gender, String school) {
+    public User(String id, String username, String email, String imageURL, String phone, String gender, String school) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.imageURL = imageURL;
         this.phone = phone;
         this.gender = gender;
@@ -72,5 +75,13 @@ public class User {
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
