@@ -217,8 +217,8 @@ public class SignInActivity extends Activity {
                                                 firebaseUser.getPhotoUrl().toString());
                                         Ref.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
+                                            public void onComplete(@NonNull Task<Void> taskSetValue) {
+                                                if (taskSetValue.isSuccessful()) {
                                                     Log.d(TAG, "signInWithCredential:Create success");
 
                                                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
