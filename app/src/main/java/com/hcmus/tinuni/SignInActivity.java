@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -35,13 +34,11 @@ import com.hcmus.tinuni.Model.User;
 
 public class SignInActivity extends Activity {
     private TextInputLayout mEdtEmail, mEdtPassword;
-    private Button mBtnSignin, mBtnSignup, mBtnForgot, mBtnSigninGoogle;
+    private Button mBtnSignIn, mBtnSignUp, mBtnForgot, mBtnSignInGoogle;
     private FirebaseAuth mAuth;
     private ProgressBar mProgressBar;
 
-    private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
-
     private GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -101,8 +98,8 @@ public class SignInActivity extends Activity {
         mEdtEmail = (TextInputLayout) findViewById(R.id.edtEmail);
         mEdtPassword = (TextInputLayout) findViewById(R.id.edtPassword);
         mProgressBar = findViewById(R.id.progressBar);
-        mBtnSignin = (Button) findViewById(R.id.btnSignIn);
-        mBtnSignin.setOnClickListener(new View.OnClickListener() {
+        mBtnSignIn = (Button) findViewById(R.id.btnSignIn);
+        mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -122,16 +119,16 @@ public class SignInActivity extends Activity {
             }
         });
 
-        mBtnSigninGoogle = findViewById(R.id.btnSignInGoogle);
-        mBtnSigninGoogle.setOnClickListener(new View.OnClickListener() {
+        mBtnSignInGoogle = findViewById(R.id.btnSignInGoogle);
+        mBtnSignInGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signInWithGoogle();
             }
         });
 
-        mBtnSignup = (Button) findViewById(R.id.btnSignUp);
-        mBtnSignup.setOnClickListener(new View.OnClickListener() {
+        mBtnSignUp = (Button) findViewById(R.id.btnSignUp);
+        mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
@@ -169,6 +166,13 @@ public class SignInActivity extends Activity {
         });
     }
 
+    // [START signin]
+    private void signInWithGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+    // [END signin]
+
     // [START onactivityresult]
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -180,11 +184,10 @@ public class SignInActivity extends Activity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 signInWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -198,14 +201,12 @@ public class SignInActivity extends Activity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
                             DatabaseReference Ref = FirebaseDatabase.getInstance()
                                     .getReference("Users")
                                     .child(firebaseUser.getUid());
+
                             Ref.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -220,8 +221,10 @@ public class SignInActivity extends Activity {
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> taskSetValue) {
-                                                        if (taskSetValue.isSuccessful()) {
-                                                            Log.d(TAG, "signInWithCredential:Create success");
+                                                        if (!taskSetValue.isSuccessful()) {
+                                                            // If sign in fails, display a message to the user.
+                                                            Toast.makeText(SignInActivity.this, "Sign in failed.",
+                                                                    Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
@@ -231,12 +234,15 @@ public class SignInActivity extends Activity {
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
+
+
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(SignInActivity.this, task.getException().toString(),
+                                    Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -244,10 +250,4 @@ public class SignInActivity extends Activity {
     }
     // [END auth_with_google]
 
-    // [START signin]
-    private void signInWithGoogle() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-    // [END signin
 }
