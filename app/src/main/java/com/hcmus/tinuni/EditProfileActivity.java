@@ -56,17 +56,29 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                edtFullname.setText(user.getUsername().toString());
-                edtEmail.setText(user.getEmail().toString());
-                edtPhone.setText(user.getPhone().toString());
-                if(user.getGender() == "Male") {
-                    rbMale.setChecked(true);
-                    rbFemale.setChecked(false);
+                edtFullname.setText(user.getUsername());
+                edtEmail.setText(user.getEmail());
+
+                if(user.getPhone() == null) {
+                    edtPhone.setText("");
                 } else {
-                    rbFemale.setChecked(true);
-                    rbMale.setChecked(false);
+                    edtPhone.setText(user.getPhone());
                 }
-                edtSchool.setText(user.getSchool().toString());
+
+                if(user.getGender().matches("Male")) {
+                    rbMale.setChecked(true);
+                } else if(user.getGender().matches("Female")) {
+                    rbFemale.setChecked(true);
+                } else {
+                    rbMale.setChecked(false);
+                    rbFemale.setChecked(false);
+                }
+
+                if(user.getSchool() == null) {
+                    edtSchool.setText("");
+                } else {
+                    edtSchool.setText(user.getSchool());
+                }
             }
 
             @Override
@@ -102,6 +114,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     Toast.makeText(EditProfileActivity.this, "Save successfully !", Toast.LENGTH_SHORT).show();
 
                     Intent go_back = new Intent(EditProfileActivity.this, UserProfileActitivy.class);
+                    go_back.putExtra("id", id);
                     startActivity(go_back);
                 }
             }
@@ -111,6 +124,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent go_back = new Intent(EditProfileActivity.this, UserProfileActitivy.class);
+                go_back.putExtra("id", id);
                 startActivity(go_back);
             }
         });

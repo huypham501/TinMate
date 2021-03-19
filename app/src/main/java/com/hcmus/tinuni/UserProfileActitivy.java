@@ -48,12 +48,25 @@ public class UserProfileActitivy extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 System.out.println(user);
-                tvName.setText(user.getUsername().toString());
-                tvFullname.setText(user.getUsername().toString());
-                tvEmail.setText(user.getEmail().toString());
-                tvPhone.setText(user.getPhone().toString());
-                tvGender.setText(user.getGender().toString());
-                tvSchool.setText(user.getSchool().toString());
+                tvName.setText(user.getUsername());
+                tvFullname.setText(user.getUsername());
+                tvEmail.setText(user.getEmail());
+                if(user.getPhone() == null) {
+                    tvPhone.setText("");
+                } else {
+                    tvPhone.setText(user.getPhone());
+                }
+
+                if(user.getGender() == null) {
+                    tvGender.setText("");
+                } else {
+                    tvGender.setText(user.getGender());
+                }
+                if(user.getGender() == null) {
+                    tvSchool.setText("");
+                } else {
+                    tvSchool.setText(user.getSchool());
+                }
             }
 
             @Override
@@ -65,7 +78,6 @@ public class UserProfileActitivy extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent_edit = new Intent(UserProfileActitivy.this, EditProfileActivity.class);
-                System.out.println("2nd id: " + id);
                 intent_edit.putExtra("id", id);
                 startActivity(intent_edit);
             }
