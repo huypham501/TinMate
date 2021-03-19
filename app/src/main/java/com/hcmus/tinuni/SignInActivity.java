@@ -214,27 +214,26 @@ public class SignInActivity extends Activity {
                                         // Create User class to put into Database
                                         User user = new User(firebaseUser.getUid(),
                                                 firebaseUser.getDisplayName(),
+                                                firebaseUser.getEmail(),
                                                 firebaseUser.getPhotoUrl().toString());
-                                        Ref.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> taskSetValue) {
-                                                if (taskSetValue.isSuccessful()) {
-                                                    Log.d(TAG, "signInWithCredential:Create success");
-
-                                                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            }
-                                        });
+                                        Ref.setValue(user)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> taskSetValue) {
+                                                        if (taskSetValue.isSuccessful()) {
+                                                            Log.d(TAG, "signInWithCredential:Create success");
+                                                        }
+                                                    }
+                                                });
                                     }
                                 }
-
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
-
                                 }
                             });
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
