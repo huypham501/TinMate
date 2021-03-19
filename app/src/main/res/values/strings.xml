@@ -5,6 +5,15 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
 
+    <!--HUY-->
+    <string name="sign_up_process">My Information</string>
+    <string name="name">Your Name</string>
+    <string name="phone">Your phone</string>
+    <string name="school_name">Your school</string>
+    <string name="majors">Your majors</string>
+    <string name="school_year">Your school year</string>
+    <string name="next">Next</string>
+
     <string name="sign_up_1">Sign Up</string>
     <string name="sign_up_2">Sign Up</string>
     <string name="confirm_password">Confirm password</string>

@@ -12,6 +12,12 @@ public class User {
     public User() {
     }
 
+    public User(String id, String email, String imageURL) {
+        this.id = id;
+        this.email = email;
+        this.imageURL = imageURL;
+    }
+
     public User(String id, String username, String email, String imageURL) {
         this.id = id;
         this.username = username;

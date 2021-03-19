@@ -114,8 +114,6 @@ public class SignInActivity extends Activity {
                     signInWithEmailAndPassword(email, password);
                     mProgressBar.setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
 

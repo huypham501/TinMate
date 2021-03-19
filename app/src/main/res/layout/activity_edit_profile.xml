@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".EditProfileActivity">
 
     <TextView
         android:id="@+id/logoName"
@@ -29,112 +29,120 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Full Name"/>
+                android:text="Full Name"
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/edtFullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="On Hao Nguyen"
                 android:layout_marginLeft="10dp"
+                android:background="@drawable/rounded_edittext"
                 android:padding="5dp"
-                android:background="@drawable/rounded_edittext" />
+                android:text="On Hao Nguyen" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Email"/>
+                android:text="Email"
+                android:textSize="18dp" />
 
             <EditText
                 android:editable="false"
                 android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ohn@gmail.com"
                 android:layout_marginLeft="47dp"
+                android:background="@drawable/rounded_edittext"
                 android:padding="5dp"
-                android:background="@drawable/rounded_edittext" />
+                android:text="ohn@gmail.com" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Phone"/>
+                android:text="Phone"
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/edtPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0903123456"
-                android:inputType="number"
                 android:layout_marginLeft="40dp"
+                android:background="@drawable/rounded_edittext"
+                android:inputType="number"
                 android:padding="5dp"
-                android:background="@drawable/rounded_edittext" />
+                android:text="0903123456" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="School"/>
+                android:text="School"
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/edtSchool"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="HCMUS"
                 android:layout_marginLeft="36dp"
+                android:background="@drawable/rounded_edittext"
                 android:padding="5dp"
-                android:background="@drawable/rounded_edittext" />
+                android:text="HCMUS" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Gender"
-                android:textSize="18dp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="18dp" />
+
             <RadioGroup
                 android:id="@+id/rgGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:layout_marginLeft="30dp">
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/rbMale"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Male" />
+
                 <RadioButton
                     android:id="@+id/rbFemale"
                     android:layout_width="wrap_content"
@@ -146,32 +154,33 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
             <Button
-                android:drawableLeft="@drawable/ic_check_circle"
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save"
-                android:background="@drawable/button_sign_up"
-                android:textColor="#fff"
                 android:layout_marginLeft="20dp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/button_sign_up"
+                android:drawableLeft="@drawable/ic_check_circle"
+                android:text="Save"
+                android:textColor="#fff" />
+
             <Button
                 android:id="@+id/btnGoBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="GO BACK"
-                android:drawableLeft="@drawable/ic_arrow_back"
-                android:background="@drawable/button_sign_up"
-                android:textColor="@color/white"
+                android:layout_marginLeft="85dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="85dp"/>
+                android:background="@drawable/button_sign_up"
+                android:drawableLeft="@drawable/ic_arrow_back"
+                android:text="GO BACK"
+                android:textColor="@color/white" />
         </LinearLayout>
 
 
