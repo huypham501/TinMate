@@ -1,17 +1,13 @@
-package com.hcmus.tinuni;
+package com.hcmus.tinuni.Activity.Authentication;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,8 +22,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
@@ -35,33 +29,32 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Model.User;
+import com.hcmus.tinuni.R;
 
-public class SignUpActivity extends Activity {
-    private TextInputLayout mEdtEmail, mEdtPassword, mEdtConfirmPassword;
-    private Button mBtnGoBack, mBtnSignup, mBtnSignupGoogle;
 
+public class SignInActivity extends Activity {
+    private TextInputLayout mEdtEmail, mEdtPassword;
+    private Button mBtnSignIn, mBtnSignUp, mBtnForgot, mBtnSignInGoogle;
     private FirebaseAuth mAuth;
-    private DatabaseReference mRef;
-
     private ProgressBar mProgressBar;
 
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_in);
 
         // Initialize ID
         initializeID();
-
+//
         // Initialize Firebase Authentication
         initializeFireBaseAuth();
 
-        // [START config_signup]
+        // [START config_signin]
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -70,110 +63,107 @@ public class SignUpActivity extends Activity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END config_signin]
+
+
+    }
+
+    // When initializing Activity, check to see if the user is currently signed in.
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void initializeFireBaseAuth() {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    private void moveActivity(Context from, Class<?> to) {
-        Intent intent = new Intent(from, to);
-        startActivity(intent);
-        finish();
-    }
-
-    private boolean isEmailValid(CharSequence email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
     private void initializeID() {
-        mEdtEmail = findViewById(R.id.edtEmail);
-        mEdtPassword = findViewById(R.id.edtPassword);
-        mEdtConfirmPassword = findViewById(R.id.edtConfirmPassword);
+        mEdtEmail = (TextInputLayout) findViewById(R.id.edtEmail);
+        mEdtPassword = (TextInputLayout) findViewById(R.id.edtPassword);
         mProgressBar = findViewById(R.id.progressBar);
-
-        mBtnGoBack = findViewById(R.id.btnGoBack);
-        mBtnGoBack.setOnClickListener(new View.OnClickListener() {
+        mBtnSignIn = (Button) findViewById(R.id.btnSignIn);
+        mBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveActivity(SignUpActivity.this, SignInActivity.class);
 
-            }
-        });
-
-        mBtnSignup = findViewById(R.id.btnSignUp);
-        mBtnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 final String email = mEdtEmail.getEditText().getText().toString();
                 final String password = mEdtPassword.getEditText().getText().toString();
-                final String confirmPassword = mEdtConfirmPassword.getEditText().getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     mEdtEmail.setError("Please fill in email!");
-                } else if (!isEmailValid(email)) {
-                    mEdtEmail.setError("Invalid email!");
                 } else if (TextUtils.isEmpty(password)) {
                     mEdtPassword.setError("Please fill in password!");
-                }else if (password.length() <= 7) {
-                    mEdtPassword.setError("Password should be at least 8 characters");
-                } else if (!TextUtils.equals(password, confirmPassword)) {
-                    // If sign up fails, display a message to the user.
-                    mEdtConfirmPassword.setError("Password don't be matched. Please check again!");
                 } else {
+                    signInWithEmailAndPassword(email, password);
                     mProgressBar.setVisibility(View.VISIBLE);
-                    signUpAccount(email, password);
                 }
             }
         });
 
-        mBtnSignupGoogle = (Button) findViewById(R.id.btnSignUpGoogle);
-        mBtnSignupGoogle.setOnClickListener(new View.OnClickListener() {
+        mBtnSignInGoogle = findViewById(R.id.btnSignInGoogle);
+        mBtnSignInGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signInWithGoogle();
             }
         });
+
+        mBtnSignUp = (Button) findViewById(R.id.btnSignUp);
+        mBtnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        mBtnForgot = (Button) findViewById(R.id.btnForgot);
+        mBtnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignInActivity.this, ResetPasswordActivity.class));
+                finish();
+            }
+        });
+
     }
 
-    private void signUpAccount(String email, String password) {
+    private void signInWithEmailAndPassword(String email, String password) {
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> onCompleteTaskAuth) {
-                        if (onCompleteTaskAuth.isSuccessful()) {
-                            // Sign up success, update UI with the signed-in user's information
-
-                            // Get User ID in Realtime Database
-                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            mRef = FirebaseDatabase.getInstance()
-                                    .getReference("Users")
-                                    .child(firebaseUser.getUid());
-
-                            // Create HashMap to put into Database
-                            User user = new User(firebaseUser.getUid(), email, "default");
-
-                            // Put into Database
-                            mRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> onCompleteTaskAll) {
-                                    if (onCompleteTaskAll.isSuccessful()) {
-                                        moveActivity(SignUpActivity.this, MainActivity.class);
-                                    }
-                                }
-                            });
-                        } else {
-                            // If sign up fails, display a message to the user.
-//                            Toast.makeText(SignUpActivity.this, "Sign up failed.",
-//                                    Toast.LENGTH_SHORT).show();
-                            if (onCompleteTaskAuth.getException() instanceof FirebaseAuthWeakPasswordException)
-                                mEdtPassword.setError(onCompleteTaskAuth.getException().getMessage());
-                            else if (onCompleteTaskAuth.getException() instanceof FirebaseAuthUserCollisionException)
-                                mEdtEmail.setError(onCompleteTaskAuth.getException().getMessage());
-                        }
-                    }
-                });
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(SignInActivity.this, "Sign in failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // [START signin]
@@ -197,7 +187,7 @@ public class SignUpActivity extends Activity {
                 signInWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, "Google sign up failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -233,26 +223,25 @@ public class SignUpActivity extends Activity {
                                                     public void onComplete(@NonNull Task<Void> taskSetValue) {
                                                         if (!taskSetValue.isSuccessful()) {
                                                             // If sign in fails, display a message to the user.
-                                                            Toast.makeText(SignUpActivity.this, "Sign up failed.",
+                                                            Toast.makeText(SignInActivity.this, "Sign in failed.",
                                                                     Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
                                     }
                                 }
-
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
 
 
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(SignUpActivity.this, task.getException().toString(),
+                            Toast.makeText(SignInActivity.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
 
                         }

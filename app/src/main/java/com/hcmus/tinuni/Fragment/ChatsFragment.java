@@ -1,4 +1,4 @@
-package com.hcmus.tinuni.Fragments;
+package com.hcmus.tinuni.Fragment;
 
 import android.os.Bundle;
 

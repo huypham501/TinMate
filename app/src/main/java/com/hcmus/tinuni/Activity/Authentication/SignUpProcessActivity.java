@@ -1,4 +1,4 @@
-package com.hcmus.tinuni;
+package com.hcmus.tinuni.Activity.Authentication;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 

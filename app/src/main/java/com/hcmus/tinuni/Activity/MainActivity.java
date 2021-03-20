@@ -1,4 +1,4 @@
-package com.hcmus.tinuni;
+package com.hcmus.tinuni.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,15 +21,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Fragments.ChatsFragment;
-import com.hcmus.tinuni.Fragments.UsersFragment;
+import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
+import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
+import com.hcmus.tinuni.Fragment.ChatsFragment;
+import com.hcmus.tinuni.Fragment.UsersFragment;
 import com.hcmus.tinuni.Model.User;
+import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private DatabaseReference mRef;
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    private int tabIcons[] = {
+            R.drawable.chat,
+            R.drawable.user
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
 
@@ -67,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPageAdapter);
 
         tabLayout.setupWithViewPager(viewPager);
+
+        //Icons for TabLayout
+        setTabIcons();
+
+    }
+
+    private void setTabIcons() {
+        for(int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(tabIcons[i]);
+        }
     }
 
     // Create Menu: Profile, Sign Out

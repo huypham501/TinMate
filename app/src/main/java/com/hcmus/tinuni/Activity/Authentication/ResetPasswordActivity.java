@@ -1,7 +1,6 @@
-package com.hcmus.tinuni;
+package com.hcmus.tinuni.Activity.Authentication;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hcmus.tinuni.R;
 
 public class ResetPasswordActivity extends Activity {
     private TextInputLayout mEdtEmail;
