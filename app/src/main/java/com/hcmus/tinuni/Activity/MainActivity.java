@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Fragment.ChatsFragment;
+import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.UsersFragment;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     private int tabIcons[] = {
+            R.drawable.home,
             R.drawable.chat,
             R.drawable.user
     };
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
 
+        viewPageAdapter.addFragment(new HomeFragment(), "Home");
         viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPageAdapter.addFragment(new UsersFragment(), "Users");
 
