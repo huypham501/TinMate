@@ -62,14 +62,17 @@ public class EditProfileActivity extends AppCompatActivity {
                     edtPhone.setText(user.getPhone());
                 }
 
-                if(user.getGender().matches("Male")) {
-                    rbMale.setChecked(true);
-                } else if(user.getGender().matches("Female")) {
-                    rbFemale.setChecked(true);
-                } else {
+                if(user.getGender() == null) {
                     rbMale.setChecked(false);
                     rbFemale.setChecked(false);
+                } else {
+                    if(user.getGender().matches("Male")) {
+                        rbMale.setChecked(true);
+                    } else if(user.getGender().matches("Female")) {
+                        rbFemale.setChecked(true);
+                    }
                 }
+
 
                 if(user.getSchool() == null) {
                     edtSchool.setText("");
