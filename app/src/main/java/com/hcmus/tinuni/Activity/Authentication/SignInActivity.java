@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -63,8 +65,6 @@ public class SignInActivity extends Activity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END config_signin]
-
-
     }
 
     // When initializing Activity, check to see if the user is currently signed in.
@@ -113,8 +113,8 @@ public class SignInActivity extends Activity {
                 } else if (TextUtils.isEmpty(password)) {
                     mEdtPassword.setError("Please fill in password!");
                 } else {
-                    signInWithEmailAndPassword(email, password);
                     mProgressBar.setVisibility(View.VISIBLE);
+                    signInWithEmailAndPassword(email, password);
                 }
             }
         });
@@ -123,6 +123,7 @@ public class SignInActivity extends Activity {
         mBtnSignInGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
                 signInWithGoogle();
             }
         });
@@ -168,6 +169,7 @@ public class SignInActivity extends Activity {
 
     // [START signin]
     private void signInWithGoogle() {
+        mGoogleSignInClient.signOut();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -202,7 +204,6 @@ public class SignInActivity extends Activity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
                             DatabaseReference Ref = FirebaseDatabase.getInstance()
                                     .getReference("Users")
                                     .child(firebaseUser.getUid());

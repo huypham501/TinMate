@@ -131,6 +131,7 @@ public class SignUpActivity extends Activity {
         mBtnSignupGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
                 signInWithGoogle();
             }
         });
@@ -171,6 +172,7 @@ public class SignUpActivity extends Activity {
                                 mEdtPassword.setError(onCompleteTaskAuth.getException().getMessage());
                             else if (onCompleteTaskAuth.getException() instanceof FirebaseAuthUserCollisionException)
                                 mEdtEmail.setError(onCompleteTaskAuth.getException().getMessage());
+      
                         }
                     }
                 });
@@ -178,6 +180,7 @@ public class SignUpActivity extends Activity {
 
     // [START signin]
     private void signInWithGoogle() {
+        mGoogleSignInClient.signOut();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }

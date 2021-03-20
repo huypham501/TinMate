@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@drawable/gradient_sign_up"
     tools:context=".Activity.Authentication.SignUpActivity">
 
     <RelativeLayout
@@ -135,6 +136,6 @@
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:fontFamily="@font/montserrat_black"
-        android:text="Sign up with Google"></Button>
+        android:text="Sign up with Google" />
 
 </LinearLayout>
