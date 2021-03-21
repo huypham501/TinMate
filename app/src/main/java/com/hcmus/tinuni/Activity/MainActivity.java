@@ -8,10 +8,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +28,7 @@ import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Fragment.ChatsFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
+import com.hcmus.tinuni.Fragment.MatchingFragment;
 import com.hcmus.tinuni.Fragment.UsersFragment;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
@@ -36,9 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mRef;
 
     TabLayout tabLayout;
-    ViewPager viewPager;
-    private int tabIcons[] = {
+    CustomViewPager viewPager;
+    private final int[] tabIcons = {
             R.drawable.home,
+            R.drawable.fire,
             R.drawable.chat,
             R.drawable.user
     };
@@ -69,11 +74,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (CustomViewPager) findViewById(R.id.viewPager);
+        viewPager.setSwipeable(false);
 
         ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
 
         viewPageAdapter.addFragment(new HomeFragment(), "Home");
+        viewPageAdapter.addFragment(new MatchingFragment(), "Match");
         viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPageAdapter.addFragment(new UsersFragment(), "Users");
 
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTabIcons() {
-        for(int i = 0; i < tabLayout.getTabCount(); i++) {
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(tabIcons[i]);
         }
     }
@@ -99,13 +106,13 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    // Listening Menu Item selected
+    //    // Listening Menu Item selected
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.profile:
                 Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
-                intent_profile.putExtra("id", mUser.getUid().toString());
+                intent_profile.putExtra("id", mUser.getUid());
                 startActivity(intent_profile);
                 return true;
             case R.id.signOut:
@@ -122,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // ViewPageAdapter
-    class ViewPageAdapter extends FragmentPagerAdapter {
-        private ArrayList<Fragment> fragments;
-        private ArrayList<String> titles;
+    static class ViewPageAdapter extends FragmentPagerAdapter {
+        private final ArrayList<Fragment> fragments;
+        private final ArrayList<String> titles;
 
         public ViewPageAdapter(@NonNull FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -153,6 +160,36 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
+        }
+    }
+
+    // Tạo ra ViewPager riêng để tắt chức năng quẹt trái/phải để chuyển fragment
+    public static class CustomViewPager extends ViewPager {
+        private boolean swipeable = false;
+
+        public CustomViewPager(Context context) {
+            super(context);
+        }
+
+        public CustomViewPager(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        // Call this method in your motion events when you want to disable or enable
+        // It should work as desired.
+        public void setSwipeable(boolean swipeable) {
+            this.swipeable = swipeable;
+        }
+//
+//        @Override
+//        public boolean onInterceptTouchEvent(MotionEvent arg0) {
+//            return (this.swipeable) ? super.onInterceptTouchEvent(arg0) : false;
+//        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent arg0) {
+            return (this.swipeable) && super.onTouchEvent(arg0);
+
         }
     }
 }
