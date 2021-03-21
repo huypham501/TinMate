@@ -160,7 +160,8 @@ public class SignUpActivity extends Activity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> onCompleteTaskAll) {
                                     if (onCompleteTaskAll.isSuccessful()) {
-                                        moveActivity(SignUpActivity.this, MainActivity.class);
+//                                        moveActivity(SignUpActivity.this, MainActivity.class);
+                                            moveActivity(SignUpActivity.this, SignUpProcessActivity.class);
                                     }
                                 }
                             });
@@ -254,9 +255,10 @@ public class SignUpActivity extends Activity {
                             });
 
 
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            moveActivity(SignUpActivity.this, SignUpProcessActivity.class);
+//                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+//                            startActivity(intent);
+//                            finish();
                         } else {
                             // If sign up fails, display a message to the user.
                             Toast.makeText(SignUpActivity.this, task.getException().toString(),

@@ -13,6 +13,8 @@
     <string name="majors">Your majors</string>
     <string name="school_year">Your school year</string>
     <string name="next">Next</string>
+    <string name="male" >Male</string>
+    <string name="female" >Female</string>
 
     <string name="sign_up_1">Sign Up</string>
     <string name="sign_up_2">Sign Up</string>

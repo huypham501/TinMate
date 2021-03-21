@@ -2,15 +2,20 @@ package com.hcmus.tinuni.Model;
 
 public class User {
     private String id;
-    private String username;
     private String email;
     private String imageURL;
+    private String username;
     private String phone;
-    private String gender;
     private String school;
+    private String majors;
+    private int school_year;
+    private String gender;
+
 
     public User() {
+
     }
+
 
     public User(String id, String email, String imageURL) {
         this.id = id;
@@ -33,6 +38,16 @@ public class User {
         this.phone = phone;
         this.gender = gender;
         this.school = school;
+    }
+
+    public User(String id, String username, String phone, String school, String majors, int school_year, String gender) {
+        this.id = id;
+        this.username = username;
+        this.phone = phone;
+        this.school = school;
+        this.majors = majors;
+        this.school_year = school_year;
+        this.gender = gender;
     }
 
     public String getId() {
@@ -89,5 +104,20 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getMajors() {
+        return majors;
+    }
+
+    public void setMajors(String majors) {
+        this.majors = majors;
+    }
+
+    public int getSchool_year() {
+        return school_year;
+    }
+
+    public void setSchool_year(int school_year) {
+        this.school_year = school_year;
     }
 }
