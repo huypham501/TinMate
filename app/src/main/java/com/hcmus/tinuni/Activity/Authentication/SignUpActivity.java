@@ -168,6 +168,8 @@ public class SignUpActivity extends Activity {
                             // If sign up fails, display a message to the user.
 //                            Toast.makeText(SignUpActivity.this, "Sign up failed.",
 //                                    Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+
                             if (onCompleteTaskAuth.getException() instanceof FirebaseAuthWeakPasswordException)
                                 mEdtPassword.setError(onCompleteTaskAuth.getException().getMessage());
                             else if (onCompleteTaskAuth.getException() instanceof FirebaseAuthUserCollisionException)
@@ -201,6 +203,7 @@ public class SignUpActivity extends Activity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, "Google sign up failed", Toast.LENGTH_SHORT).show();
+                mProgressBar.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -235,9 +238,10 @@ public class SignUpActivity extends Activity {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> taskSetValue) {
                                                         if (!taskSetValue.isSuccessful()) {
-                                                            // If sign in fails, display a message to the user.
+                                                            // If sign up fails, display a message to the user.
                                                             Toast.makeText(SignUpActivity.this, "Sign up failed.",
                                                                     Toast.LENGTH_SHORT).show();
+                                                            mProgressBar.setVisibility(View.INVISIBLE);
                                                         }
                                                     }
                                                 });
@@ -254,10 +258,10 @@ public class SignUpActivity extends Activity {
                             startActivity(intent);
                             finish();
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign up fails, display a message to the user.
                             Toast.makeText(SignUpActivity.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
-
+                            mProgressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
