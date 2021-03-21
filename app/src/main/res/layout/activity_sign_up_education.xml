@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
-        android:text="@string/sign_up_process"
+        android:text="@string/sign_up_process_education"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="40sp"
@@ -25,63 +25,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textFieldName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioGroup
-                android:id="@+id/radioGroupGender"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButtonMale"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/male" />
-
-                <RadioButton
-                    android:id="@+id/radioButtonFemale"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/female" />
-            </RadioGroup>
-        </LinearLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textFieldPhone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="@string/phone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textFieldSchoolName"
@@ -111,13 +54,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinnerLevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textFieldSchoolYear"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -145,15 +81,16 @@
                 android:visibility="invisible" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/button_sign_up"
+            android:text="@string/next"
+            android:textColor="#fff" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonContinue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/button_sign_up"
-        android:text="@string/next"
-        android:textColor="#fff" />
 </LinearLayout>

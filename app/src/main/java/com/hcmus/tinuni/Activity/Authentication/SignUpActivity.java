@@ -33,7 +33,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -161,7 +160,7 @@ public class SignUpActivity extends Activity {
                                 public void onComplete(@NonNull Task<Void> onCompleteTaskAll) {
                                     if (onCompleteTaskAll.isSuccessful()) {
 //                                        moveActivity(SignUpActivity.this, MainActivity.class);
-                                            moveActivity(SignUpActivity.this, SignUpProcessActivity.class);
+                                            moveActivity(SignUpActivity.this, SignUpProcessPersonalActivity.class);
                                     }
                                 }
                             });
@@ -255,7 +254,7 @@ public class SignUpActivity extends Activity {
                             });
 
 
-                            moveActivity(SignUpActivity.this, SignUpProcessActivity.class);
+                            moveActivity(SignUpActivity.this, SignUpProcessPersonalActivity.class);
 //                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
 //                            startActivity(intent);
 //                            finish();

@@ -13,7 +13,9 @@
         android:theme="@style/Theme.TinUni"
         android:hardwareAccelerated="true"
         android:largeHeap="true">
-        <activity android:name=".Activity.Authentication.SignUpProcessActivity" >
+        <activity android:name=".Activity.Authentication.SignUpProcessLevelActivity" />
+        <activity android:name=".Activity.Authentication.SignUpProcessEducationActivity" />
+        <activity android:name=".Activity.Authentication.SignUpProcessPersonalActivity" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 

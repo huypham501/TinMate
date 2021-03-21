@@ -112,10 +112,10 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                 }
 
-                if (user.getSchool() == null) {
+                if (user.getSchoolName() == null) {
                     edtSchool.setText("");
                 } else {
-                    edtSchool.setText(user.getSchool());
+                    edtSchool.setText(user.getSchoolName());
                 }
             }
 

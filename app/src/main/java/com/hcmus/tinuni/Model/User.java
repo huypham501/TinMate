@@ -6,15 +6,16 @@ public class User {
     private String imageURL;
     private String username;
     private String phone;
-    private String school;
-    private String majors;
-    private int school_year;
+    private String level;
+    private String schoolName;
+    private String major;
+    private String yearBegins;
     private String gender;
-
 
     public User() {
 
     }
+
 
 
     public User(String id, String email, String imageURL) {
@@ -30,24 +31,14 @@ public class User {
         this.imageURL = imageURL;
     }
 
-    public User(String id, String username, String email, String imageURL, String phone, String gender, String school) {
+    public User(String id, String username, String email, String imageURL, String phone, String gender, String schoolName) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.imageURL = imageURL;
         this.phone = phone;
         this.gender = gender;
-        this.school = school;
-    }
-
-    public User(String id, String username, String phone, String school, String majors, int school_year, String gender) {
-        this.id = id;
-        this.username = username;
-        this.phone = phone;
-        this.school = school;
-        this.majors = majors;
-        this.school_year = school_year;
-        this.gender = gender;
+        this.schoolName = schoolName;
     }
 
     public String getId() {
@@ -64,6 +55,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getImageURL() {
@@ -90,12 +89,12 @@ public class User {
         this.gender = gender;
     }
 
-    public String getSchool() {
-        return school;
+    public String getSchoolName() {
+        return schoolName;
     }
 
-    public void setSchool(String school) {
-        this.school = school;
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
     public String getEmail() {
@@ -105,19 +104,19 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getMajors() {
-        return majors;
+    public String getMajor() {
+        return major;
     }
 
-    public void setMajors(String majors) {
-        this.majors = majors;
+    public void setMajor(String major) {
+        this.major = major;
     }
 
-    public int getSchool_year() {
-        return school_year;
+    public String getYearBegins() {
+        return yearBegins;
     }
 
-    public void setSchool_year(int school_year) {
-        this.school_year = school_year;
+    public void setYearBegins(String yearBegins) {
+        this.yearBegins = yearBegins;
     }
 }
