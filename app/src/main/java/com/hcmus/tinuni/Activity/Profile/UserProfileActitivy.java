@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +22,7 @@ import com.hcmus.tinuni.R;
 public class UserProfileActitivy extends AppCompatActivity {
 
     private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool;
+    private ImageView ivAvatar;
     private Button btnEdit, btnChangePassword;
     private String id;
 
@@ -35,6 +38,7 @@ public class UserProfileActitivy extends AppCompatActivity {
         tvPhone = findViewById(R.id.tvPhone);
         tvGender = findViewById(R.id.tvGender);
         tvSchool = findViewById(R.id.tvSchool);
+        ivAvatar = findViewById(R.id.ivAvatar);
         btnEdit = findViewById(R.id.btnEdit);
         btnChangePassword = findViewById(R.id.btnChangePassword);
 
@@ -50,12 +54,15 @@ public class UserProfileActitivy extends AppCompatActivity {
                 tvName.setText(user.getUsername());
                 tvFullname.setText(user.getUsername());
                 tvEmail.setText(user.getEmail());
+                Glide.with(UserProfileActitivy.this)
+                        .load(user.getImageURL())
+                        .into(ivAvatar);
+
                 if(user.getPhone() == null) {
                     tvPhone.setText("");
                 } else {
                     tvPhone.setText(user.getPhone());
                 }
-
                 if(user.getGender() == null) {
                     tvGender.setText("");
                 } else {
