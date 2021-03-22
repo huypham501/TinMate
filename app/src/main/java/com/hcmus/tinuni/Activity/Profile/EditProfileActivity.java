@@ -90,11 +90,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 edtFullname.setText(user.getUsername());
                 edtEmail.setText(user.getEmail());
-                Glide.with(EditProfileActivity.this)
-                        .load(user.getImageURL())
-                        .into(ivAvatar);
+                if(user.getImageURL().matches("default")){
+                    ivAvatar.setImageResource(R.drawable.profile_image);
+                } else {
+                    Glide.with(EditProfileActivity.this)
+                            .load(user.getImageURL())
+                            .into(ivAvatar);
+                }
                 img = user.getImageURL();
-
 
                 if (user.getPhone() == null) {
                     edtPhone.setText("");
@@ -187,54 +190,35 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void uploadPicture() {
-//        final ProgressDialog pd = new ProgressDialog(EditProfileActivity.this);
-//        pd.setTitle("Uploading Image ...");
-//        pd.show();
-//        final String randomKey = UUID.randomUUID().toString();
-//        StorageReference storageRef = storageReference.child("images/avatars/" + randomKey);
-//        String link = storageRef.getDownloadUrl().toString();
-//        System.out.println("------link----" + link);
-//
-//        storageRef.putFile(imageUri)
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                            @Override
-//                            public void onSuccess(Uri uri) {
-//                                img = uri.toString();
-//                                System.out.println("-----------uri----------: " + uri);
-//                            }
-//                        });
-//                        pd.dismiss();
-//                        Toast.makeText(EditProfileActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception exception) {
-//                        pd.dismiss();
-//                        Toast.makeText(EditProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-//                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-//                        pd.setMessage("Progress: " + (int) progressPercent + "%");
-//                    }
-//                }
         StorageReference storageRef = storageReference.child("images/avatars/" + System.currentTimeMillis() + "." + getFileExtension(imageUri));
         storageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String old_img = img;
+                //add new image
                 storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         img = uri.toString();
+                        //delete old image
+                        if(!old_img.matches("default")) {
+                            StorageReference deleteRef = storage.getReferenceFromUrl(old_img);
+                            deleteRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    System.out.println("Delete old image successfully !");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    System.out.println("Delete old image failed !");
+                                }
+                            });
+                        }
                         Toast.makeText(EditProfileActivity.this, "Upload SUCCESS", Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override

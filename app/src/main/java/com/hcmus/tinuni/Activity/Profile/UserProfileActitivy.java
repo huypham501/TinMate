@@ -54,10 +54,14 @@ public class UserProfileActitivy extends AppCompatActivity {
                 tvName.setText(user.getUsername());
                 tvFullname.setText(user.getUsername());
                 tvEmail.setText(user.getEmail());
-                Glide.with(UserProfileActitivy.this)
-                        .load(user.getImageURL())
-                        .into(ivAvatar);
 
+                if(user.getImageURL().matches("default")) {
+                    ivAvatar.setImageResource(R.drawable.profile_image);
+                } else {
+                    Glide.with(UserProfileActitivy.this)
+                            .load(user.getImageURL())
+                            .into(ivAvatar);
+                }
                 if(user.getPhone() == null) {
                     tvPhone.setText("");
                 } else {
