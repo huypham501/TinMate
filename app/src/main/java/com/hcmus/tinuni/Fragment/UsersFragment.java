@@ -71,10 +71,7 @@ public class UsersFragment extends Fragment {
                 }
                 userAdapter = new UserAdapter(getContext(), mUsers);
                 recyclerView.setAdapter(userAdapter);
-
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

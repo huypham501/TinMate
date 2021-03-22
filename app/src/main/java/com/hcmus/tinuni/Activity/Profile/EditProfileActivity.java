@@ -128,6 +128,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+        //SAVE
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,6 +162,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+        //GO BACK
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
