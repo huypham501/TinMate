@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".Fragment.HomeFragment">
+    android:background="@drawable/gradient_sign_in"
+
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Home page" />
 
-</FrameLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerHome"
+        android:layout_width="match_parent"
+        android:layout_height="660dp">
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/dots"
+        android:layout_width="64dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/viewPagerHome"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"></LinearLayout>
+
+</RelativeLayout>
