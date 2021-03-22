@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-
             }
 
             @Override
@@ -139,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
             titles = new ArrayList<>();
         }
 
-
         @NonNull
         @Override
         public Fragment getItem(int position) {
@@ -189,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onTouchEvent(MotionEvent arg0) {
             return (this.swipeable) && super.onTouchEvent(arg0);
-
         }
     }
 }

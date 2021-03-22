@@ -96,14 +96,14 @@ public class SignUpProcessPersonalActivity extends Activity {
         final String strGender = selectedRadioButton.getText().toString();
 
         HashMap hashMapUserPersonal = new HashMap();
-        hashMapUserPersonal.put("username", strTextFieldName);
+        hashMapUserPersonal.put("userName", strTextFieldName);
         hashMapUserPersonal.put("phone", strTextFieldPhone);
         hashMapUserPersonal.put("gender", strGender);
 
         String userId = firebaseCurrUser.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
-        databaseReference.setValue(hashMapUserPersonal).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.updateChildren(hashMapUserPersonal).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {

@@ -3,6 +3,7 @@ package com.hcmus.tinuni.Activity.Authentication;
 import androidx.annotation.NonNull;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -77,21 +78,30 @@ public class SignInActivity extends Activity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+            String userId = currentUser.getUid();
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+            databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(SignInActivity.this, "Error get data user", Toast.LENGTH_SHORT).show();
+                        System.out.println(task.getException());
+                    } else {
+                        if (task.getResult().getValue() == null) {
+                            // Do nothing keep in sign in activity
+                        } else if (task.getResult().child("userName") == null) {
+                            moveActivity(SignInActivity.this, SignUpProcessPersonalActivity.class);
+                        } else if (task.getResult().child("level") == null) {
+                            moveActivity(SignInActivity.this, SignUpProcessLevelActivity.class);
+                        } else if (!task.getResult().child("level").getChildren().toString().equals("Other")) {
+                            moveActivity(SignInActivity.this, SignUpProcessEducationActivity.class);
+                        } else {
+                            moveActivity(SignInActivity.this, MainActivity.class);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -237,11 +247,11 @@ public class SignInActivity extends Activity {
                                                 });
                                     }
                                 }
+
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
-
 
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -256,5 +266,11 @@ public class SignInActivity extends Activity {
                 });
     }
     // [END auth_with_google]
+
+    private void moveActivity(Context from, Class<?> to) {
+        Intent intent = new Intent(from, to);
+        startActivity(intent);
+        finish();
+    }
 
 }

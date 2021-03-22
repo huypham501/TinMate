@@ -54,8 +54,8 @@ public class UserProfileActitivy extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 System.out.println(user);
-                tvName.setText(user.getUsername());
-                tvFullname.setText(user.getUsername());
+                tvName.setText(user.getUserName());
+                tvFullname.setText(user.getUserName());
                 tvEmail.setText(user.getEmail());
 
                 if(user.getImageURL().matches("default")) {

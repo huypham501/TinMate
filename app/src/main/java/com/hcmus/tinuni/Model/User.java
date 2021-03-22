@@ -4,7 +4,7 @@ public class User {
     private String id;
     private String email;
     private String imageURL;
-    private String username;
+    private String userName;
     private String phone;
     private String level;
     private String schoolName;
@@ -16,24 +16,22 @@ public class User {
 
     }
 
-
-
     public User(String id, String email, String imageURL) {
         this.id = id;
         this.email = email;
         this.imageURL = imageURL;
     }
 
-    public User(String id, String username, String email, String imageURL) {
+    public User(String id, String userName, String email, String imageURL) {
         this.id = id;
-        this.username = username;
+        this.userName = userName;
         this.email = email;
         this.imageURL = imageURL;
     }
 
-    public User(String id, String username, String email, String imageURL, String phone, String gender, String schoolName) {
+    public User(String id, String userName, String email, String imageURL, String phone, String gender, String schoolName) {
         this.id = id;
-        this.username = username;
+        this.userName = userName;
         this.email = email;
         this.imageURL = imageURL;
         this.phone = phone;
@@ -49,12 +47,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getLevel() {

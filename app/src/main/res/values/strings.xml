@@ -6,9 +6,9 @@
     <string name="sign_in">Sign in</string>
 
     <!--HUY-->
-    <string name="sign_up_process_personal">Personal information</string>
-    <string name="sign_up_process_level">Studying level</string>
-    <string name="sign_up_process_education">Education information</string>
+    <string name="sign_up_process_personal">Your personal information is </string>
+    <string name="sign_up_process_level">your studying level is </string>
+    <string name="sign_up_process_education">your education information</string>
     <string name="name">Your name</string>
     <string name="phone">Your phone</string>
     <string name="school_name">Your school</string>

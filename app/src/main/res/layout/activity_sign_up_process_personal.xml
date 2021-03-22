@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_sign_in"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Activity.Authentication.SignUpProcessPersonalActivity">
 
     <TextView
         android:id="@+id/logoContent"
@@ -15,7 +16,7 @@
         android:text="@string/sign_up_process_personal"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="30dp"
         android:textStyle="bold" />
 
     <LinearLayout

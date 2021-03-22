@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hcmus.tinuni.Activity.MainActivity;
@@ -31,10 +32,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SignUpProcessLevelActivity extends Activity {
+    private TextView textViewWelcome;
     private Spinner spinnerLevel;
     private Button buttonNext;
     private ProgressBar progressBar;
     private FirebaseUser firebaseCurrUser;
+    private String userId;
     private DatabaseReference databaseReference;
 
     @Override
@@ -73,6 +76,7 @@ public class SignUpProcessLevelActivity extends Activity {
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinnerLevel.setAdapter(spinnerArrayAdapter);
 
+        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         buttonNext = findViewById(R.id.buttonNext);
         buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +88,26 @@ public class SignUpProcessLevelActivity extends Activity {
                 }
             }
         });
+
         firebaseCurrUser = FirebaseAuth.getInstance().getCurrentUser();
+        userId = firebaseCurrUser.getUid();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(SignUpProcessLevelActivity.this, "Error get data user", Toast.LENGTH_SHORT).show();
+                } else {
+                    textViewWelcome.setText(String.format("Hello %s,", task.getResult().child("userName").getValue().toString()));
+                }
+            }
+        });
     }
 
     private boolean isValidForm() {
@@ -104,10 +127,7 @@ public class SignUpProcessLevelActivity extends Activity {
         HashMap hashMapUsersLevel = new HashMap();
         hashMapUsersLevel.put("level", strSpinnerLevel);
 
-        String userId = firebaseCurrUser.getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-
-        databaseReference.setValue(hashMapUsersLevel).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.updateChildren(hashMapUsersLevel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {

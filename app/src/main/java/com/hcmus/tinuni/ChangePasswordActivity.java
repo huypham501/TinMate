@@ -61,7 +61,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                         Toast.makeText(ChangePasswordActivity.this, "Wrong old password, try again !", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            })
+                            });
                 } else {
                     Toast.makeText(ChangePasswordActivity.this, "Re-confirm and New Password is not match", Toast.LENGTH_SHORT).show();
                 }

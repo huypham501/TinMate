@@ -65,7 +65,7 @@ public class MessageActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                username.setText(user.getUsername());
+                username.setText(user.getUserName());
 
                 if (user.getImageURL().equals("default")) {
                     imageView.setImageResource(R.drawable.profile_image);
