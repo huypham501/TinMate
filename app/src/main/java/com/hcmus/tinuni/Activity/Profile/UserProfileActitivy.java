@@ -75,7 +75,7 @@ public class UserProfileActitivy extends AppCompatActivity {
                 if(user.getGender() == null) {
                     tvSchool.setText("");
                 } else {
-                    tvSchool.setText(user.getSchool());
+                    tvSchool.setText(user.getSchoolName());
                 }
             }
 
