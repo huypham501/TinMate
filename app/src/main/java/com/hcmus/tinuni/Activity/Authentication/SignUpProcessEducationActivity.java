@@ -31,7 +31,7 @@ public class SignUpProcessEducationActivity extends Activity {
     private TextView textViewWelcome;
     private TextInputLayout textFieldSchoolName, textFieldMajor, textFieldYearBegins;
     private ProgressBar progressBar;
-    private Button buttonNext;
+    private Button buttonNext, buttonSkip;
     private String userId;
 
     private FirebaseUser firebaseCurrUser;
@@ -45,6 +45,7 @@ public class SignUpProcessEducationActivity extends Activity {
         textFieldSchoolName = findViewById(R.id.textFieldSchoolName);
         textFieldMajor = findViewById(R.id.textFieldMajors);
         textFieldYearBegins = findViewById(R.id.textFieldSchoolYear);
+        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -56,6 +57,14 @@ public class SignUpProcessEducationActivity extends Activity {
                     progressBar.setVisibility(View.VISIBLE);
                     commitToDatabase();
                 }
+            }
+        });
+
+        buttonSkip = findViewById(R.id.buttonSkip);
+        buttonSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveActivity(SignUpProcessEducationActivity.this, MainActivity.class);
             }
         });
 
@@ -74,6 +83,8 @@ public class SignUpProcessEducationActivity extends Activity {
                 if (!task.isSuccessful()) {
                     Toast.makeText(SignUpProcessEducationActivity.this, "Error get data user", Toast.LENGTH_SHORT).show();
                 } else {
+                    System.out.println("hereeeeeeeeeeeeeeeeeeee");
+                    System.out.println(task.getResult().child("userName").getValue().toString());
                     textViewWelcome.setText(String.format("Hello %s,", task.getResult().child("userName").getValue().toString()));
                 }
             }

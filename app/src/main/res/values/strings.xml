@@ -15,6 +15,8 @@
     <string name="majors">Your major</string>
     <string name="school_year">Year begins</string>
     <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="back">Back</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
 

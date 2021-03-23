@@ -76,6 +76,11 @@ public class SignInActivity extends Activity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
+        moveActivityDependOnLackingDataAccount();
+
+    }
+
+    private void moveActivityDependOnLackingDataAccount() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
@@ -168,11 +173,10 @@ public class SignInActivity extends Activity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    moveActivityDependOnLackingDataAccount();
                 } else {
                     // If sign in fails, display a message to the user.
+
                     Toast.makeText(SignInActivity.this, "Sign in failed.",
                             Toast.LENGTH_SHORT).show();
                     mProgressBar.setVisibility(View.INVISIBLE);
@@ -253,9 +257,7 @@ public class SignInActivity extends Activity {
                                 }
                             });
 
-                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            moveActivityDependOnLackingDataAccount();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignInActivity.this, task.getException().toString(),

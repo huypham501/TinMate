@@ -34,7 +34,7 @@ import java.util.List;
 public class SignUpProcessLevelActivity extends Activity {
     private TextView textViewWelcome;
     private Spinner spinnerLevel;
-    private Button buttonNext;
+    private Button buttonNext, buttonSkip;
     private ProgressBar progressBar;
     private FirebaseUser firebaseCurrUser;
     private String userId;
@@ -86,6 +86,14 @@ public class SignUpProcessLevelActivity extends Activity {
                     progressBar.setVisibility(View.VISIBLE);
                     commitToDatabase();
                 }
+            }
+        });
+
+        buttonSkip = findViewById(R.id.buttonSkip);
+        buttonSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveActivity(SignUpProcessLevelActivity.this, MainActivity.class);
             }
         });
 

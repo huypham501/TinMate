@@ -32,7 +32,7 @@ import java.util.HashMap;
 public class SignUpProcessPersonalActivity extends Activity {
     private TextInputLayout textFieldName, textFieldPhone;
     private ProgressBar progressBar;
-    private Button buttonNext;
+    private Button buttonNext, buttonBack;
     private RadioGroup radioGroupGender;
     private RadioButton lastRadioButton;
 
@@ -62,6 +62,16 @@ public class SignUpProcessPersonalActivity extends Activity {
                 }
             }
         });
+
+        buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                moveActivity(SignUpProcessPersonalActivity.this, SignInActivity.class);
+            }
+        });
+
         firebaseCurrUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
