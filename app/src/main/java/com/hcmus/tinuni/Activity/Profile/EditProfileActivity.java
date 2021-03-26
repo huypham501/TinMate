@@ -197,7 +197,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         img = uri.toString();
                         //delete old image
-                        if(!old_img.matches("default")) {
+                        if(!old_img.matches("default") && old_img.contains("firebasestorage")) {
                             StorageReference deleteRef = storage.getReferenceFromUrl(old_img);
                             deleteRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
