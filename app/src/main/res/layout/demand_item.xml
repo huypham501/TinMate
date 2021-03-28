@@ -16,9 +16,11 @@
             android:id="@+id/textViewSubject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:layout_marginLeft="5dp"
             android:text="Name subject"
             android:textColor="@color/lighterBlack"
-            android:textSize="25dp"
+            android:textSize="23dp"
             android:textStyle="bold" />
 
         <TextView
@@ -27,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:text="Name major"
-            android:textSize="20dp" />
+            android:textSize="17dp" />
 
     </LinearLayout>
 

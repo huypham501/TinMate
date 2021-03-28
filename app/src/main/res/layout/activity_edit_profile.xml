@@ -2,266 +2,266 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Fragment.MatchingFragment"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".Activity.Profile.EditProfileActivity">
+    android:fillViewport="true"
+    tools:context=".Fragment.MatchingFragment">
 
-    <TextView
-        android:id="@+id/logoName"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="Edit Profile"
-        android:textAlignment="center"
-        android:textColor="@color/purple_500"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".Activity.Profile.EditProfileActivity">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivAvatar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/profile_image"
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/logoName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_plus"
-            android:layout_marginTop="-25dp"
-            android:layout_marginLeft="-25dp"
-            android:layout_toRightOf="@id/ivAvatar"
-            android:layout_below="@id/ivAvatar"
-            />
+            android:fontFamily="sans-serif-black"
+            android:text="Edit Profile"
+            android:textAlignment="center"
+            android:textColor="@color/purple_500"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/profile_image" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivAvatar"
+                android:layout_marginLeft="-25dp"
+                android:layout_marginTop="-25dp"
+                android:layout_toRightOf="@id/ivAvatar"
+                android:src="@drawable/ic_plus" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Full Name"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/edtFullname"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp"
-                android:text="On Hao Nguyen" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email"
-                android:textSize="18dp" />
-
-            <EditText
-                android:editable="false"
-                android:id="@+id/edtEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp"
-                android:text="ohn@gmail.com" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/edtPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="42dp"
-                android:background="@drawable/rounded_edittext"
-                android:inputType="number"
-                android:padding="5dp"
-                android:text="0903123456" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="School"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/edtSchool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="39dp"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp"
-                android:text="HCMUS" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Major"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/edtMajor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="49dp"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp"
-                android:text="IT Developer" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Begin Year"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/edtBeginYear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp"
-                android:text="2018" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Gender"
-                android:textSize="18dp" />
-
-            <RadioGroup
-                android:id="@+id/rgGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/rbMale"
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Male" />
+                    android:layout_height="wrap_content"
+                    android:text="Full Name"
+                    android:textSize="18dp" />
 
-                <RadioButton
-                    android:id="@+id/rbFemale"
+                <EditText
+                    android:id="@+id/edtFullname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:padding="5dp"
+                    android:text="On Hao Nguyen" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="120dp"
-                    android:gravity="center"
-                    android:text="Female" />
-            </RadioGroup>
-        </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textSize="18dp" />
 
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:editable="false"
+                    android:padding="5dp"
+                    android:text="ohn@gmail.com" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/button_sign_up"
-                android:drawableLeft="@drawable/ic_check_circle"
-                android:text="Save"
-                android:textColor="#fff" />
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnGoBack"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/edtPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="42dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:inputType="number"
+                    android:padding="5dp"
+                    android:text="0903123456" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="110dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/button_sign_up"
-                android:drawableLeft="@drawable/ic_arrow_back"
-                android:text="BACK"
-                android:textColor="@color/white" />
-        </LinearLayout>
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="School"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/edtSchool"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="39dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:padding="5dp"
+                    android:text="HCMUS" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Major"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/edtMajor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="49dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:padding="5dp"
+                    android:text="IT Developer" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Begin Year"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/edtBeginYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:inputType="number"
+                    android:padding="5dp"
+                    android:text="2018" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Gender"
+                    android:textSize="18dp" />
+
+                <RadioGroup
+                    android:id="@+id/rgGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Male" />
+
+                    <RadioButton
+                        android:id="@+id/rbFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="120dp"
+                        android:gravity="center"
+                        android:text="Female" />
+                </RadioGroup>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/button_sign_up"
+                    android:drawableLeft="@drawable/ic_check_circle"
+                    android:text="Save"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:id="@+id/btnGoBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="110dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/button_sign_up"
+                    android:drawableLeft="@drawable/ic_arrow_back"
+                    android:text="BACK"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
 </ScrollView>

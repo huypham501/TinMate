@@ -47,14 +47,22 @@ public class SignInActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_sign_in);
 
         // Initialize ID
         initializeID();
 //
+
+
         // Initialize Firebase Authentication
         initializeFireBaseAuth();
+
+        moveActivityDependOnLackingDataAccount();
 
         // [START config_signin]
         initializeFireBaseGoogleAuth();
@@ -76,8 +84,6 @@ public class SignInActivity extends Activity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        moveActivityDependOnLackingDataAccount();
-
     }
 
     private void moveActivityDependOnLackingDataAccount() {
@@ -238,7 +244,9 @@ public class SignInActivity extends Activity {
                                         User user = new User(firebaseUser.getUid(),
                                                 firebaseUser.getDisplayName(),
                                                 firebaseUser.getEmail(),
-                                                firebaseUser.getPhotoUrl().toString());
+                                                firebaseUser.getPhotoUrl().toString(),
+                                                firebaseUser.getPhoneNumber());
+
                                         Ref.setValue(user)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
