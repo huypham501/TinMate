@@ -26,17 +26,29 @@
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivAvatar"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/profile_image"/>
+            android:src="@drawable/profile_image"
+            />
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_plus"
+            android:layout_marginTop="-25dp"
+            android:layout_marginLeft="-25dp"
+            android:layout_toRightOf="@id/ivAvatar"
+            android:layout_below="@id/ivAvatar"
+            />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
