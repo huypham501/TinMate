@@ -23,7 +23,7 @@ import com.hcmus.tinuni.R;
 
 public class UserProfileActitivy extends AppCompatActivity {
 
-    private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool;
+    private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool, tvMajor, tvBeginYear;
     private ImageView ivAvatar;
     private Button btnEdit, btnChangePassword, btnGoBack;
     private String id;
@@ -40,6 +40,8 @@ public class UserProfileActitivy extends AppCompatActivity {
         tvPhone = findViewById(R.id.tvPhone);
         tvGender = findViewById(R.id.tvGender);
         tvSchool = findViewById(R.id.tvSchool);
+        tvMajor = findViewById(R.id.tvMajor);
+        tvBeginYear = findViewById(R.id.tvBeginYear);
         ivAvatar = findViewById(R.id.ivAvatar);
         btnEdit = findViewById(R.id.btnEdit);
         btnChangePassword = findViewById(R.id.btnChangePassword);
