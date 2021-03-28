@@ -127,9 +127,11 @@ public class SignInActivity extends Activity {
                 final String password = mEdtPassword.getEditText().getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
-                    mEdtEmail.setError("Please fill in email!");
+                    Toast.makeText(SignInActivity.this, "Please fill in email", Toast.LENGTH_SHORT).show();
+                    //mEdtEmail.setError("Please fill in email!");
                 } else if (TextUtils.isEmpty(password)) {
-                    mEdtPassword.setError("Please fill in password!");
+                    Toast.makeText(SignInActivity.this, "Please fill in password!", Toast.LENGTH_SHORT).show();
+                    //mEdtPassword.setError("Please fill in password!");
                 } else {
                     mProgressBar.setVisibility(View.VISIBLE);
                     signInWithEmailAndPassword(email, password);
@@ -177,7 +179,7 @@ public class SignInActivity extends Activity {
                 } else {
                     // If sign in fails, display a message to the user.
 
-                    Toast.makeText(SignInActivity.this, "Sign in failed.",
+                    Toast.makeText(SignInActivity.this, task.getException().getMessage(),
                             Toast.LENGTH_SHORT).show();
                     mProgressBar.setVisibility(View.INVISIBLE);
                 }

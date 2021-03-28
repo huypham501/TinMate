@@ -109,18 +109,23 @@ public class SignUpActivity extends Activity {
                 final String confirmPassword = mEdtConfirmPassword.getEditText().getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
-                    mEdtEmail.setError("Please fill in email!");
+                    Toast.makeText(SignUpActivity.this, "Please fill in email!", Toast.LENGTH_SHORT).show();
+                    //mEdtEmail.setError("Please fill in email!");
                 } else if (!isEmailValid(email)) {
-                    mEdtEmail.setError("Invalid email!");
+                    Toast.makeText(SignUpActivity.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                    //mEdtEmail.setError("Invalid email!");
                 } else if (TextUtils.isEmpty(password)) {
-                    mEdtPassword.setError("Please fill in password!");
-                }else if (password.length() <= 7) {
-                    mEdtPassword.setError("Password should be at least 8 characters");
+                    Toast.makeText(SignUpActivity.this, "Please fill in password!", Toast.LENGTH_SHORT).show();
+                    //mEdtPassword.setError("Please fill in password!");
+                } else if (password.length() <= 7) {
+                    Toast.makeText(SignUpActivity.this, "Password should be at least 8 characters", Toast.LENGTH_SHORT).show();
+                    //mEdtPassword.setError("Password should be at least 8 characters");
                 } else if (!TextUtils.equals(password, confirmPassword)) {
                     // If sign up fails, display a message to the user.
-                    mEdtConfirmPassword.setError("Password don't be matched. Please check again!");
+                    Toast.makeText(SignUpActivity.this, "Password don't be matched. Please check again!", Toast.LENGTH_SHORT).show();
+                    //mEdtConfirmPassword.setError("Password don't be matched. Please check again!");
                 } else {
-                    mProgressBar.setVisibility(View.VISIBLE);
+                    //mProgressBar.setVisibility(View.VISIBLE);
                     signUpAccount(email, password);
                 }
             }
@@ -169,11 +174,12 @@ public class SignUpActivity extends Activity {
 //                            Toast.makeText(SignUpActivity.this, "Sign up failed.",
 //                                    Toast.LENGTH_SHORT).show();
                             mProgressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(SignUpActivity.this, onCompleteTaskAuth.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
-                            if (onCompleteTaskAuth.getException() instanceof FirebaseAuthWeakPasswordException)
-                                mEdtPassword.setError(onCompleteTaskAuth.getException().getMessage());
-                            else if (onCompleteTaskAuth.getException() instanceof FirebaseAuthUserCollisionException)
-                                mEdtEmail.setError(onCompleteTaskAuth.getException().getMessage());
+//                            if (onCompleteTaskAuth.getException() instanceof FirebaseAuthWeakPasswordException)
+//                                mEdtPassword.setError(onCompleteTaskAuth.getException().getMessage());
+//                            else if (onCompleteTaskAuth.getException() instanceof FirebaseAuthUserCollisionException)
+//                                mEdtEmail.setError(onCompleteTaskAuth.getException().getMessage());
       
                         }
                     }
