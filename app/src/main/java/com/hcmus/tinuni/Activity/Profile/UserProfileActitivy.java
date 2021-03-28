@@ -29,6 +29,7 @@ public class UserProfileActitivy extends AppCompatActivity {
     private String id;
 
     private DatabaseReference mRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,27 +61,37 @@ public class UserProfileActitivy extends AppCompatActivity {
                 tvFullname.setText(user.getUserName());
                 tvEmail.setText(user.getEmail());
 
-                if(user.getImageURL().matches("default")) {
+                if (user.getImageURL().matches("default")) {
                     ivAvatar.setImageResource(R.drawable.profile_image);
                 } else {
                     Glide.with(UserProfileActitivy.this)
                             .load(user.getImageURL())
                             .into(ivAvatar);
                 }
-                if(user.getPhone() == null) {
+                if (user.getPhone() == null) {
                     tvPhone.setText("");
                 } else {
                     tvPhone.setText(user.getPhone());
                 }
-                if(user.getGender() == null) {
+                if (user.getGender() == null) {
                     tvGender.setText("");
                 } else {
                     tvGender.setText(user.getGender());
                 }
-                if(user.getGender() == null) {
+                if (user.getGender() == null) {
                     tvSchool.setText("");
                 } else {
                     tvSchool.setText(user.getSchoolName());
+                }
+                if (user.getMajor() == null) {
+                    tvMajor.setText("");
+                } else {
+                    tvMajor.setText(user.getMajor());
+                }
+                if(user.getYearBegins() == null) {
+                    tvBeginYear.setText("");
+                } else {
+                    tvBeginYear.setText(user.getYearBegins());
                 }
             }
 

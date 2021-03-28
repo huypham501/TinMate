@@ -35,7 +35,7 @@ import com.hcmus.tinuni.R;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private EditText edtFullname, edtEmail, edtPhone, edtSchool;
+    private EditText edtFullname, edtEmail, edtPhone, edtSchool, edtMajor, edtBeginYear;
     private ImageView ivAvatar;
     private Uri imageUri;
     private RadioGroup rgGender;
@@ -55,6 +55,8 @@ public class EditProfileActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPhone = findViewById(R.id.edtPhone);
         edtSchool = findViewById(R.id.edtSchool);
+        edtMajor = findViewById(R.id.edtMajor);
+        edtBeginYear = findViewById(R.id.edtBeginYear);
         ivAvatar = findViewById(R.id.ivAvatar);
 
         rgGender = findViewById(R.id.rgGender);
@@ -84,7 +86,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 edtFullname.setText(user.getUserName());
                 edtEmail.setText(user.getEmail());
-                if(user.getImageURL().matches("default")){
+                if (user.getImageURL().matches("default")) {
                     ivAvatar.setImageResource(R.drawable.profile_image);
                 } else {
                     Glide.with(EditProfileActivity.this)
@@ -108,11 +110,20 @@ public class EditProfileActivity extends AppCompatActivity {
                         rbFemale.setChecked(true);
                     }
                 }
-
                 if (user.getSchoolName() == null) {
                     edtSchool.setText("");
                 } else {
                     edtSchool.setText(user.getSchoolName());
+                }
+                if (user.getMajor() == null) {
+                    edtMajor.setText("");
+                } else {
+                    edtMajor.setText(user.getMajor());
+                }
+                if (user.getYearBegins() == null) {
+                    edtBeginYear.setText("");
+                } else {
+                    edtBeginYear.setText(user.getYearBegins());
                 }
             }
 
@@ -130,6 +141,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 String email = edtEmail.getText().toString();
                 String phone = edtPhone.getText().toString();
                 String school = edtSchool.getText().toString();
+                String major = edtMajor.getText().toString();
+                String beginYear = edtBeginYear.getText().toString();
 
                 int gender_index = rgGender.getCheckedRadioButtonId();
                 RadioButton rd_gender = findViewById(gender_index);
@@ -140,15 +153,18 @@ public class EditProfileActivity extends AppCompatActivity {
                     edtPhone.setError("Phone can't be empty");
                 } else if (TextUtils.isEmpty(school)) {
                     edtSchool.setError("School can't be empty");
+                } else if (TextUtils.isEmpty(major)) {
+                    edtMajor.setError("Major can't be empty");
+                } else if (TextUtils.isEmpty(beginYear)) {
+                    edtBeginYear.setError("Begin Year can't be empty");
                 } else if (rgGender.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(EditProfileActivity.this, "Gender can't be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     String gender = rd_gender.getText().toString();
                     System.out.println("-----------IMG--------- " + img);
-                    User new_user = new User(id, username, email, img, phone, gender, school);
+                    User new_user = new User(id, username, email, img, phone, gender, school, major, beginYear);
                     mRef.setValue(new_user);
                     Toast.makeText(EditProfileActivity.this, "Save successfully !", Toast.LENGTH_SHORT).show();
-
                     Intent go_back = new Intent(EditProfileActivity.this, UserProfileActitivy.class);
                     go_back.putExtra("id", id);
                     startActivity(go_back);
@@ -197,7 +213,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         img = uri.toString();
                         //delete old image
-                        if(!old_img.matches("default") && old_img.contains("firebasestorage")) {
+                        if (!old_img.matches("default") && old_img.contains("firebasestorage")) {
                             StorageReference deleteRef = storage.getReferenceFromUrl(old_img);
                             deleteRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

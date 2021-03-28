@@ -9,7 +9,7 @@ public class User {
     private String level;
     private String schoolName;
     private String major;
-    private String yearBegins;
+    private String beginYear;
     private String gender;
 
     public User() {
@@ -29,7 +29,7 @@ public class User {
         this.imageURL = imageURL;
     }
 
-    public User(String id, String userName, String email, String imageURL, String phone, String gender, String schoolName) {
+    public User(String id, String userName, String email, String imageURL, String phone, String gender, String schoolName, String major, String beginYear) {
         this.id = id;
         this.userName = userName;
         this.email = email;
@@ -37,6 +37,8 @@ public class User {
         this.phone = phone;
         this.gender = gender;
         this.schoolName = schoolName;
+        this.major = major;
+        this.beginYear = beginYear;
     }
 
     public String getId() {
@@ -111,10 +113,10 @@ public class User {
     }
 
     public String getYearBegins() {
-        return yearBegins;
+        return beginYear;
     }
 
-    public void setYearBegins(String yearBegins) {
-        this.yearBegins = yearBegins;
+    public void setYearBegins(String beginYear) {
+        this.beginYear = beginYear;
     }
 }
