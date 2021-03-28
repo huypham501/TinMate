@@ -8,17 +8,22 @@
     <string name="sign_up_process_personal">Your personal information is </string>
     <string name="sign_up_process_level">your studying level is </string>
     <string name="sign_up_process_education">your education information</string>
-    <string name="name">Your name</string>
-    <string name="phone">Your phone</string>
-    <string name="school_name">Your school</string>
-    <string name="majors">Your major</string>
+    <string name="your_name">Your name</string>
+    <string name="your_phone">Your phone</string>
+    <string name="your_school">Your school</string>
+    <string name="your_major">Your major</string>
     <string name="school_year">Year begins</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="back">Back</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="new_demand" >New Demand</string>
+    <string name="new_demand">New Demand</string>
+    <string name="subject">Subject</string>
+    <string name="major">Major</string>
+    <string name="school">School</string>
+    <string name="level">Level</string>
+
 
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
