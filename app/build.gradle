@@ -14,6 +14,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true;
     }
 
     buildTypes {
@@ -26,6 +27,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -56,10 +58,9 @@ dependencies {
 
     // Circular ImageView library
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
-
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
+    implementation 'com.github.aakira:compound-icon-textview:1.2.1@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'
