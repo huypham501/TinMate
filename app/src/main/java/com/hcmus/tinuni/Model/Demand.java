@@ -1,26 +1,16 @@
 package com.hcmus.tinuni.Model;
 
 public class Demand {
-    private String id;
     private String subject;
     private String major;
     private String school;
     private String level;
 
-    public Demand(String id, String subject, String major, String school, String level) {
-        this.id = id;
+    public Demand(String subject, String major, String school, String level) {
         this.subject = subject;
         this.major = major;
         this.school = school;
         this.level = level;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getSubject() {

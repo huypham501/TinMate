@@ -1,9 +1,12 @@
 package com.hcmus.tinuni.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hcmus.tinuni.Activity.AddDemandActivity;
+import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Adapter.DemandAdapter;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
@@ -25,6 +29,8 @@ public class DemandManageFragment extends Fragment {
     private RecyclerView recyclerView;
     private DemandAdapter demandAdapter;
     private ArrayList<Demand> demandArrayList;
+
+    private Button buttonAdd, buttonUpdate, buttonEdit;
 
     public DemandManageFragment() {
 
@@ -41,10 +47,34 @@ public class DemandManageFragment extends Fragment {
 
         demandArrayList = new ArrayList<>();
 
-        demandArrayList.add(new Demand("123", "Math", "IT", "xxx", "xx"));
+        demandArrayList.add(new Demand("Math", "IT", "xxx", "xx"));
         demandAdapter = new DemandAdapter(getContext(), demandArrayList);
         recyclerView.setAdapter(demandAdapter);
 
+        buttonAdd = view.findViewById(R.id.buttonAdd);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveActivity(getActivity(), AddDemandActivity.class);
+            }
+        });
+
+        buttonUpdate = view.findViewById(R.id.buttonUpdate);
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        buttonEdit = view.findViewById(R.id.buttonEdit);
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         return view;
     }
@@ -53,5 +83,10 @@ public class DemandManageFragment extends Fragment {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
+    }
+
+    private void moveActivity(Context from, Class<?> to) {
+        Intent intent = new Intent(from, to);
+        startActivity(intent);
     }
 }

@@ -103,10 +103,6 @@ public class SignInActivity extends Activity {
                             // Do nothing keep in sign in activity
                         } else if (task.getResult().child("userName") == null) {
                             moveActivity(SignInActivity.this, SignUpProcessPersonalActivity.class);
-                        } else if (task.getResult().child("level") == null) {
-                            moveActivity(SignInActivity.this, SignUpProcessLevelActivity.class);
-                        } else if (!task.getResult().child("level").getChildren().toString().equals("Other")) {
-                            moveActivity(SignInActivity.this, SignUpProcessEducationActivity.class);
                         } else {
                             moveActivity(SignInActivity.this, MainActivity.class);
                         }
@@ -115,6 +111,36 @@ public class SignInActivity extends Activity {
             });
         }
     }
+
+//    private void moveActivityDependOnLackingDataAccount() {
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            String userId = currentUser.getUid();
+//
+//            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+//            databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                    if (!task.isSuccessful()) {
+//                        Toast.makeText(SignInActivity.this, "Error get data user", Toast.LENGTH_SHORT).show();
+//                        System.out.println(task.getException());
+//                    } else {
+//                        if (task.getResult().getValue() == null) {
+//                            // Do nothing keep in sign in activity
+//                        } else if (task.getResult().child("userName") == null) {
+//                            moveActivity(SignInActivity.this, SignUpProcessPersonalActivity.class);
+//                        } else if (task.getResult().child("level") == null) {
+//                            moveActivity(SignInActivity.this, SignUpProcessLevelActivity.class);
+//                        } else if (!task.getResult().child("level").getChildren().toString().equals("Other")) {
+//                            moveActivity(SignInActivity.this, SignUpProcessEducationActivity.class);
+//                        } else {
+//                            moveActivity(SignInActivity.this, MainActivity.class);
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//    }
 
     private void initializeFireBaseAuth() {
         mAuth = FirebaseAuth.getInstance();

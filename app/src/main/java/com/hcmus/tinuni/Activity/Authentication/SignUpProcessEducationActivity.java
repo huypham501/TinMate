@@ -83,7 +83,6 @@ public class SignUpProcessEducationActivity extends Activity {
                 if (!task.isSuccessful()) {
                     Toast.makeText(SignUpProcessEducationActivity.this, "Error get data user", Toast.LENGTH_SHORT).show();
                 } else {
-                    System.out.println("hereeeeeeeeeeeeeeeeeeee");
                     System.out.println(task.getResult().child("userName").getValue().toString());
                     textViewWelcome.setText(String.format("Hello %s,", task.getResult().child("userName").getValue().toString()));
                 }
