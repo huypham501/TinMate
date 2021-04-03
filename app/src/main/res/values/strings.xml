@@ -13,9 +13,12 @@
     <string name="your_school">Your school</string>
     <string name="your_major">Your major</string>
     <string name="school_year">Year begins</string>
+
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="back">Back</string>
+    <string name="save">Save</string>
+
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="new_demand">New Demand</string>
@@ -29,6 +32,7 @@
     <string name="delete">Delete</string>
     <string name="update">Update</string>
     <string name="add">Add</string>
+
 
     <string name="sign_up_1">Sign Up</string>
     <string name="sign_up_2">Sign Up</string>

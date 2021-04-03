@@ -8,16 +8,16 @@
     tools:context=".Activity.AddDemandActivity">
 
     <TextView
-        android:id="@+id/logoName"
+        android:id="@+id/textViewContentActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
+        android:gravity="center"
         android:text="@string/new_demand"
         android:textAlignment="center"
-        android:gravity="center"
         android:textColor="@color/purple_500"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                 android:textSize="18dp" />
 
             <EditText
-                android:id="@+id/editTextPhone"
+                android:id="@+id/editTextSchool"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
@@ -96,7 +96,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -116,33 +115,56 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/button_sign_up"
-            android:drawableLeft="@drawable/ic_check_circle"
-            android:text="Save"
-            android:textColor="#fff" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/btnGoBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="110dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/button_sign_up"
-            android:drawableLeft="@drawable/ic_arrow_back"
-            android:text="BACK"
-            android:textColor="@color/white" />
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_sign_up"
+                android:drawableLeft="@drawable/ic_check_circle"
+                android:text="@string/save"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/buttonBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_sign_up"
+                android:drawableLeft="@drawable/ic_arrow_back"
+                android:text="@string/back"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+
     </LinearLayout>
 </LinearLayout>

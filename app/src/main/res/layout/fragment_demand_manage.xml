@@ -12,6 +12,7 @@
         android:gravity="right">
 
         <Button
+            android:id="@+id/buttonAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -19,6 +20,7 @@
             android:text="@string/add" />
 
         <Button
+            android:id="@+id/buttonUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -26,6 +28,7 @@
             android:text="@string/update" />
 
         <Button
+            android:id="@+id/buttonEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
