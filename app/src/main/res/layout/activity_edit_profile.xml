@@ -72,7 +72,7 @@
                     android:id="@+id/edtFullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
+                    android:layout_marginLeft="14dp"
                     android:background="@drawable/rounded_edittext"
                     android:padding="5dp"
                     android:text="On Hao Nguyen" />
@@ -117,7 +117,7 @@
                     android:id="@+id/edtPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="42dp"
+                    android:layout_marginLeft="43dp"
                     android:background="@drawable/rounded_edittext"
                     android:inputType="number"
                     android:padding="5dp"

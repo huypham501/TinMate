@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:textColorHint="@color/white"
             android:hint="@string/your_name">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -58,14 +59,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/male" />
+                    android:text="@string/male"
+                    android:textColor="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/radioButtonFemale"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/female" />
+                    android:text="@string/female"
+                    android:textColor="@color/white"/>
+
             </RadioGroup>
         </LinearLayout>
 
@@ -76,6 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:textColorHint="@color/white"
             android:hint="@string/your_phone">
 
             <com.google.android.material.textfield.TextInputEditText
