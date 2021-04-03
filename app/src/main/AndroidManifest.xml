@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TinUni">
-        <activity android:name=".ChangePasswordActivity"/>
+        <activity android:name=".Activity.Authentication.ChangePasswordActivity"/>
         <activity android:name=".Activity.Authentication.SignUpProcessLevelActivity" />
         <activity android:name=".Activity.Authentication.SignUpProcessEducationActivity" />
         <activity android:name=".Activity.Authentication.SignUpProcessPersonalActivity">

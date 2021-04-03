@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.MainActivity;
-import com.hcmus.tinuni.ChangePasswordActivity;
+import com.hcmus.tinuni.Activity.Authentication.ChangePasswordActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
