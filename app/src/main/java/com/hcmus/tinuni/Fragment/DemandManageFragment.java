@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,7 @@ public class DemandManageFragment extends Fragment {
     private DemandAdapter demandAdapter;
     private ArrayList<Demand> demandArrayList;
 
-    private Button buttonAdd, buttonUpdate, buttonEdit;
+    private ImageButton imageButtonAdd, imageButtonUpdate, imageButtonNotSave, imageButtonEdit, imageButtonSave;
 
     public DemandManageFragment() {
 
@@ -51,32 +52,81 @@ public class DemandManageFragment extends Fragment {
         demandAdapter = new DemandAdapter(getContext(), demandArrayList);
         recyclerView.setAdapter(demandAdapter);
 
-        buttonAdd = view.findViewById(R.id.buttonAdd);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        imageButtonAdd = view.findViewById(R.id.imageButtonAdd);
+        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moveActivity(getActivity(), AddDemandActivity.class);
             }
         });
 
-        buttonUpdate = view.findViewById(R.id.buttonUpdate);
-        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+        imageButtonUpdate = view.findViewById(R.id.imageButtonUpdate);
+        imageButtonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
 
+        imageButtonNotSave = view.findViewById(R.id.imageButtonNotSave);
+        imageButtonNotSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setVisibleAllButton(true);
 
-        buttonEdit = view.findViewById(R.id.buttonEdit);
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
+                imageButtonNotSave.setVisibility(View.INVISIBLE);
+                imageButtonSave.setVisibility(View.INVISIBLE);
+
+                setVisibleAdapterItem(false);
+            }
+        });
+
+        imageButtonEdit = view.findViewById(R.id.imageButtonEdit);
+        imageButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                setVisibleAllButton(false);
+
+                imageButtonNotSave.setVisibility(View.VISIBLE);
+                imageButtonSave.setVisibility(View.VISIBLE);
+
+                setVisibleAdapterItem(true);
+            }
+        });
+
+        imageButtonSave = view.findViewById(R.id.imageButtonSave);
+        imageButtonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                setVisibleAllButton(true);
+
+                imageButtonNotSave.setVisibility(View.INVISIBLE);
+                imageButtonSave.setVisibility(View.INVISIBLE);
+
+                setVisibleAdapterItem(false);
             }
         });
 
         return view;
+    }
+
+    private void setVisibleAdapterItem(boolean value) {
+        demandAdapter.updateVisibility(value);
+        demandAdapter.notifyDataSetChanged();
+    }
+
+    private void setVisibleAllButton(boolean value) {
+        int value_int;
+        if (value) {
+            value_int = 0; // VISIBLE
+        } else {
+            value_int = 4; // INVISIBLE
+        }
+        imageButtonAdd.setVisibility(value_int);
+        imageButtonUpdate.setVisibility(value_int);
+        imageButtonEdit.setVisibility(value_int);
     }
 
     private void setDemand() {
@@ -88,5 +138,6 @@ public class DemandManageFragment extends Fragment {
     private void moveActivity(Context from, Class<?> to) {
         Intent intent = new Intent(from, to);
         startActivity(intent);
+        getActivity().finish();
     }
 }

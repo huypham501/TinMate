@@ -11,29 +11,62 @@
         android:layout_height="40dp"
         android:gravity="right">
 
-        <Button
-            android:id="@+id/buttonAdd"
+        <ImageButton
+            android:id="@+id/imageButtonAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:text="@string/add" />
+            android:backgroundTint="@color/purple_500"
+            android:src="@drawable/ic_baseline_add_circle" />
 
-        <Button
-            android:id="@+id/buttonUpdate"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="@string/update" />
+            android:layout_marginRight="5dp">
 
-        <Button
-            android:id="@+id/buttonEdit"
+            <ImageButton
+                android:id="@+id/imageButtonUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_500"
+                android:src="@drawable/ic_baseline_update" />
+
+            <ImageButton
+                android:id="@+id/imageButtonNotSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/lighterBlack"
+                android:src="@drawable/ic_baseline_remove_circle"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="@string/edit" />
+            android:layout_marginRight="5dp">
+
+            <ImageButton
+                android:id="@+id/imageButtonEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_500"
+                android:src="@drawable/ic_edit" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dark_green"
+                android:src="@drawable/ic_check_circle"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
     <LinearLayout

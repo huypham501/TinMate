@@ -20,10 +20,13 @@ import java.util.ArrayList;
 public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Demand> demands;
+    private boolean isEditorVisible;
+
 
     public DemandAdapter(Context context, ArrayList<Demand> demands) {
         this.context = context;
         this.demands = demands;
+        isEditorVisible = false;
     }
 
     @NonNull
@@ -38,9 +41,17 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
         Demand demand = demands.get(position);
         holder.textViewSubject.setText(demand.getSubject());
         holder.textViewMajor.setText(demand.getMajor());
+
+        if (isEditorVisible) {
+            holder.buttonDelete.setVisibility(View.VISIBLE);
+        } else {
+            holder.buttonDelete.setVisibility(View.INVISIBLE);
+        }
     }
 
-
+    public void updateVisibility(boolean value) {
+        isEditorVisible = value;
+    }
 
     @Override
     public int getItemCount() {
@@ -49,22 +60,13 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewSubject, textViewMajor;
-        private Button buttonEdit, buttonDelete;
+        private Button buttonDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewSubject = itemView.findViewById(R.id.textViewSubject);
             textViewMajor = itemView.findViewById(R.id.textViewMajor);
-
-            buttonEdit = itemView.findViewById(R.id.buttonEdit);
-            buttonEdit.setVisibility(View.INVISIBLE);
-            buttonEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("button edit clicked");
-                }
-            });
 
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
             buttonDelete.setVisibility(View.INVISIBLE);
