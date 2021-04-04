@@ -19,7 +19,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageRoom"
             android:layout_width="match_parent"
-            android:layout_height="209dp"
+            android:layout_height="210dp"
             android:background="@drawable/bgmatching"
             android:src="@drawable/room_9"
             app:civ_border_color="#7AD5E1"

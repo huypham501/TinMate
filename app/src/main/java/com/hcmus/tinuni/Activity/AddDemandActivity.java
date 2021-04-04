@@ -64,12 +64,16 @@ public class AddDemandActivity extends Activity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.INVISIBLE);
                             } else {
                                 progressBar.setVisibility(View.INVISIBLE);
-//                                MOVE ACTIVITY HEREEEEEEEEEEEEEEEE
+
+                                AddDemandActivity.super.onBackPressed();
                             }
                         }
                     });
+                } else {
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -78,10 +82,11 @@ public class AddDemandActivity extends Activity {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MOVE ACTIVITY HEREEEEEEEEEEEEEEEEE
+                if (!progressBar.isAnimating()) {
+                    AddDemandActivity.super.onBackPressed();
+                }
             }
         });
-
     }
 
     private void initIdUser() {
@@ -98,7 +103,8 @@ public class AddDemandActivity extends Activity {
             return false;
         }
 
-        strEditTextMajor = editTextLevel.getText().toString();
+        strEditTextMajor = editTextMajor.getText().toString();
+        System.out.println(strEditTextMajor);
         if (strEditTextMajor.isEmpty()) {
             editTextMajor.setError("Please fill in major");
             return false;
@@ -129,11 +135,4 @@ public class AddDemandActivity extends Activity {
         }
         return false;
     }
-
-    private void moveActivity(Context from, Class<?> to) {
-        Intent intent = new Intent(from, to);
-        startActivity(intent);
-        finish();
-    }
-
 }
