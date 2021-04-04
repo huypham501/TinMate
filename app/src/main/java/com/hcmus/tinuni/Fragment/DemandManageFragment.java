@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.AddDemandActivity;
 import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Adapter.DemandAdapter;
@@ -35,6 +38,7 @@ public class DemandManageFragment extends Fragment {
     private ArrayList<Demand> demandArrayList;
 
     private ImageButton imageButtonAdd, imageButtonUpdate, imageButtonNotSave, imageButtonEdit, imageButtonSave;
+    private TextView textViewContentDemandManage;
 
     public DemandManageFragment() {
 
@@ -51,12 +55,11 @@ public class DemandManageFragment extends Fragment {
 
         demandArrayList = new ArrayList<>();
 
+        textViewContentDemandManage = view.findViewById(R.id.textViewContentDemandManage);
 
         getDemand();
 
 
-        demandAdapter = new DemandAdapter(getContext(), demandArrayList);
-        recyclerView.setAdapter(demandAdapter);
 
         imageButtonAdd = view.findViewById(R.id.imageButtonAdd);
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
@@ -139,17 +142,23 @@ public class DemandManageFragment extends Fragment {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
-        databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    System.out.println("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr");
-                } else {
-                    System.out.println("Xxxxxxxxxxxx");
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                demandArrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Demand demand = dataSnapshot.getValue(Demand.class);
+                    demandArrayList.add(demand);
                 }
+                demandAdapter = new DemandAdapter(getContext(), demandArrayList);
+                recyclerView.setAdapter(demandAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-        System.out.println();
     }
 
     private void moveActivity(Context from, Class<?> to) {

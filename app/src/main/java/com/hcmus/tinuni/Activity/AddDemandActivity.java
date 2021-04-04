@@ -1,8 +1,6 @@
 package com.hcmus.tinuni.Activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +28,6 @@ public class AddDemandActivity extends Activity {
     private String strEditTextSubject;
     private String strEditTextMajor;
     private String strEditTextSchool;
-    private String strEditTextLevel;
 
     private String userId;
 
@@ -45,7 +42,6 @@ public class AddDemandActivity extends Activity {
         editTextSubject = findViewById(R.id.editTextSubject);
         editTextMajor = findViewById(R.id.editTextMajor);
         editTextSchool = findViewById(R.id.editTextSchool);
-        editTextLevel = findViewById(R.id.editTextLevel);
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -58,7 +54,7 @@ public class AddDemandActivity extends Activity {
                 initIdUser();
 
                 if (isValidForm()) {
-                    Demand demand = new Demand(strEditTextSubject, strEditTextMajor, strEditTextSchool, strEditTextLevel);
+                    Demand demand = new Demand(strEditTextSubject, strEditTextMajor, strEditTextSchool);
                     databaseReference.push().setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -67,7 +63,6 @@ public class AddDemandActivity extends Activity {
                                 progressBar.setVisibility(View.INVISIBLE);
                             } else {
                                 progressBar.setVisibility(View.INVISIBLE);
-
                                 AddDemandActivity.super.onBackPressed();
                             }
                         }
@@ -116,20 +111,12 @@ public class AddDemandActivity extends Activity {
             return false;
         }
 
-        strEditTextLevel = editTextLevel.getText().toString();
-        if (strEditTextLevel.isEmpty()) {
-            editTextLevel.setError("Please fill in level");
-            return false;
-        }
-
-        if (strEditTextSubject.length() < 3 || strEditTextSubject.length() > 50) {
+        if (strEditTextSubject.length() < 2 || strEditTextSubject.length() > 50) {
             editTextSubject.setError("Subject name should be from 2 - 50 characters");
-        } else if (strEditTextMajor.length() < 3 || strEditTextMajor.length() > 50) {
+        } else if (strEditTextMajor.length() < 2 || strEditTextMajor.length() > 50) {
             editTextMajor.setError("Major name should be from 2 - 50 characters");
-        } else if (strEditTextSchool.length() < 3 || strEditTextSchool.length() > 50) {
+        } else if (strEditTextSchool.length() < 2 || strEditTextSchool.length() > 50) {
             editTextSchool.setError("School name should be from 2 - 50 characters");
-        } else if (strEditTextLevel.length() < 3 || strEditTextLevel.length() > 50) {
-            editTextLevel.setError("Level name should be from 2 - 50 characters");
         } else {
             return true;
         }

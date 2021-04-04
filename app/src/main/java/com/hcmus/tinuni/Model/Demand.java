@@ -4,13 +4,15 @@ public class Demand {
     private String subject;
     private String major;
     private String school;
-    private String level;
 
-    public Demand(String subject, String major, String school, String level) {
+    public Demand() {
+
+    }
+
+    public Demand(String subject, String major, String school) {
         this.subject = subject;
         this.major = major;
         this.school = school;
-        this.level = level;
     }
 
     public String getSubject() {
@@ -37,11 +39,12 @@ public class Demand {
         this.school = school;
     }
 
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
+    @Override
+    public String toString() {
+        return "Demand{" +
+                "subject='" + subject + '\'' +
+                ", major='" + major + '\'' +
+                ", school='" + school + '\'' +
+                '}';
     }
 }
