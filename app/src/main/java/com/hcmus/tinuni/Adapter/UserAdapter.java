@@ -50,6 +50,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     .into(holder.imageView);
         }
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,12 +69,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView username;
         private ImageView imageView;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
             imageView = itemView.findViewById(R.id.imageView);
+
         }
     }
 }
