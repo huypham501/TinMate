@@ -2,24 +2,25 @@ package com.hcmus.tinuni.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,11 +31,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
-import com.hcmus.tinuni.Fragment.ChatsFragment;
 import com.hcmus.tinuni.Fragment.DemandManageFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.MatchingFragment;
-import com.hcmus.tinuni.Fragment.UsersFragment;
+import com.hcmus.tinuni.Fragment.ChatFragment;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -50,8 +50,7 @@ public class MainActivity extends FragmentActivity {
             R.drawable.home,
             R.drawable.ic_baseline_list_alt,
             R.drawable.fire,
-            R.drawable.chat,
-            R.drawable.user
+            R.drawable.chat
     };
 
     @Override
@@ -59,6 +58,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         mUser = FirebaseAuth.getInstance()
                 .getCurrentUser();
@@ -70,6 +71,26 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
+
+                ImageView imageView = (ImageView) toolbar.getChildAt(0);
+                if (user.getImageURL().equals("default")) {
+                    imageView.setImageResource(R.drawable.profile_image);
+                } else {
+                    Glide.with(MainActivity.this)
+                            .load(user.getImageURL())
+                            .into(imageView);
+
+                }
+
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
+                        intent_profile.putExtra("id", mUser.getUid());
+                        startActivity(intent_profile);
+                    }
+                });
+
             }
 
             @Override
@@ -77,6 +98,8 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+
+
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (CustomViewPager) findViewById(R.id.viewPager);
@@ -87,8 +110,7 @@ public class MainActivity extends FragmentActivity {
         viewPageAdapter.addFragment(new HomeFragment(), "Home");
         viewPageAdapter.addFragment(new DemandManageFragment(), "Dem");
         viewPageAdapter.addFragment(new MatchingFragment(), "Match");
-        viewPageAdapter.addFragment(new ChatsFragment(), "Chats");
-        viewPageAdapter.addFragment(new UsersFragment(), "Users");
+        viewPageAdapter.addFragment(new ChatFragment(), "Chat");
 
         viewPager.setAdapter(viewPageAdapter);
 
@@ -106,33 +128,33 @@ public class MainActivity extends FragmentActivity {
     }
 
     // Create Menu: Profile, Sign Out
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return true;
+//    }
 
     //    // Listening Menu Item selected
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.profile:
-                Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
-                intent_profile.putExtra("id", mUser.getUid());
-                startActivity(intent_profile);
-                return true;
-            case R.id.signOut:
-                FirebaseAuth.getInstance().signOut();
-                System.out.println("***********************************************");
-                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            default:
-                break;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.profile:
+//                Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
+//                intent_profile.putExtra("id", mUser.getUid());
+//                startActivity(intent_profile);
+//                return true;
+//            case R.id.signOut:
+//                FirebaseAuth.getInstance().signOut();
+//                System.out.println("***********************************************");
+//                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+//                startActivity(intent);
+//                finish();
+//                return true;
+//            default:
+//                break;
+//        }
+//        return false;
+//    }
 
     // ViewPageAdapter
     static class ViewPageAdapter extends FragmentPagerAdapter {
