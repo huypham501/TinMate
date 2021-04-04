@@ -67,7 +67,6 @@
 
         </RelativeLayout>
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -100,7 +99,6 @@
 
             </FrameLayout>
         </RelativeLayout>
-
 
     </LinearLayout>
 </LinearLayout>
