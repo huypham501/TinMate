@@ -140,13 +140,15 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/buttonSave"
+                android:id="@+id/buttonBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_sign_up"
-                android:drawableLeft="@drawable/ic_check_circle"
-                android:text="@string/save"
-                android:textColor="#fff" />
+                android:background="@drawable/button"
+                android:drawableStart="@drawable/ic_arrow_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/back"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -155,13 +157,16 @@
             android:layout_weight="1"
             android:gravity="center">
 
+
             <Button
-                android:id="@+id/buttonBack"
+                android:id="@+id/buttonSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_sign_up"
-                android:drawableLeft="@drawable/ic_arrow_back"
-                android:text="@string/back"
+                android:background="@drawable/button"
+                android:drawableStart="@drawable/ic_check_circle"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/save"
                 android:textColor="@color/white" />
         </LinearLayout>
 

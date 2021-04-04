@@ -15,7 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hcmus.tinuni.Activity.AddDemandActivity;
@@ -48,7 +51,10 @@ public class DemandManageFragment extends Fragment {
 
         demandArrayList = new ArrayList<>();
 
-        demandArrayList.add(new Demand("Math", "IT", "xxx", "xx"));
+
+        getDemand();
+
+
         demandAdapter = new DemandAdapter(getContext(), demandArrayList);
         recyclerView.setAdapter(demandAdapter);
 
@@ -129,15 +135,25 @@ public class DemandManageFragment extends Fragment {
         imageButtonEdit.setVisibility(value_int);
     }
 
-    private void setDemand() {
+    private void getDemand() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
+        databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("ERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr");
+                } else {
+                    System.out.println("Xxxxxxxxxxxx");
+                }
+            }
+        });
+        System.out.println();
     }
 
     private void moveActivity(Context from, Class<?> to) {
         Intent intent = new Intent(from, to);
         startActivity(intent);
-        getActivity().finish();
     }
 }
