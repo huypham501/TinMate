@@ -29,7 +29,7 @@
             android:fontFamily="@font/montserrat_black"
             android:text="Edit Profile"
             android:textAlignment="center"
-            android:textColor="@color/purple_500"
+            android:textColor="#A135FF"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="Full Name"
                     android:fontFamily="@font/montserrat_black"
+                    android:textColor="#A135FF"
                     android:textSize="18dp" />
                 <EditText
                     android:id="@+id/edtFullname"
@@ -82,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:text="On Hao Nguyen" />
             </LinearLayout>
 
@@ -96,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:fontFamily="@font/montserrat_black"
+                    android:textColor="#A135FF"
                     android:textSize="18dp" />
                 <EditText
                     android:id="@+id/edtEmail"
@@ -104,7 +106,7 @@
                     android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
                     android:editable="false"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:text="ohn@gmail.com" />
             </LinearLayout>
 
@@ -118,6 +120,7 @@
                     android:layout_height="wrap_content"
                     android:text="Phone"
                     android:fontFamily="@font/montserrat_black"
+                    android:textColor="#A135FF"
                     android:textSize="18dp" />
                 <EditText
                     android:id="@+id/edtPhone"
@@ -126,7 +129,7 @@
                     android:background="@drawable/rounded_edittext"
                     android:inputType="number"
                     android:layout_marginTop="3dp"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:text="0903123456" />
             </LinearLayout>
 
@@ -140,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:text="School"
                     android:fontFamily="@font/montserrat_black"
+                    android:textColor="#A135FF"
                     android:textSize="18dp" />
                 <EditText
                     android:id="@+id/edtSchool"
@@ -147,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:text="HCMUS" />
             </LinearLayout>
 
@@ -160,6 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Major"
+                    android:textColor="#A135FF"
                     android:fontFamily="@font/montserrat_black"
                     android:textSize="18dp" />
                 <EditText
@@ -168,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:text="IT Developer" />
             </LinearLayout>
 
@@ -182,6 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Begin Year"
+                    android:textColor="#A135FF"
                     android:fontFamily="@font/montserrat_black"
                     android:textSize="18dp" />
 
@@ -192,7 +198,7 @@
                     android:background="@drawable/rounded_edittext"
                     android:inputType="number"
                     android:layout_marginTop="3dp"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:text="2018" />
             </LinearLayout>
 
@@ -207,6 +213,7 @@
                     android:layout_marginTop="10dp"
                     android:text="Gender"
                     android:fontFamily="@font/montserrat_black"
+                    android:textColor="#A135FF"
                     android:textSize="18dp" />
 
                 <RadioGroup
@@ -249,8 +256,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_sign_up"
                     android:drawableLeft="@drawable/ic_check_circle"
-                    android:text="Save"
                     android:fontFamily="@font/montserrat_black"
+                    android:text="Save"
+                    android:paddingRight="50dp"
                     android:textColor="#fff" />
 
             </LinearLayout>
