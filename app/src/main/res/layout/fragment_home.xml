@@ -3,40 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.HomeFragment"
-    android:background="@drawable/gradient_sign_in">
+    android:background="@drawable/gradient_sign_in"
+    tools:context=".Fragment.HomeFragment">
 
 
-        <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment layout -->
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutHomePage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/linearLayoutHomePage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPagerHome"
-                android:layout_width="match_parent"
-                android:layout_height="375dp">
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPagerHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="375dp">
 
-            </androidx.viewpager.widget.ViewPager>
+                </androidx.viewpager.widget.ViewPager>
 
-            <LinearLayout
-                android:id="@+id/dots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/viewPagerHome"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal"
-                android:textAlignment="center"/>
+                <LinearLayout
+                    android:id="@+id/dots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/viewPagerHome"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/buttonBackSlide"
@@ -62,11 +63,11 @@
                     android:textSize="20dp" />
             </RelativeLayout>
 
-                <FrameLayout
-                    android:id="@+id/frameLayoutMajorRooms"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/frameLayoutMajorRooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-        </ScrollView>
+    </ScrollView>
 </RelativeLayout>

@@ -35,13 +35,14 @@ public class MatchingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_matching, container, false);
 
+
         imageView = view.findViewById(R.id.imageRoom);
 
         // Random room image
         Random r = new Random();
         int num = r.nextInt(rooms.length);
 
-        imageView.setBackgroundResource(rooms[num]);
+        imageView.setImageResource(rooms[num]);
 
         return view;
     }
