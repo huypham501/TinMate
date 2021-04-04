@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.MainActivity;
+import com.hcmus.tinuni.Fragment.HomeViewFragment.GeneralRoomSlider;
 import com.hcmus.tinuni.Fragment.HomeViewFragment.MajorRoomSlider;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
@@ -41,12 +44,14 @@ import java.util.TimerTask;
 class ImageAdapter extends PagerAdapter {
 
     private Context mContext;
-    public int[] mImageIds = { R.drawable.work_alone, R.drawable.brainstorming} ;
+    public int[] mImageIds = { R.drawable.work_alone, R.drawable.brainstorming, R.drawable.finding_group,
+            R.drawable.create_room} ;
 
-    public String[] shortTextSliders = {"Learning by yourself?","Learning in group"};
+    public String[] shortTextSliders = {"Learning by yourself?","Learning in group", "Don't know which group to join yet?"
+    ,"Not interested in existed rooms?"};
 
     public String[] longTextSliders = {"Try learning together, more effectively.",
-            "Helping each other, solve problem faster, more talking"};
+            "Helping each other, solve problem faster, more talking","Scroll down to explore some rooms now","Create your own room now"};
 
     public ImageAdapter(Context context){
         mContext = context;
@@ -113,6 +118,8 @@ public class HomeFragment extends Fragment {
     private FirebaseUser mUser;
     private DatabaseReference mRef;
 
+    private Button buttonHomeSlider;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -162,12 +169,15 @@ public class HomeFragment extends Fragment {
 
         viewPagerHome.setAdapter(adapter);
 
+        buttonHomeSlider= view.findViewById(R.id.buttonHomeSlider);
+
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 viewPagerHome.post(new Runnable() {
                     @Override
                     public void run() {
+
                         viewPagerHome.setCurrentItem((viewPagerHome.getCurrentItem()+1)%adapter.mImageIds.length);
                     }
                 });
@@ -207,6 +217,18 @@ public class HomeFragment extends Fragment {
                     mButtonNext.setVisibility(View.VISIBLE);
                     mButtonBack.setVisibility(View.VISIBLE);
                 }
+
+                if(position == 3){
+                    buttonHomeSlider.setVisibility(View.VISIBLE);
+                    buttonHomeSlider.setEnabled(true);
+                    buttonHomeSlider.setText("Create room");
+                    buttonHomeSlider.setOnClickListener(null);
+                }
+                else{
+                    buttonHomeSlider.setVisibility(View.INVISIBLE);
+                    buttonHomeSlider.setEnabled(false);
+                    buttonHomeSlider.setOnClickListener(null);
+                }
             }
 
             @Override
@@ -229,10 +251,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft_add = fm.beginTransaction();
         ft_add.add(R.id.frameLayoutMajorRooms,new MajorRoomSlider());
+
+        ft_add.add(R.id.frameLayoutGeneralRooms,new GeneralRoomSlider());
         ft_add.commit();
+
 
         return view;
     }

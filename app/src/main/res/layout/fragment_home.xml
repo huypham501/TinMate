@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_sign_in"
     android:id="@+id/fragmentHome"
-
     tools:context=".Fragment.HomeFragment">
 
 
@@ -28,15 +27,28 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPagerHome"
                     android:layout_width="match_parent"
-                    android:layout_height="375dp">
+                    android:layout_height="330dp">
 
                 </androidx.viewpager.widget.ViewPager>
+
+                <Button
+                    android:id="@+id/buttonHomeSlider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Button"
+                    android:layout_below="@id/viewPagerHome"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/montserrat_black"
+                    android:background="@drawable/button_sign_in"
+                    android:padding="10dp"
+                    android:enabled="false"
+                    android:visibility="invisible"/>
 
                 <LinearLayout
                     android:id="@+id/dots"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/viewPagerHome"
+                    android:layout_below="@id/buttonHomeSlider"
                     android:layout_centerHorizontal="true"
                     android:orientation="horizontal"
                     android:textAlignment="center" />
@@ -46,11 +58,12 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/viewPagerHome"
+                    android:layout_below="@id/buttonHomeSlider"
                     android:layout_alignLeft="@id/viewPagerHome"
                     android:text="Back"
                     android:textSize="20dp"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"
+                    android:fontFamily="@font/montserrat_black"/>
 
 
                 <Button
@@ -58,17 +71,25 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/viewPagerHome"
+                    android:layout_below="@id/buttonHomeSlider"
                     android:layout_alignRight="@id/viewPagerHome"
                     android:layout_marginTop="-3dp"
                     android:text="Next"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:fontFamily="@font/montserrat_black"/>
             </RelativeLayout>
 
             <FrameLayout
                 android:id="@+id/frameLayoutMajorRooms"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:focusable="true"/>
+
+            <FrameLayout
+                android:id="@+id/frameLayoutGeneralRooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true" />
         </LinearLayout>
 
     </ScrollView>

@@ -17,7 +17,7 @@ import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 
-public class MajorRoomSlider extends Fragment {
+public class GeneralRoomSlider extends Fragment {
 
     RecyclerView majorRoomRecyclerView;
     ArrayList<MainModel> mainModels;
@@ -31,13 +31,14 @@ public class MajorRoomSlider extends Fragment {
 
         View view = inflater.inflate(R.layout.major_rooms, container, false);
         majorRoomRecyclerView = view.findViewById(R.id.recyclerViewMajorRooms);
-        Integer[] studyRoom = {R.drawable.android, R.drawable.ba, R.drawable.software_design,R.drawable.java,
-                R.drawable.software_technology};
 
-        String[] roomName = {"Phat trien ung dung di dong", "Phan tich va quan ly yeu cau phan mem","Thiet ke phan mem",
-                "Lap trinh Java", "Nhap mon cong nghe phan mem"};
+        Integer[] studyRoom = {R.drawable.triethoc, R.drawable.kinh_te_chinh_tri, R.drawable.chu_nghia_xa_hoi,
+                R.drawable.lich_su_dang, R.drawable.phap_luat_dai_cuong, R.drawable.xac_suat_thong_ke};
 
-        String[] amount = {"60","60","60","60","60"};
+        String[] roomName = {"Triet hoc", "Kinh te chinh tri","Chu nghia xa hoi khoa hoc",
+                "Lich su Dang", "Phap luat dai cuong","Xac suat thong ke"};
+
+        String[] amount = {"60","60","60","60","60","60"};
         mainModels = new ArrayList<>();
         for(int i=0;i<studyRoom.length;i++){
             MainModel model = new MainModel(studyRoom[i],roomName[i],amount[i]);
@@ -51,9 +52,10 @@ public class MajorRoomSlider extends Fragment {
         majorRoomRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mainAdapter = new MainAdapter(mainModels, getContext());
         majorRoomRecyclerView.setAdapter(mainAdapter);
+        textViewListRoom = view.findViewById(R.id.textViewMajorRoomsName);
+        textViewListRoom.setText("Dai Cuong");
+       
 
         return view;
     }
 }
-
-
