@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".Activity.Profile.UserProfileActitivy">
+        tools:context=".Activity.Profile.UserProfileActitivy"
+        android:background="@drawable/gradient_profile_down">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:background="@drawable/gradient_profile_up"
             android:orientation="vertical">
 
             <ImageView
@@ -25,37 +27,29 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="left"
-                android:src="@drawable/ic_back"
-                android:background="@color/white">
+                android:src="@drawable/ic_back">
 
             </ImageView>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivAvatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:civ_border_width="3dp"
+                app:civ_border_color="@color/white"
                 android:src="@drawable/profile_image" />
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="On Hao Nguyen"
-                android:textColor="@color/purple_500"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/purple_500" />
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="On Hao Nguyen"
+            android:layout_gravity="center"
+            android:fontFamily="@font/montserrat_black"
+            android:textColor="@color/purple_500"
+            android:textSize="20dp"
+            android:textStyle="bold" />
         <!--Fullname-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,13 +76,15 @@
                     android:text="Full name"
                     android:textColor="@color/black"
                     android:textSize="18dp"
+                    android:fontFamily="@font/montserrat_black"
+
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvFullname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="On Hao Nguyen"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
 
@@ -118,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat_black"
                     android:textSize="18dp"
                     android:textStyle="bold" />
                 <TextView
@@ -125,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ohn240420001@gmail.com"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
@@ -156,13 +153,14 @@
                     android:text="Phone"
                     android:textColor="@color/black"
                     android:textSize="18dp"
+                    android:fontFamily="@font/montserrat_black"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0903028901"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
@@ -193,13 +191,14 @@
                     android:text="School"
                     android:textColor="@color/black"
                     android:textSize="18dp"
+                    android:fontFamily="@font/montserrat_black"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvSchool"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="HCMUS"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
@@ -230,13 +229,14 @@
                     android:text="Major"
                     android:textColor="@color/black"
                     android:textSize="18dp"
+                    android:fontFamily="@font/montserrat_black"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvMajor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="IT Developer"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
@@ -266,13 +266,14 @@
                     android:text="Begin Year"
                     android:textColor="@color/black"
                     android:textSize="18dp"
+                    android:fontFamily="@font/montserrat_black"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvBeginYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2018"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
@@ -303,13 +304,14 @@
                     android:text="Gender"
                     android:textColor="@color/black"
                     android:textSize="18dp"
+                    android:fontFamily="@font/montserrat_black"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/tvGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Male"
-                    android:textColor="@color/darkGrey"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
@@ -330,6 +332,7 @@
                 android:background="@drawable/button_sign_up"
                 android:drawableLeft="@drawable/ic_edit"
                 android:paddingHorizontal="20dp"
+                android:fontFamily="@font/montserrat_black"
                 android:text="Edit Profile"
                 android:textColor="#fff"></Button>
 
@@ -342,6 +345,7 @@
                 android:background="@drawable/button_sign_up"
                 android:drawableLeft="@drawable/ic_lock"
                 android:paddingHorizontal="20dp"
+                android:fontFamily="@font/montserrat_black"
                 android:text="Change Password"
                 android:textColor="#fff"></Button>
         </LinearLayout>

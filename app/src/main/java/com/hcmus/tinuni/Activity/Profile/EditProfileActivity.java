@@ -36,11 +36,11 @@ import com.hcmus.tinuni.R;
 public class EditProfileActivity extends AppCompatActivity {
 
     private EditText edtFullname, edtEmail, edtPhone, edtSchool, edtMajor, edtBeginYear;
-    private ImageView ivAvatar;
+    private ImageView ivAvatar, btnGoBack;
     private Uri imageUri;
     private RadioGroup rgGender;
     private RadioButton rbMale, rbFemale;
-    private Button btnEdit, btnGoBack;
+    private Button btnEdit;
     String id, img;
     private DatabaseReference mRef;
     private FirebaseStorage storage;
