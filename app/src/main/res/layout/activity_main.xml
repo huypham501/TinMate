@@ -7,6 +7,7 @@
     tools:context=".Activity.MainActivity">
 
 
+
     <view class="com.hcmus.tinuni.Activity.MainActivity$CustomViewPager"
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
