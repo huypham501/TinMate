@@ -57,10 +57,6 @@ public class ChatFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        Toolbar toolbar = view.findViewById(R.id.toolbar);
-//        TextView tabName = (TextView) toolbar.getChildAt(1);
-//        tabName.setText("Chat");
-
         mUser = FirebaseAuth.getInstance()
                 .getCurrentUser();
         mRef = FirebaseDatabase.getInstance()
@@ -72,22 +68,6 @@ public class ChatFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
 
-//                ImageView imageView = (ImageView) toolbar.getChildAt(0);
-//                if (user.getImageURL().equals("default")) {
-//                    imageView.setImageResource(R.drawable.profile_image);
-//                } else {
-//                    Glide.with(ChatFragment.this)
-//                            .load(user.getImageURL())
-//                            .into(imageView);
-//
-//                }
-//
-//                imageView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                    }
-//                });
             }
 
             @Override
@@ -95,11 +75,6 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(dividerItemDecoration);
-
-
 
         mUsers = new ArrayList<>();
         getUsers();

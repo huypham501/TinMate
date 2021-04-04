@@ -18,7 +18,8 @@
             android:layout_height="40dp"
             android:hint="Tìm kiếm"
             android:layout_marginHorizontal="20dp"
-            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:paddingLeft="10dp"
             android:background="@drawable/border_search"
             android:layout_marginTop="20dp" />
 

@@ -14,6 +14,15 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
 
+        <ImageView
+            android:id="@+id/btnGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_back">
+        </ImageView>
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
             android:layout_width="50dp"
@@ -49,15 +58,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/btnSend"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toStartOf="@+id/btnSend"
             android:background="@android:color/transparent"
             android:hint="Aa"
 
             />
 
-        <ImageButton
+        <Button
             android:id="@+id/btnSend"
             android:layout_width="40dp"
             android:layout_height="40dp"
