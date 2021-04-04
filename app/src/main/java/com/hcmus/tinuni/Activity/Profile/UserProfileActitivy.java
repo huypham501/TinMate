@@ -3,6 +3,7 @@ package com.hcmus.tinuni.Activity.Profile;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,11 +22,11 @@ import com.hcmus.tinuni.Activity.Authentication.ChangePasswordActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
-public class UserProfileActitivy extends AppCompatActivity {
+public class UserProfileActitivy extends Activity {
 
     private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool, tvMajor, tvBeginYear;
-    private ImageView ivAvatar;
-    private Button btnEdit, btnChangePassword, btnGoBack;
+    private ImageView ivAvatar, btnGoBack;
+    private Button btnEdit, btnChangePassword;
     private String id;
 
     private DatabaseReference mRef;
