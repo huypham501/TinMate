@@ -59,8 +59,6 @@ public class DemandManageFragment extends Fragment {
 
         getDemand();
 
-
-
         imageButtonAdd = view.findViewById(R.id.imageButtonAdd);
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override

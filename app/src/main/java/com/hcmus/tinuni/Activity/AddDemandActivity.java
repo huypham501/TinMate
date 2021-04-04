@@ -67,24 +67,29 @@ public class AddDemandActivity extends Activity {
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                progressBar.setVisibility(View.INVISIBLE);
-                                textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
-                            } else {
-                                databaseReference.push().setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (!task.isSuccessful()) {
-                                            Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
-                                            progressBar.setVisibility(View.INVISIBLE);
-                                        } else {
-                                            progressBar.setVisibility(View.INVISIBLE);
-                                            AddDemandActivity.super.onBackPressed();
-                                        }
-                                    }
-                                });
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Demand demandTemp = dataSnapshot.getValue(Demand.class);
+                                if (demand.isEqual(demandTemp)) {
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                    textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
+                                    return;
+                                }
                             }
+
+                            databaseReference.push().setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        AddDemandActivity.super.onBackPressed();
+                                    }
+                                }
+                            });
                         }
+
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
@@ -117,20 +122,20 @@ public class AddDemandActivity extends Activity {
     }
 
     private boolean isValidForm() {
-        strEditTextSubject = editTextSubject.getText().toString();
+        strEditTextSubject = editTextSubject.getText().toString().toLowerCase();
         if (strEditTextSubject.isEmpty()) {
             editTextSubject.setError("Please fill in subject");
             return false;
         }
 
-        strEditTextMajor = editTextMajor.getText().toString();
+        strEditTextMajor = editTextMajor.getText().toString().toLowerCase();
         System.out.println(strEditTextMajor);
         if (strEditTextMajor.isEmpty()) {
             editTextMajor.setError("Please fill in major");
             return false;
         }
 
-        strEditTextSchool = editTextSchool.getText().toString();
+        strEditTextSchool = editTextSchool.getText().toString().toLowerCase();
         if (strEditTextSchool.isEmpty()) {
             editTextSchool.setError("Please fill in school");
             return false;

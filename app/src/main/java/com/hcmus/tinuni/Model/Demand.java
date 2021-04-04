@@ -15,6 +15,13 @@ public class Demand {
         this.school = school;
     }
 
+    public boolean isEqual(Demand demand) {
+        if (subject.equals(demand.getSubject()) && major.equals(demand.getMajor()) && school.equals(demand.getSchool())) {
+            return true;
+        }
+        return false;
+    }
+
     public String getSubject() {
         return subject;
     }

@@ -96,11 +96,12 @@
             android:id="@+id/textViewDuplicateDemandWarning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This demand is already exist!"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="This demand is already exist!"
             android:textColor="@color/red"
             android:textSize="18dp"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
     </LinearLayout>
 
     <LinearLayout
