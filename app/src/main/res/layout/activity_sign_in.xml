@@ -9,6 +9,11 @@
     android:orientation="vertical"
     tools:context=".Activity.Authentication.SignInActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:src="@drawable/group" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
