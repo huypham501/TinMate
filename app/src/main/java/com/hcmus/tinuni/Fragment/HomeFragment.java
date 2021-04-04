@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,8 +22,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Fragment.HomeViewFragment.MajorRoomSlider;
+import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.util.Timer;
@@ -100,12 +110,47 @@ public class HomeFragment extends Fragment {
 
     private int mCurrentPage;
 
+    private FirebaseUser mUser;
+    private DatabaseReference mRef;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+//        Toolbar toolbar = view.findViewById(R.id.toolbar);
+//        TextView tabName = (TextView) toolbar.getChildAt(1);
+//        tabName.setText("Home");
+
+        mUser = FirebaseAuth.getInstance()
+                .getCurrentUser();
+        mRef = FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(mUser.getUid());
+
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+
+//                ImageView imageView = (ImageView) toolbar.getChildAt(0);
+//                if (user.getImageURL().equals("default")) {
+//                    imageView.setImageResource(R.drawable.profile_image);
+//                } else {
+//                    Glide.with(HomeFragment.this)
+//                            .load(user.getImageURL())
+//                            .into(imageView);
+//
+//                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         viewPagerHome = view.findViewById(R.id.viewPagerHome);
         mDotLayout = view.findViewById(R.id.dots);
