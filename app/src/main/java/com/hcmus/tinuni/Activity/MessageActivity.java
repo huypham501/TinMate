@@ -43,7 +43,7 @@ public class MessageActivity extends Activity {
 
     MessageAdapter messageAdapter;
     List<Chat> mChats;
-
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class MessageActivity extends Activity {
 
         // Receiver
         Intent i = getIntent();
-        String userId = i.getStringExtra("userId");
+        userId = i.getStringExtra("userId");
 
         // Sender
         mUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -124,6 +124,27 @@ public class MessageActivity extends Activity {
         Chat chat = new Chat(sender, receiver, msg);
 
         reference.push().setValue(chat);
+
+        // Get the latest chat message
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance()
+                .getReference("ChatList")
+                .child(mUser.getUid())
+                .child(userId);
+
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    chatRef.child("id").setValue(userId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void readMessages(String myId, String userId, String imgURL) {

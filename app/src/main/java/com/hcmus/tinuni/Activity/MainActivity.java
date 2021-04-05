@@ -13,12 +13,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -29,12 +26,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
+import com.hcmus.tinuni.Fragment.ChatFragment;
 import com.hcmus.tinuni.Fragment.DemandManageFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.MatchingFragment;
-import com.hcmus.tinuni.Fragment.ChatFragment;
+import com.hcmus.tinuni.Fragment.UsersFragment;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -50,7 +47,8 @@ public class MainActivity extends FragmentActivity {
             R.drawable.home,
             R.drawable.ic_baseline_list_alt,
             R.drawable.fire,
-            R.drawable.chat
+            R.drawable.chat,
+            R.drawable.user
     };
 
     @Override
@@ -111,6 +109,7 @@ public class MainActivity extends FragmentActivity {
         viewPageAdapter.addFragment(new DemandManageFragment(), "Dem");
         viewPageAdapter.addFragment(new MatchingFragment(), "Match");
         viewPageAdapter.addFragment(new ChatFragment(), "Chat");
+        viewPageAdapter.addFragment(new UsersFragment(), "Users");
 
         viewPager.setAdapter(viewPageAdapter);
 
