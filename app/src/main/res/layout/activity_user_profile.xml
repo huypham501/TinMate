@@ -354,6 +354,19 @@
                 android:fontFamily="@font/montserrat_black"
                 android:text="Change Password"
                 android:textColor="#fff"></Button>
+
+            <Button
+                android:id="@+id/btnSignOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_sign_up"
+                android:drawableLeft="@drawable/ic_signout"
+                android:paddingHorizontal="20dp"
+                android:fontFamily="@font/montserrat_black"
+                android:text="Sign Out"
+                android:layout_marginBottom="5dp"
+                android:textColor="#fff"></Button>
         </LinearLayout>
 
     </LinearLayout>

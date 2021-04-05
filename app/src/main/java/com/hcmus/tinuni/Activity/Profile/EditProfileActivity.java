@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,6 +47,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private DatabaseReference mRef;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    private AlertDialog alertDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
 
+        System.out.println("***************************");
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +87,12 @@ public class EditProfileActivity extends AppCompatActivity {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Init Alert Dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditProfileActivity.this);
+                builder.setCancelable(false);
+                builder.setView(R.layout.layout_loading_dialog);
+                alertDialog = builder.create();
+
                 User user = snapshot.getValue(User.class);
                 edtFullname.setText(user.getUserName());
                 edtEmail.setText(user.getEmail());
@@ -227,6 +237,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 }
                             });
                         }
+                        alertDialog.dismiss();
                         Toast.makeText(EditProfileActivity.this, "Upload SUCCESS", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -235,7 +246,8 @@ public class EditProfileActivity extends AppCompatActivity {
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                Toast.makeText(EditProfileActivity.this, "Uploadinggg", Toast.LENGTH_SHORT).show();
+                alertDialog.show();
+//                Toast.makeText(EditProfileActivity.this, "Uploadinggg", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

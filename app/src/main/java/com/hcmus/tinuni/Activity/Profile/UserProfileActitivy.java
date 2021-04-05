@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,11 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Activity.Authentication.ChangePasswordActivity;
 import com.hcmus.tinuni.Model.User;
@@ -26,7 +30,7 @@ public class UserProfileActitivy extends Activity {
 
     private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool, tvMajor, tvBeginYear;
     private ImageView ivAvatar, btnGoBack;
-    private Button btnEdit, btnChangePassword;
+    private Button btnEdit, btnChangePassword, btnSignOut;
     private String id;
 
     private DatabaseReference mRef;
@@ -48,6 +52,7 @@ public class UserProfileActitivy extends Activity {
         btnEdit = findViewById(R.id.btnEdit);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnGoBack = findViewById(R.id.btnGoBack);
+        btnSignOut = findViewById(R.id.btnSignOut);
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
@@ -89,7 +94,7 @@ public class UserProfileActitivy extends Activity {
                 } else {
                     tvMajor.setText(user.getMajor());
                 }
-                if(user.getYearBegins() == null) {
+                if (user.getYearBegins() == null) {
                     tvBeginYear.setText("");
                 } else {
                     tvBeginYear.setText(user.getYearBegins());
@@ -128,5 +133,29 @@ public class UserProfileActitivy extends Activity {
             }
         });
 
+        //SIGN OUT
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(UserProfileActitivy.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Sign Out")
+                        .setMessage("Are you sure you want to sign out?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseAuth.getInstance().signOut();
+                                System.out.println("***********************************************");
+                                Intent intent = new Intent(UserProfileActitivy.this, SignInActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
+            }
+        });
     }
 }
