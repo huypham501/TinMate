@@ -24,7 +24,9 @@
             android:padding="8dp"
             android:text="Hello"
             android:id="@+id/showMessage"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:background="@drawable/background_left"/>
     </RelativeLayout>
 

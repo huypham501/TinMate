@@ -27,7 +27,9 @@ import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MessageActivity extends Activity {
@@ -133,6 +135,7 @@ public class MessageActivity extends Activity {
     private void sendMessage(String sender, String receiver, String msg) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
+        // Getting current time of message
         Chat chat = new Chat(sender, receiver, msg);
 
         reference.push().setValue(chat);

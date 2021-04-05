@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2D9CDB"
     android:fitsSystemWindows="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="?attr/colorPrimary"
+        android:background="#2D9CDB"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
 
@@ -18,10 +19,9 @@
             android:id="@+id/btnGoBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_back">
-        </ImageView>
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_back"></ImageView>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
@@ -34,49 +34,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textSize="16dp"
+            android:text="TextView"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="TextView" />
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom"
-        android:layout_below="@+id/toolbar" />
+        android:background="@drawable/rect"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#fff"
-        android:padding="5dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="3dp" />
 
-        <EditText
-            android:id="@+id/txtSend"
+        <RelativeLayout
+            android:id="@+id/bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@+id/btnSend"
-            android:background="@android:color/transparent"
-            android:hint="Aa"
-            android:inputType="textFilter"
-            />
+            android:background="#56CCF2"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp">
 
-        <Button
-            android:id="@+id/btnSend"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/ic_button_send" />
+            <EditText
+                android:id="@+id/txtSend"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_toStartOf="@+id/btnSend"
+                android:background="@drawable/border_search"
+                android:hint="Aa"
+                android:paddingStart="10dp"
+                android:inputType="textFilter" />
 
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+
+                android:background="@drawable/button_send" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
 

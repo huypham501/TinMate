@@ -24,7 +24,9 @@ import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -63,9 +65,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
 
-        if(isChat)
+        if(isChat) {
             getLastMessage(user.getId(), holder.lastMessage);
-
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +96,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
 
                 txtLastMessage.setText(lastMessage);
+
                 lastMessage = "";
             }
 
@@ -113,6 +116,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private TextView username;
         private ImageView imageView;
         private TextView lastMessage;
+        private TextView time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,7 +124,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             username = itemView.findViewById(R.id.username);
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
-
+            time = itemView.findViewById(R.id.time);
         }
     }
 }
