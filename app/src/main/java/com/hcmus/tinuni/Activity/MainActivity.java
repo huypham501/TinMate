@@ -15,7 +15,10 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -97,8 +100,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-
-
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (CustomViewPager) findViewById(R.id.viewPager);
         viewPager.setSwipeable(false);
@@ -118,6 +119,41 @@ public class MainActivity extends FragmentActivity {
         //Icons for TabLayout
         setTabIcons();
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                TextView tabName = (TextView)toolbar.getChildAt(1);
+                switch (tab.getText().toString()) {
+                    case "Home":
+                        tabName.setText("Home");
+                        break;
+                    case "Dem":
+                        tabName.setText("Demand");
+                        break;
+                    case "Match":
+                        tabName.setText("Matching");
+                        break;
+                    case "Chat":
+                        tabName.setText("Chat");
+                        break;
+                    case "Users":
+                        tabName.setText("Users");
+                        break;
+                    default:
+                        throw null;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setTabIcons() {

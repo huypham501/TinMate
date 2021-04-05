@@ -33,7 +33,7 @@ import java.util.List;
 public class MessageActivity extends Activity {
 
     private TextView username;
-    private ImageView imageView;
+    private ImageView imageView, btnGoBack;
     private RecyclerView recyclerView;
     private EditText txtSend;
     private Button btnSend;
@@ -55,6 +55,7 @@ public class MessageActivity extends Activity {
         recyclerView = findViewById(R.id.recyclerView);
         txtSend = findViewById(R.id.txtSend);
         btnSend = findViewById(R.id.btnSend);
+        btnGoBack = findViewById(R.id.btnGoBack);
 
         // RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
@@ -113,6 +114,17 @@ public class MessageActivity extends Activity {
 
                     txtSend.setText("");
                 }
+            }
+        });
+
+        btnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 

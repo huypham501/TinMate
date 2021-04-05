@@ -13,14 +13,14 @@
         android:layout_height="50dp"
         android:src="@drawable/profile_image" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/tabName"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="130dp"-->
-<!--        android:text="Text"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="20dp"-->
-<!--        android:textStyle="bold" />-->
+    <TextView
+        android:id="@+id/tabName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:text="Home"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
 </androidx.appcompat.widget.Toolbar>
