@@ -111,9 +111,9 @@ public class MessageActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String msg = txtSend.getText().toString();
+                String time = String.valueOf(System.currentTimeMillis());
                 if(!msg.equals("")) {
-                    sendMessage(mUser.getUid(), userId, msg);
-
+                    sendMessage(mUser.getUid(), userId, msg, time);
                     txtSend.setText("");
                 }
             }
@@ -132,11 +132,11 @@ public class MessageActivity extends Activity {
 
     }
 
-    private void sendMessage(String sender, String receiver, String msg) {
+    private void sendMessage(String sender, String receiver, String msg, String time) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
         // Getting current time of message
-        Chat chat = new Chat(sender, receiver, msg);
+        Chat chat = new Chat(sender, receiver, msg, time);
 
         reference.push().setValue(chat);
 

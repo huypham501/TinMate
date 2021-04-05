@@ -27,6 +27,7 @@ import com.hcmus.tinuni.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -35,6 +36,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private boolean isChat;
 
     String lastMessage;
+    String time;
 
     public UserAdapter(Context context, List<User> mUsers, boolean isChat) {
         this.context = context;
@@ -66,7 +68,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
         if(isChat) {
-            getLastMessage(user.getId(), holder.lastMessage);
+            getLastMessage(user.getId(), holder);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
     }
 
-    private void getLastMessage(String id, TextView txtLastMessage) {
+    private void getLastMessage(String id, ViewHolder holder) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
@@ -92,12 +94,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     if ((chat.getSender().equals(firebaseUser.getUid()) && chat.getReceiver().equals(id)) ||
                             (chat.getSender().equals(id) && chat.getReceiver().equals(firebaseUser.getUid()))) {
                         lastMessage = chat.getMessage();
+                        time = chat.getTime();
                     }
                 }
 
-                txtLastMessage.setText(lastMessage);
+                holder.lastMessage.setText(lastMessage);
+                holder.time.setText(holder.convertTime(time));
 
                 lastMessage = "";
+                time = "";
             }
 
             @Override
@@ -125,6 +130,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             time = itemView.findViewById(R.id.time);
+        }
+
+        public String convertTime(String time){
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy h:mm a");
+            String dateString = formatter.format(new Date(Long.parseLong(time)));
+
+            // Nếu ngày hiện tại -> h:mm a
+            // Nếu khác ngày hiện tại nhưng là ngày trong tuần thì hiện thứ mấy trong tuần
+            // Nếu khác tháng thì hiện thêm tháng
+            // Nếu khác năm thì hiện Ngày/Tháng/Năm
+
+            return dateString;
         }
     }
 }
