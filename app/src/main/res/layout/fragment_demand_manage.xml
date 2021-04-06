@@ -12,18 +12,6 @@
         android:layout_height="40dp"
         android:gravity="right">
 
-        <ImageButton
-
-            android:id="@+id/imageButtonNotSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:backgroundTint="@color/lighterBlack"
-            android:padding="10dp"
-            android:src="@drawable/ic_baseline_remove_circle"
-            android:visibility="invisible" />
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,26 +68,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/imageButtonAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:backgroundTint="@color/purple_500"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_baseline_add_circle" />
+                </RelativeLayout>
             </FrameLayout>
         </RelativeLayout>
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageButton
-            android:id="@+id/imageButtonAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:backgroundTint="@color/purple_500"
-            android:padding="10dp"
-            android:src="@drawable/ic_baseline_add_circle" />
-    </RelativeLayout>
 
 </LinearLayout>

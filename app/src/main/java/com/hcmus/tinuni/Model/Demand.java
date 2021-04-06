@@ -1,9 +1,12 @@
 package com.hcmus.tinuni.Model;
 
 public class Demand {
+
+
     private String subject;
     private String major;
     private String school;
+    private String id;
 
     public Demand() {
 
@@ -13,6 +16,13 @@ public class Demand {
         this.subject = subject;
         this.major = major;
         this.school = school;
+    }
+
+    public Demand(Demand demand, String id) {
+        this.subject = demand.subject;
+        this.major = demand.major;
+        this.school = demand.school;
+        this.id = id;
     }
 
     public boolean isEqual(Demand demand) {
@@ -44,6 +54,14 @@ public class Demand {
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

@@ -42,6 +42,8 @@ public class AddDemandActivity extends Activity {
 
     private DatabaseReference databaseReference;
 
+    ValueEventListener valueEventListener;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +66,6 @@ public class AddDemandActivity extends Activity {
             public void onClick(View view) {
                 alertDialog.show();
 
-                textViewDuplicateDemandWarning.setVisibility(View.INVISIBLE);
-
                 initIdUser();
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
@@ -73,32 +73,22 @@ public class AddDemandActivity extends Activity {
                 if (isValidForm()) {
                     Demand demand = new Demand(strEditTextSubject, strEditTextMajor, strEditTextSchool);
 
-                    databaseReference.addValueEventListener(new ValueEventListener() {
+
+                     valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Demand demandTemp = dataSnapshot.getValue(Demand.class);
                                 if (demandTemp != null && demand.isEqual(demandTemp)) {
-                                    //                                    progressBar.setVisibility(View.INVISIBLE);
+                                    alertDialog.dismiss();
                                     textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
                                     return;
                                 }
                             }
 
-                            databaseReference.push().setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (!task.isSuccessful()) {
-                                        Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
-                                        alertDialog.dismiss();
-                                    } else {
-                                        alertDialog.dismiss();
-                                        AddDemandActivity.super.onBackPressed();
-                                    }
-                                }
-                            });
+                            pushData(demand);
                         }
-
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
@@ -117,6 +107,23 @@ public class AddDemandActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (!alertDialog.isShowing()) {
+                    AddDemandActivity.super.onBackPressed();
+                }
+            }
+        });
+    }
+
+    private void pushData(Demand demand) {
+        databaseReference.removeEventListener(valueEventListener);
+
+        databaseReference.push().setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
+                } else {
+                    alertDialog.dismiss();
                     AddDemandActivity.super.onBackPressed();
                 }
             }

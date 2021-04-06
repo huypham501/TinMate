@@ -37,7 +37,7 @@ public class DemandManageFragment extends Fragment {
     private DemandAdapter demandAdapter;
     private ArrayList<Demand> demandArrayList;
 
-    private ImageButton imageButtonAdd, imageButtonUpdate, imageButtonNotSave, imageButtonEdit, imageButtonSave;
+    private ImageButton imageButtonAdd, imageButtonEdit, imageButtonSave;
     private TextView textViewContentDemandManage;
 
     public DemandManageFragment() {
@@ -67,19 +67,6 @@ public class DemandManageFragment extends Fragment {
             }
         });
 
-        imageButtonNotSave = view.findViewById(R.id.imageButtonNotSave);
-        imageButtonNotSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setVisibleAllButton(true);
-
-                imageButtonNotSave.setVisibility(View.INVISIBLE);
-                imageButtonSave.setVisibility(View.INVISIBLE);
-
-                setVisibleAdapterItem(false);
-            }
-        });
-
         imageButtonEdit = view.findViewById(R.id.imageButtonEdit);
         imageButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +74,6 @@ public class DemandManageFragment extends Fragment {
 
                 setVisibleAllButton(false);
 
-                imageButtonNotSave.setVisibility(View.VISIBLE);
                 imageButtonSave.setVisibility(View.VISIBLE);
 
                 setVisibleAdapterItem(true);
@@ -101,7 +87,6 @@ public class DemandManageFragment extends Fragment {
 
                 setVisibleAllButton(true);
 
-                imageButtonNotSave.setVisibility(View.INVISIBLE);
                 imageButtonSave.setVisibility(View.INVISIBLE);
 
                 setVisibleAdapterItem(false);
@@ -124,7 +109,6 @@ public class DemandManageFragment extends Fragment {
             value_int = 4; // INVISIBLE
         }
         imageButtonAdd.setVisibility(value_int);
-        imageButtonUpdate.setVisibility(value_int);
         imageButtonEdit.setVisibility(value_int);
     }
 
@@ -138,7 +122,7 @@ public class DemandManageFragment extends Fragment {
                 demandArrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Demand demand = dataSnapshot.getValue(Demand.class);
-                    demandArrayList.add(demand);
+                    demandArrayList.add(new Demand(demand, dataSnapshot.getKey()));
                 }
                 demandAdapter = new DemandAdapter(getContext(), demandArrayList);
                 recyclerView.setAdapter(demandAdapter);
