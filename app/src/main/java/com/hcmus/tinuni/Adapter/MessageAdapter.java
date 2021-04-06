@@ -1,12 +1,12 @@
 package com.hcmus.tinuni.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,25 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hcmus.tinuni.Activity.MessageActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hcmus.tinuni.Model.Chat;
+import com.hcmus.tinuni.Model.ChatGroup;
+import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private Context context;
-    private List<Chat> mChats;
-    private String imgURL;
+    private List<Object> mItems;
+    private List<String> imgURLs;
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
 
-    public MessageAdapter(Context context, List<Chat> mChats, String imgURL) {
+    public MessageAdapter(Context context, List<Object> mItems, List<String> imgURLs) {
         this.context = context;
-        this.mChats = mChats;
-        this.imgURL = imgURL;
+        this.mItems = mItems;
+        this.imgURLs = imgURLs;
     }
 
     @NonNull
@@ -54,32 +56,58 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
-        Chat chat = mChats.get(position);
+        Object item = mItems.get(position);
+        if(item instanceof Chat) {
+            Chat chat = (Chat) item;
 
-        holder.showMessage.setText(chat.getMessage());
+            holder.showMessage.setText(chat.getMessage());
 
-        if(imgURL.equals("default")) {
-            holder.profile_image.setImageResource(R.drawable.profile_image);
+            if (imgURLs.get(0).equals("default")) {
+                holder.profile_image.setImageResource(R.drawable.profile_image);
+            } else {
+                Glide.with(context)
+                        .load(imgURLs.get(0))
+                        .into(holder.profile_image);
+            }
         } else {
-            Glide.with(context)
-                    .load(imgURL)
-                    .into(holder.profile_image);
+            ChatGroup groupChat = (ChatGroup) item;
+
+            holder.showMessage.setText(groupChat.getMessage());
+
+            if (imgURLs.get(position).equals("default")) {
+                holder.profile_image.setImageResource(R.drawable.profile_image);
+            } else {
+                Glide.with(context)
+                        .load(imgURLs.get(position))
+                        .into(holder.profile_image);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return mChats.size();
+        return mItems.size();
     }
 
 
     @Override
     public int getItemViewType(int position) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(mChats.get(position).getSender().equals(firebaseUser.getUid())) {
-            return MSG_TYPE_RIGHT;
+
+        if(mItems.get(position) instanceof Chat) {
+            Chat chat = (Chat) mItems.get(position);
+            if (chat.getSender().equals(firebaseUser.getUid())) {
+                return MSG_TYPE_RIGHT;
+            } else {
+                return MSG_TYPE_LEFT;
+            }
         } else {
-            return MSG_TYPE_LEFT;
+            ChatGroup chatGroup = (ChatGroup) mItems.get(position);
+            if(chatGroup.getSender().equals(firebaseUser.getUid())) {
+                return MSG_TYPE_RIGHT;
+            } else {
+                return MSG_TYPE_LEFT;
+            }
         }
     }
 
