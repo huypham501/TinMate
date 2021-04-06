@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.MainActivity;
+import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -42,6 +44,7 @@ public class SignInActivity extends Activity {
     private Button mBtnSignIn, mBtnSignUp, mBtnForgot, mBtnSignInGoogle;
     private FirebaseAuth mAuth;
     private ProgressBar mProgressBar;
+    private AlertDialog alertDialog;
 
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
@@ -59,11 +62,16 @@ public class SignInActivity extends Activity {
         initializeID();
 //
 
-
         // Initialize Firebase Authentication
         initializeFireBaseAuth();
 
 //        moveActivityDependOnLackingDataAccount();
+
+        //Init Alert Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.layout_loading_dialog);
+        alertDialog = builder.create();
 
         // [START config_signin]
         initializeFireBaseGoogleAuth();
@@ -141,7 +149,8 @@ public class SignInActivity extends Activity {
                     Toast.makeText(SignInActivity.this, "Please fill in password!", Toast.LENGTH_SHORT).show();
                     //mEdtPassword.setError("Please fill in password!");
                 } else {
-                    mProgressBar.setVisibility(View.VISIBLE);
+//                    mProgressBar.setVisibility(View.VISIBLE);
+                    alertDialog.show();
                     signInWithEmailAndPassword(email, password);
                 }
             }
@@ -151,8 +160,8 @@ public class SignInActivity extends Activity {
         mBtnSignInGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressBar.setVisibility(View.VISIBLE);
-                
+//                mProgressBar.setVisibility(View.VISIBLE);
+                alertDialog.show();
                 signInWithGoogle();
             }
         });
@@ -190,7 +199,8 @@ public class SignInActivity extends Activity {
 
                     Toast.makeText(SignInActivity.this, task.getException().getMessage(),
                             Toast.LENGTH_SHORT).show();
-                    mProgressBar.setVisibility(View.INVISIBLE);
+//                    mProgressBar.setVisibility(View.INVISIBLE);
+                    alertDialog.dismiss();
                 }
             }
         });
@@ -218,7 +228,8 @@ public class SignInActivity extends Activity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
-                mProgressBar.setVisibility(View.INVISIBLE);
+//                mProgressBar.setVisibility(View.INVISIBLE);
+                alertDialog.dismiss();
             }
         }
     }
@@ -257,7 +268,8 @@ public class SignInActivity extends Activity {
                                                             // If sign in fails, display a message to the user.
                                                             Toast.makeText(SignInActivity.this, "Sign in failed.",
                                                                     Toast.LENGTH_SHORT).show();
-                                                            mProgressBar.setVisibility(View.INVISIBLE);
+//                                                            mProgressBar.setVisibility(View.INVISIBLE);
+                                                            alertDialog.dismiss();
                                                         }
                                                     }
                                                 });
@@ -274,7 +286,8 @@ public class SignInActivity extends Activity {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignInActivity.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.INVISIBLE);
+//                            mProgressBar.setVisibility(View.INVISIBLE);
+                            alertDialog.show();
                         }
                     }
                 });
