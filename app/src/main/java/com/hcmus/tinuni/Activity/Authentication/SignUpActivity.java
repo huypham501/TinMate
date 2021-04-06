@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -45,6 +47,7 @@ public class SignUpActivity extends Activity {
     private DatabaseReference mRef;
 
     private ProgressBar mProgressBar;
+    private AlertDialog alertDialog;
 
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
@@ -67,6 +70,12 @@ public class SignUpActivity extends Activity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
+        //Init Alert Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.layout_loading_dialog);
+        alertDialog = builder.create();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END config_signin]
@@ -136,7 +145,8 @@ public class SignUpActivity extends Activity {
         mBtnSignupGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressBar.setVisibility(View.VISIBLE);
+//                mProgressBar.setVisibility(View.VISIBLE);
+                alertDialog.show();
                 signInWithGoogle();
             }
         });
@@ -174,7 +184,8 @@ public class SignUpActivity extends Activity {
                             // If sign up fails, display a message to the user.
 //                            Toast.makeText(SignUpActivity.this, "Sign up failed.",
 //                                    Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.INVISIBLE);
+//                            mProgressBar.setVisibility(View.INVISIBLE);
+                            alertDialog.dismiss();
                             Toast.makeText(SignUpActivity.this, onCompleteTaskAuth.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
 //                            if (onCompleteTaskAuth.getException() instanceof FirebaseAuthWeakPasswordException)
@@ -210,7 +221,8 @@ public class SignUpActivity extends Activity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, "Google sign up failed", Toast.LENGTH_SHORT).show();
-                mProgressBar.setVisibility(View.INVISIBLE);
+//              mProgressBar.setVisibility(View.INVISIBLE);
+                alertDialog.dismiss();
             }
         }
     }
@@ -248,7 +260,8 @@ public class SignUpActivity extends Activity {
                                                             // If sign up fails, display a message to the user.
                                                             Toast.makeText(SignUpActivity.this, "Sign up failed.",
                                                                     Toast.LENGTH_SHORT).show();
-                                                            mProgressBar.setVisibility(View.INVISIBLE);
+//                                                           mProgressBar.setVisibility(View.INVISIBLE);
+                                                            alertDialog.dismiss();
                                                         }
                                                     }
                                                 });
@@ -269,7 +282,8 @@ public class SignUpActivity extends Activity {
                             // If sign up fails, display a message to the user.
                             Toast.makeText(SignUpActivity.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.INVISIBLE);
+//                            mProgressBar.setVisibility(View.INVISIBLE);
+                            alertDialog.dismiss();
                         }
                     }
                 });

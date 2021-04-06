@@ -43,11 +43,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private RadioGroup rgGender;
     private RadioButton rbMale, rbFemale;
     private Button btnEdit;
-    String id, img;
+    String id, img_link;
     private DatabaseReference mRef;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private AlertDialog alertDialog ;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             .load(user.getImageURL())
                             .into(ivAvatar);
                 }
-                img = user.getImageURL();
+                img_link = user.getImageURL();
 
                 if (user.getPhone() == null) {
                     edtPhone.setText("");
@@ -153,26 +153,39 @@ public class EditProfileActivity extends AppCompatActivity {
                 String school = edtSchool.getText().toString();
                 String major = edtMajor.getText().toString();
                 String beginYear = edtBeginYear.getText().toString();
+                String gender;
 
                 int gender_index = rgGender.getCheckedRadioButtonId();
                 RadioButton rd_gender = findViewById(gender_index);
 
                 if (TextUtils.isEmpty(username)) {
                     edtFullname.setError("Username can't be empty");
-                } else if (TextUtils.isEmpty(phone)) {
-                    edtPhone.setError("Phone can't be empty");
-                } else if (TextUtils.isEmpty(school)) {
-                    edtSchool.setError("School can't be empty");
-                } else if (TextUtils.isEmpty(major)) {
-                    edtMajor.setError("Major can't be empty");
-                } else if (TextUtils.isEmpty(beginYear)) {
-                    edtBeginYear.setError("Begin Year can't be empty");
-                } else if (rgGender.getCheckedRadioButtonId() == -1) {
-                    Toast.makeText(EditProfileActivity.this, "Gender can't be empty", Toast.LENGTH_SHORT).show();
                 } else {
-                    String gender = rd_gender.getText().toString();
-                    System.out.println("-----------IMG--------- " + img);
-                    User new_user = new User(id, username, email, img, phone, gender, school, major, beginYear);
+                    if (TextUtils.isEmpty(phone)) {
+//                    edtPhone.setError("Phone can't be empty");
+                        phone = "";
+                    }
+                    if (TextUtils.isEmpty(school)) {
+//                    edtSchool.setError("School can't be empty");
+                        school = "";
+                    }
+                    if (TextUtils.isEmpty(major)) {
+//                    edtMajor.setError("Major can't be empty");
+                        major = "";
+                    }
+                    if (TextUtils.isEmpty(beginYear)) {
+//                    edtBeginYear.setError("Begin Year can't be empty");
+                        beginYear = "";
+                    }
+                    if (rgGender.getCheckedRadioButtonId() == -1) {
+//                    Toast.makeText(EditProfileActivity.this, "Gender can't be empty", Toast.LENGTH_SHORT).show();
+                        gender = "";
+                    } else {
+                        gender = rd_gender.getText().toString();
+                    }
+
+                    System.out.println("-----------IMG link----------- " + img_link);
+                    User new_user = new User(id, username, email, img_link, phone, gender, school, major, beginYear);
                     mRef.setValue(new_user);
                     Toast.makeText(EditProfileActivity.this, "Save successfully !", Toast.LENGTH_SHORT).show();
                     Intent go_back = new Intent(EditProfileActivity.this, UserProfileActitivy.class);
@@ -216,12 +229,12 @@ public class EditProfileActivity extends AppCompatActivity {
         storageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String old_img = img;
+                String old_img = img_link;
                 //add new image
                 storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        img = uri.toString();
+                        img_link = uri.toString();
                         //delete old image
                         if (!old_img.matches("default") && old_img.contains("firebasestorage")) {
                             StorageReference deleteRef = storage.getReferenceFromUrl(old_img);
@@ -252,6 +265,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                alertDialog.dismiss();
                 Toast.makeText(EditProfileActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
             }
         });
