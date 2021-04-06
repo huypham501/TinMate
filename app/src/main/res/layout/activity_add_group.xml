@@ -73,13 +73,13 @@
                     android:textSize="18dp" />
 
                 <EditText
-                    android:id="@+id/editTextSubject"
+                    android:id="@+id/edtGroupName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:background="@drawable/rounded_edittext"
                     android:padding="10dp"
-                    android:text="Statistic" />
+                    android:text="" />
             </LinearLayout>
 
 

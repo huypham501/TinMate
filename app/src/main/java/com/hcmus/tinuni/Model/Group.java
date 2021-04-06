@@ -1,7 +1,7 @@
 package com.hcmus.tinuni.Model;
 
 public class Group {
-    String title;
+    String name;
     String imageURL;
 
     // Participants
@@ -11,17 +11,17 @@ public class Group {
 
     }
 
-    public Group(String title, String imageURL) {
-        this.title = title;
+    public Group(String name, String imageURL) {
+        this.name = name;
         this.imageURL = imageURL;
     }
 
     public String getTitle() {
-        return title;
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String name) {
+        this.name = name;
     }
 
     public String getImageURL() {
