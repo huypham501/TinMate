@@ -1,5 +1,6 @@
 package com.hcmus.tinuni.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -84,12 +85,17 @@ public class DemandManageFragment extends Fragment {
         imageButtonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setCancelable(false).setView(R.layout.layout_loading_dialog).create();
+
+                demandAdapter.deleteCommit();
 
                 setVisibleAllButton(true);
 
                 imageButtonSave.setVisibility(View.INVISIBLE);
 
                 setVisibleAdapterItem(false);
+
+                alertDialog.dismiss();
             }
         });
 

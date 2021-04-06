@@ -73,7 +73,6 @@ public class AddDemandActivity extends Activity {
                 if (isValidForm()) {
                     Demand demand = new Demand(strEditTextSubject, strEditTextMajor, strEditTextSchool);
 
-
                      valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

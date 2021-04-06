@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +28,8 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
     private Context context;
     private ArrayList<Demand> demands;
     private boolean isEditorVisible;
+    private ArrayList<String> arrayListDemandId = new ArrayList<>();
+
 
     public DemandAdapter(Context context, ArrayList<Demand> demands) {
         this.context = context;
@@ -48,26 +51,55 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
         holder.textViewMajor.setText(demand.getMajor());
 
         if (isEditorVisible) {
+            holder.buttonDelete.setVisibility(View.VISIBLE);
+
             holder.buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new AlertDialog.Builder(context).setTitle("Delete demand").setMessage("Are you sure").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    new AlertDialog.Builder(context)
+                            .setTitle("Delete demand")
+                            .setMessage("Are you sure")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String demandId = demand.getId();
+                                    arrayListDemandId.add(demandId);
 
-                            String demandId = demand.getId();
-
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
-                            databaseReference.child(userId).child(demandId).removeValue();
-                        }
-                    }).setNegativeButton("No", null).show();
+                                    demands.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("No", null).show();
                 }
             });
         } else {
             holder.buttonDelete.setVisibility(View.INVISIBLE);
         }
 
+    }
+
+    private boolean check = false;
+
+    public void deleteCommit() {
+        if (arrayListDemandId.isEmpty()) {
+            return;
+        }
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
+
+        for (String demandId : arrayListDemandId) {
+            databaseReference.child(demandId).removeValue().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    new AlertDialog.Builder(context).setTitle("Error").setMessage("Something went wrong...\nAction has been broken").setNegativeButton("Ok", null);
+                    check = true;
+                }
+            });
+
+            if (check) {
+                return;
+            }
+        }
     }
 
     public void updateVisibility(boolean value) {
@@ -92,6 +124,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
             buttonDelete.setVisibility(View.INVISIBLE);
         }
+
     }
 }
 
