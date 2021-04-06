@@ -76,8 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:background="@drawable/rounded_edittext"
-                    android:padding="10dp"
-                    android:text="Statistic" />
+                    android:padding="10dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -100,8 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:background="@drawable/rounded_edittext"
-                    android:padding="10dp"
-                    android:text="IT" />
+                    android:padding="10dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -124,20 +122,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:background="@drawable/rounded_edittext"
-                    android:padding="10dp"
-                    android:text="HCMUS-VNU" />
+                    android:padding="10dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textViewDuplicateDemandWarning"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="This demand is already exist!"
-                android:textColor="@color/red"
-                android:textSize="18dp"
-                android:visibility="invisible" />
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/textViewDuplicateDemandWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="This demand is already exist!"
+                    android:textColor="@color/red"
+                    android:textSize="18dp"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+
         </LinearLayout>
 
 
@@ -157,8 +162,8 @@
                 android:paddingLeft="140dp"
                 android:paddingRight="155dp"
                 android:text="Find"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
         </LinearLayout>
     </LinearLayout>

@@ -67,14 +67,6 @@ public class DemandManageFragment extends Fragment {
             }
         });
 
-        imageButtonUpdate = view.findViewById(R.id.imageButtonUpdate);
-        imageButtonUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         imageButtonNotSave = view.findViewById(R.id.imageButtonNotSave);
         imageButtonNotSave.setOnClickListener(new View.OnClickListener() {
             @Override

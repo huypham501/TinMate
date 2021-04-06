@@ -1,6 +1,7 @@
 package com.hcmus.tinuni.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
@@ -30,6 +32,7 @@ public class AddDemandActivity extends Activity {
     private Button buttonSave;
     private TextView textViewDuplicateDemandWarning;
     private ImageView btnGoBack;
+    private AlertDialog alertDialog;
 
     private String strEditTextSubject;
     private String strEditTextMajor;
@@ -38,7 +41,6 @@ public class AddDemandActivity extends Activity {
     private String userId;
 
     private DatabaseReference databaseReference;
-    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,15 +53,22 @@ public class AddDemandActivity extends Activity {
 
         textViewDuplicateDemandWarning = findViewById(R.id.textViewDuplicateDemandWarning);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddDemandActivity.this);
+        builder.setCancelable(false);
+        builder.setView(R.layout.layout_loading_dialog);
+        alertDialog = builder.create();
 
         buttonSave = findViewById(R.id.btnSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                progressBar.setVisibility(View.VISIBLE);
+                alertDialog.show();
+
                 textViewDuplicateDemandWarning.setVisibility(View.INVISIBLE);
 
                 initIdUser();
+
+                databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
 
                 if (isValidForm()) {
                     Demand demand = new Demand(strEditTextSubject, strEditTextMajor, strEditTextSchool);
@@ -69,8 +78,8 @@ public class AddDemandActivity extends Activity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Demand demandTemp = dataSnapshot.getValue(Demand.class);
-                                if (demand.isEqual(demandTemp)) {
-//                                    progressBar.setVisibility(View.INVISIBLE);
+                                if (demandTemp != null && demand.isEqual(demandTemp)) {
+                                    //                                    progressBar.setVisibility(View.INVISIBLE);
                                     textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
                                     return;
                                 }
@@ -81,9 +90,9 @@ public class AddDemandActivity extends Activity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
-//                                        progressBar.setVisibility(View.INVISIBLE);
+                                        alertDialog.dismiss();
                                     } else {
-//                                        progressBar.setVisibility(View.INVISIBLE);
+                                        alertDialog.dismiss();
                                         AddDemandActivity.super.onBackPressed();
                                     }
                                 }
@@ -98,7 +107,7 @@ public class AddDemandActivity extends Activity {
                     });
 
                 } else {
-//                    progressBar.setVisibility(View.INVISIBLE);
+                    alertDialog.dismiss();
                 }
             }
         });
@@ -107,37 +116,33 @@ public class AddDemandActivity extends Activity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (!progressBar.isAnimating()) {
-//                    AddDemandActivity.super.onBackPressed();
-//                }
-                AddDemandActivity.super.onBackPressed();
-
+                if (!alertDialog.isShowing()) {
+                    AddDemandActivity.super.onBackPressed();
+                }
             }
         });
     }
 
     private void initIdUser() {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = firebaseUser.getUid();
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
     }
 
     private boolean isValidForm() {
-        strEditTextSubject = editTextSubject.getText().toString().toLowerCase();
+        strEditTextSubject = editTextSubject.getText().toString();
         if (strEditTextSubject.isEmpty()) {
             editTextSubject.setError("Please fill in subject");
             return false;
         }
 
-        strEditTextMajor = editTextMajor.getText().toString().toLowerCase();
+        strEditTextMajor = editTextMajor.getText().toString();
         System.out.println(strEditTextMajor);
         if (strEditTextMajor.isEmpty()) {
             editTextMajor.setError("Please fill in major");
             return false;
         }
 
-        strEditTextSchool = editTextSchool.getText().toString().toLowerCase();
+        strEditTextSchool = editTextSchool.getText().toString();
         if (strEditTextSchool.isEmpty()) {
             editTextSchool.setError("Please fill in school");
             return false;

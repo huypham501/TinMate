@@ -13,36 +13,16 @@
         android:gravity="right">
 
         <ImageButton
-            android:id="@+id/imageButtonAdd"
+
+            android:id="@+id/imageButtonNotSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:backgroundTint="@color/purple_500"
-            android:src="@drawable/ic_baseline_add_circle" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <ImageButton
-                android:id="@+id/imageButtonUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/purple_500"
-                android:src="@drawable/ic_baseline_update" />
-
-            <ImageButton
-                android:id="@+id/imageButtonNotSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/lighterBlack"
-                android:src="@drawable/ic_baseline_remove_circle"
-                android:visibility="invisible" />
-
-        </RelativeLayout>
+            android:backgroundTint="@color/lighterBlack"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_remove_circle"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -55,6 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/purple_500"
+                android:padding="10dp"
                 android:src="@drawable/ic_edit" />
 
             <ImageButton
@@ -62,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/dark_green"
+                android:padding="10dp"
                 android:src="@drawable/ic_check_circle"
                 android:visibility="invisible" />
 
@@ -77,19 +59,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/textViewContentDemandManage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You do not have any demands yet ? Let's create it"
                 android:fontFamily="@font/montserrat_black"
                 android:gravity="center"
+                android:text="You do not have any demands yet ? Let's create it"
                 android:textSize="18dp"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:context=".Fragment.DemandManageFragment">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -101,4 +84,22 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/imageButtonAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="@color/purple_500"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_add_circle" />
+    </RelativeLayout>
+
 </LinearLayout>
