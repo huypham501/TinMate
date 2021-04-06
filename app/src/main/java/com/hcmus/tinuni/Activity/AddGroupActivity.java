@@ -1,5 +1,6 @@
 package com.hcmus.tinuni.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -12,8 +13,12 @@ import android.widget.ImageView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
 
@@ -53,12 +58,13 @@ public class AddGroupActivity extends Activity {
             public void onClick(View v) {
                 String groupName = edtGroupName.getText().toString();
                 if(!groupName.equals("")) {
-                    Group group = new Group(groupName, "default");
-
                     String groupId = String.valueOf(System.currentTimeMillis());
+                    Group group = new Group(groupId, groupName, "default");
+
                     mRef.child(groupId).setValue(group).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            // Create Participants
                             Map<String, String> map = new HashMap<>();
                             map.put("id", mUser.getUid());
                             map.put("role", "owner");
@@ -69,8 +75,30 @@ public class AddGroupActivity extends Activity {
                                     .child("Participants")
                                     .child(mUser.getUid()).setValue(map);
 
+
+                            // Create ChatList
+                            final DatabaseReference chatListRef = FirebaseDatabase.getInstance()
+                                    .getReference("ChatList")
+                                    .child(mUser.getUid())
+                                    .child(groupId);
+
+                            chatListRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(!snapshot.exists()){
+                                        chatListRef.child("id").setValue(groupId);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
                         }
                     });
+                    edtGroupName.setText("");
                 }
             }
         });

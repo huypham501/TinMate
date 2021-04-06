@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Adapter.UserAdapter;
 import com.hcmus.tinuni.Model.ChatList;
+import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -95,6 +96,7 @@ public class ChatFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers.clear();
 
+                // Get Users
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
 
@@ -104,6 +106,29 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 }
+
+                // Get Groups
+                DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("Groups");
+                groupRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                        for(DataSnapshot dataSnapshot: snapshot2.getChildren()) {
+                            Group group = dataSnapshot.getValue(Group.class);
+
+                            for(ChatList chatList : mChatLists) {
+                                if(group.getId().equals(chatList.getId())) {
+                                    User user = new User(group.getName(), group.getImageURL());
+                                    mUsers.add(user);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
                 userAdapter = new UserAdapter(getContext(), mUsers, true);
                 recyclerView.setAdapter(userAdapter);

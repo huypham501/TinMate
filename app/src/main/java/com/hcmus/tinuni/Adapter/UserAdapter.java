@@ -99,7 +99,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
 
                 holder.lastMessage.setText(lastMessage);
-                holder.time.setText(holder.convertTime(time));
+                if(!time.isEmpty())
+                    holder.time.setText(holder.convertTime(time));
 
                 lastMessage = "";
                 time = "";

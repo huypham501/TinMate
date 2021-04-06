@@ -37,6 +37,11 @@ public class User {
         this.imageURL = imageURL;
     }
 
+    public User(String userName, String imageURL) {
+        this.userName = userName;
+        this.imageURL = imageURL;
+    }
+
     public User(String id, String userName, String email, String imageURL, String phone, String gender, String schoolName, String major, String beginYear) {
         this.id = id;
         this.userName = userName;
