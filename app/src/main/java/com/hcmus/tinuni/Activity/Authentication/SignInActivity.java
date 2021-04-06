@@ -63,7 +63,7 @@ public class SignInActivity extends Activity {
         // Initialize Firebase Authentication
         initializeFireBaseAuth();
 
-        moveActivityDependOnLackingDataAccount();
+//        moveActivityDependOnLackingDataAccount();
 
         // [START config_signin]
         initializeFireBaseGoogleAuth();
@@ -85,6 +85,11 @@ public class SignInActivity extends Activity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            moveActivity(SignInActivity.this, MainActivity.class);
+            return;
+        }
     }
 
     private void moveActivityDependOnLackingDataAccount() {
@@ -112,36 +117,6 @@ public class SignInActivity extends Activity {
             });
         }
     }
-
-//    private void moveActivityDependOnLackingDataAccount() {
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            String userId = currentUser.getUid();
-//
-//            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-//            databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                    if (!task.isSuccessful()) {
-//                        Toast.makeText(SignInActivity.this, "Error get data user", Toast.LENGTH_SHORT).show();
-//                        System.out.println(task.getException());
-//                    } else {
-//                        if (task.getResult().getValue() == null) {
-//                            // Do nothing keep in sign in activity
-//                        } else if (task.getResult().child("userName") == null) {
-//                            moveActivity(SignInActivity.this, SignUpProcessPersonalActivity.class);
-//                        } else if (task.getResult().child("level") == null) {
-//                            moveActivity(SignInActivity.this, SignUpProcessLevelActivity.class);
-//                        } else if (!task.getResult().child("level").getChildren().toString().equals("Other")) {
-//                            moveActivity(SignInActivity.this, SignUpProcessEducationActivity.class);
-//                        } else {
-//                            moveActivity(SignInActivity.this, MainActivity.class);
-//                        }
-//                    }
-//                }
-//            });
-//        }
-//    }
 
     private void initializeFireBaseAuth() {
         mAuth = FirebaseAuth.getInstance();
@@ -177,6 +152,7 @@ public class SignInActivity extends Activity {
             @Override
             public void onClick(View v) {
                 mProgressBar.setVisibility(View.VISIBLE);
+                
                 signInWithGoogle();
             }
         });
@@ -224,7 +200,7 @@ public class SignInActivity extends Activity {
     private void signInWithGoogle() {
         mGoogleSignInClient.signOut();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_SIGN_IN); // ?????????????
     }
     // [END signin]
 
@@ -232,7 +208,6 @@ public class SignInActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -294,7 +269,7 @@ public class SignInActivity extends Activity {
                                 }
                             });
 
-                            moveActivityDependOnLackingDataAccount();
+                            moveActivity(SignInActivity.this, MainActivity.class);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignInActivity.this, task.getException().toString(),
@@ -311,5 +286,7 @@ public class SignInActivity extends Activity {
         startActivity(intent);
         finish();
     }
+
+
 
 }

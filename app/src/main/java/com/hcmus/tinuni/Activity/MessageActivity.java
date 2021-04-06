@@ -123,10 +123,11 @@ public class MessageActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                finish();
+                MessageActivity.super.onBackPressed();
             }
         });
 

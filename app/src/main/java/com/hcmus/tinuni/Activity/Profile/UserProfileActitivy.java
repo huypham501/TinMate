@@ -127,9 +127,10 @@ public class UserProfileActitivy extends Activity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_goBack = new Intent(UserProfileActitivy.this, MainActivity.class);
-                intent_goBack.putExtra("id", id);
-                startActivity(intent_goBack);
+//                Intent intent_goBack = new Intent(UserProfileActitivy.this, MainActivity.class);
+//                intent_goBack.putExtra("id", id);
+//                startActivity(intent_goBack);
+                UserProfileActitivy.super.onBackPressed();
             }
         });
 

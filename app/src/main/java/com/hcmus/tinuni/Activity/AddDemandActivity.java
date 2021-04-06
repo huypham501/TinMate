@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,9 +27,9 @@ import com.hcmus.tinuni.R;
 
 public class AddDemandActivity extends Activity {
     private EditText editTextSubject, editTextMajor, editTextSchool, editTextLevel;
-    private Button buttonSave, buttonBack;
-    private ProgressBar progressBar;
+    private Button buttonSave;
     private TextView textViewDuplicateDemandWarning;
+    private ImageView btnGoBack;
 
     private String strEditTextSubject;
     private String strEditTextMajor;
@@ -50,13 +51,12 @@ public class AddDemandActivity extends Activity {
 
         textViewDuplicateDemandWarning = findViewById(R.id.textViewDuplicateDemandWarning);
 
-        progressBar = findViewById(R.id.progressBar);
 
-        buttonSave = findViewById(R.id.buttonSave);
+        buttonSave = findViewById(R.id.btnSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 textViewDuplicateDemandWarning.setVisibility(View.INVISIBLE);
 
                 initIdUser();
@@ -70,7 +70,7 @@ public class AddDemandActivity extends Activity {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Demand demandTemp = dataSnapshot.getValue(Demand.class);
                                 if (demand.isEqual(demandTemp)) {
-                                    progressBar.setVisibility(View.INVISIBLE);
+//                                    progressBar.setVisibility(View.INVISIBLE);
                                     textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
                                     return;
                                 }
@@ -81,9 +81,9 @@ public class AddDemandActivity extends Activity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
-                                        progressBar.setVisibility(View.INVISIBLE);
+//                                        progressBar.setVisibility(View.INVISIBLE);
                                     } else {
-                                        progressBar.setVisibility(View.INVISIBLE);
+//                                        progressBar.setVisibility(View.INVISIBLE);
                                         AddDemandActivity.super.onBackPressed();
                                     }
                                 }
@@ -98,18 +98,20 @@ public class AddDemandActivity extends Activity {
                     });
 
                 } else {
-                    progressBar.setVisibility(View.INVISIBLE);
+//                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        buttonBack = findViewById(R.id.buttonBack);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        btnGoBack = findViewById(R.id.btnGoBack);
+        btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!progressBar.isAnimating()) {
-                    AddDemandActivity.super.onBackPressed();
-                }
+//                if (!progressBar.isAnimating()) {
+//                    AddDemandActivity.super.onBackPressed();
+//                }
+                AddDemandActivity.super.onBackPressed();
+
             }
         });
     }

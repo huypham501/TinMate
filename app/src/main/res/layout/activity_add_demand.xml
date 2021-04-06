@@ -1,164 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentChat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2D9CDB"
     android:orientation="vertical"
-    tools:context=".Activity.AddDemandActivity">
+    tools:context=".Fragment.ChatFragment">
 
-    <TextView
-        android:id="@+id/textViewContentActivity"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:text="@string/new_demand"
-        android:textAlignment="center"
-        android:textColor="@color/purple_500"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/subject"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/editTextSubject"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/major"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/editTextMajor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/school"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/editTextSchool"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:background="@drawable/rounded_edittext"
-                android:padding="5dp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewDuplicateDemandWarning"
+        <ImageView
+            android:id="@+id/btnGoBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:text="This demand is already exist!"
-            android:textColor="@color/red"
-            android:textSize="18dp"
-            android:visibility="invisible" />
-    </LinearLayout>
+            android:src="@drawable/ic_back" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
+        <TextView
+            android:id="@+id/logoName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/montserrat_black"
+            android:text="Add Demand"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@drawable/rect"
+        android:orientation="vertical"
+        tools:context=".Activity.AddDemandActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/background_find_demand" />
+
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/buttonBack"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Subject"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editTextSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:padding="10dp"
+                    android:text="Statistic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Major"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editTextMajor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:padding="10dp"
+                    android:text="IT" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="School"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/editTextSchool"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:padding="10dp"
+                    android:text="HCMUS-VNU" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewDuplicateDemandWarning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button"
-                android:drawableStart="@drawable/ic_arrow_back"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/back"
-                android:textColor="@color/white" />
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="This demand is already exist!"
+                android:textColor="@color/red"
+                android:textSize="18dp"
+                android:visibility="invisible" />
         </LinearLayout>
+
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="vertical">
 
             <Button
-                android:id="@+id/buttonSave"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button"
-                android:drawableStart="@drawable/ic_check_circle"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/save"
-                android:textColor="@color/white" />
+                android:background="@drawable/button_sign_in"
+                android:drawableLeft="@drawable/ic_check_circle"
+                android:fontFamily="@font/montserrat_black"
+                android:paddingLeft="140dp"
+                android:paddingRight="155dp"
+                android:text="Find"
+                android:textSize="15sp"
+                android:textColor="@color/black" />
+
         </LinearLayout>
-
-
     </LinearLayout>
+
 </LinearLayout>

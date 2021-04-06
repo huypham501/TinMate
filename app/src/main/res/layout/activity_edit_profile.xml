@@ -10,28 +10,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/gradient_profile_down"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@drawable/gradient_profile_down"
         tools:context=".Activity.Profile.EditProfileActivity">
-        <ImageView
-            android:id="@+id/btnGoBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="left"
-            android:src="@drawable/ic_back"/>
-        <TextView
-            android:id="@+id/logoName"
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_black"
-            android:text="Edit Profile"
-            android:textAlignment="center"
-            android:textColor="#A135FF"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/btnGoBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/logoName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:fontFamily="@font/montserrat_black"
+                android:text="Edit Profile"
+                android:textAlignment="center"
+                android:textColor="#A135FF"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -73,16 +83,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Full Name"
                     android:fontFamily="@font/montserrat_black"
+                    android:text="Full Name"
                     android:textColor="#A135FF"
                     android:textSize="18dp" />
+
                 <EditText
                     android:id="@+id/edtFullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_edittext"
                     android:padding="10dp"
                     android:text="On Hao Nguyen" />
             </LinearLayout>
@@ -92,19 +103,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"
                     android:fontFamily="@font/montserrat_black"
+                    android:text="Email"
                     android:textColor="#A135FF"
                     android:textSize="18dp" />
+
                 <EditText
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_edittext"
                     android:editable="false"
                     android:padding="10dp"
                     android:text="ohn@gmail.com" />
@@ -115,20 +128,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Phone"
                     android:fontFamily="@font/montserrat_black"
+                    android:text="Phone"
                     android:textColor="#A135FF"
                     android:textSize="18dp" />
+
                 <EditText
                     android:id="@+id/edtPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
                     android:background="@drawable/rounded_edittext"
                     android:inputType="number"
-                    android:layout_marginTop="3dp"
                     android:padding="10dp"
                     android:text="0903123456" />
             </LinearLayout>
@@ -138,19 +153,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="School"
                     android:fontFamily="@font/montserrat_black"
+                    android:text="School"
                     android:textColor="#A135FF"
                     android:textSize="18dp" />
+
                 <EditText
                     android:id="@+id/edtSchool"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_edittext"
                     android:padding="10dp"
                     android:text="HCMUS" />
             </LinearLayout>
@@ -160,19 +177,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
                     android:text="Major"
                     android:textColor="#A135FF"
-                    android:fontFamily="@font/montserrat_black"
                     android:textSize="18dp" />
+
                 <EditText
                     android:id="@+id/edtMajor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_edittext"
                     android:padding="10dp"
                     android:text="IT Developer" />
             </LinearLayout>
@@ -186,18 +205,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_black"
                     android:text="Begin Year"
                     android:textColor="#A135FF"
-                    android:fontFamily="@font/montserrat_black"
                     android:textSize="18dp" />
 
                 <EditText
                     android:id="@+id/edtBeginYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
                     android:background="@drawable/rounded_edittext"
                     android:inputType="number"
-                    android:layout_marginTop="3dp"
                     android:padding="10dp"
                     android:text="2018" />
             </LinearLayout>
@@ -211,8 +230,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Gender"
                     android:fontFamily="@font/montserrat_black"
+                    android:text="Gender"
                     android:textColor="#A135FF"
                     android:textSize="18dp" />
 
@@ -228,8 +247,8 @@
                         android:id="@+id/rbMale"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:fontFamily="@font/montserrat_black"
+                        android:gravity="center"
                         android:text="Male" />
 
                     <RadioButton
@@ -237,8 +256,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="90dp"
-                        android:gravity="center"
                         android:fontFamily="@font/montserrat_black"
+                        android:gravity="center"
                         android:text="Female" />
                 </RadioGroup>
             </LinearLayout>
@@ -257,8 +276,8 @@
                     android:background="@drawable/button_sign_up"
                     android:drawableLeft="@drawable/ic_check_circle"
                     android:fontFamily="@font/montserrat_black"
-                    android:text="Save"
                     android:paddingRight="50dp"
+                    android:text="Save"
                     android:textColor="#fff" />
 
             </LinearLayout>
