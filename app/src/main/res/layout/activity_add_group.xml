@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2D9CDB"
     android:orientation="vertical"
-    tools:context=".Activity.AddDemandActivity">
+    tools:context=".Activity.AddGroupActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -28,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/montserrat_black"
-            android:text="Add Demand"
+            android:text="Add Group"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="30sp"
@@ -41,11 +42,13 @@
         android:background="@drawable/rect"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:src="@drawable/background_find_demand" />
+            android:src="@drawable/default_group"
+            app:civ_border_color="#2F80ED"
+            app:civ_border_width="5dp" />
 
 
         <LinearLayout
@@ -53,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -66,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_black"
-                    android:text="Subject"
+                    android:text="Group Name"
                     android:textColor="@color/black"
                     android:textSize="18dp" />
 
@@ -80,87 +82,27 @@
                     android:text="Statistic" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="Major"
-                    android:textColor="@color/black"
-                    android:textSize="18dp" />
-
-                <EditText
-                    android:id="@+id/editTextMajor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="10dp"
-                    android:text="IT" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="School"
-                    android:textColor="@color/black"
-                    android:textSize="18dp" />
-
-                <EditText
-                    android:id="@+id/editTextSchool"
+                <Button
+                    android:id="@+id/btnSave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="10dp"
-                    android:text="HCMUS-VNU" />
+                    android:background="@drawable/button_sign_in"
+                    android:drawableLeft="@drawable/ic_check_circle"
+                    android:fontFamily="@font/montserrat_black"
+                    android:paddingLeft="120dp"
+                    android:paddingRight="140dp"
+                    android:text="Save"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textViewDuplicateDemandWarning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="This demand is already exist!"
-                android:textColor="@color/red"
-                android:textSize="18dp"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_sign_in"
-                android:drawableLeft="@drawable/ic_check_circle"
-                android:fontFamily="@font/montserrat_black"
-                android:paddingLeft="140dp"
-                android:paddingRight="155dp"
-                android:text="Find"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
-
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

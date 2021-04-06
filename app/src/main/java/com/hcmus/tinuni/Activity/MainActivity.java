@@ -92,6 +92,15 @@ public class MainActivity extends FragmentActivity {
                     }
                 });
 
+                ImageView btnAddGroup = (ImageView) toolbar.getChildAt(2);
+                btnAddGroup.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
             }
 
             @Override
@@ -123,21 +132,27 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 TextView tabName = (TextView)toolbar.getChildAt(1);
+                ImageView imageView = (ImageView) toolbar.getChildAt(2);
                 switch (tab.getText().toString()) {
                     case "Home":
                         tabName.setText("Home");
+                        imageView.setVisibility(View.GONE);
                         break;
                     case "Dem":
                         tabName.setText("Demand");
+                        imageView.setVisibility(View.GONE);
                         break;
                     case "Match":
                         tabName.setText("Matching");
+                        imageView.setVisibility(View.GONE);
                         break;
                     case "Chat":
                         tabName.setText("Chat");
+                        imageView.setVisibility(View.VISIBLE);
                         break;
                     case "Users":
                         tabName.setText("Users");
+                        imageView.setVisibility(View.VISIBLE);
                         break;
                     default:
                         throw null;
