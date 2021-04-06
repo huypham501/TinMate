@@ -59,7 +59,7 @@ public class AddGroupActivity extends Activity {
                 String groupName = edtGroupName.getText().toString();
                 if(!groupName.equals("")) {
                     String groupId = String.valueOf(System.currentTimeMillis());
-                    Group group = new Group(groupId, groupName, "default");
+                    Group group = new Group(groupId, groupName, "https://firebasestorage.googleapis.com/v0/b/tinuni.appspot.com/o/images%2Favatars%2Fdefault_group.png?alt=media&token=ac09066b-0948-4d70-a73d-ea96e3967470");
 
                     mRef.child(groupId).setValue(group).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
