@@ -30,7 +30,7 @@ import java.util.List;
 public class ChatFragment extends Fragment {
 
     private UserAdapter userAdapter;
-    private List<User> mUsers;
+    private List<Object> mItems;
     private List<ChatList> mChatLists;
 
     private FirebaseUser mUser;
@@ -61,7 +61,7 @@ public class ChatFragment extends Fragment {
                 .getReference("ChatList")
                 .child(mUser.getUid());
 
-        mUsers = new ArrayList<>();
+//        mItems = new ArrayList<>();
         mChatLists = new ArrayList<>();
 
         mRef.addValueEventListener(new ValueEventListener() {
@@ -89,12 +89,12 @@ public class ChatFragment extends Fragment {
 
     private void getChatList() {
         // Getting all chats
-        mUsers = new ArrayList<>();
+        mItems = new ArrayList<>();
         mRef = FirebaseDatabase.getInstance().getReference("Users");
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
+                mItems.clear();
 
                 // Get Users
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
@@ -102,7 +102,7 @@ public class ChatFragment extends Fragment {
 
                     for(ChatList chatList : mChatLists) {
                         if(user.getId().equals(chatList.getId())) {
-                            mUsers.add(user);
+                            mItems.add(user);
                         }
                     }
                 }
@@ -112,16 +112,21 @@ public class ChatFragment extends Fragment {
                 groupRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                        List<Object> mUsers = new ArrayList<>(mItems);
+
+                        mItems.clear();
                         for(DataSnapshot dataSnapshot: snapshot2.getChildren()) {
                             Group group = dataSnapshot.getValue(Group.class);
 
                             for(ChatList chatList : mChatLists) {
                                 if(group.getId().equals(chatList.getId())) {
-                                    User user = new User(group.getName(), group.getImageURL());
-                                    mUsers.add(user);
+                                    mItems.add(group);
                                 }
                             }
+
                         }
+                        mItems.addAll(mUsers);
+
                     }
 
                     @Override
@@ -130,7 +135,7 @@ public class ChatFragment extends Fragment {
                     }
                 });
 
-                userAdapter = new UserAdapter(getContext(), mUsers, true);
+                userAdapter = new UserAdapter(getContext(), mItems, true);
                 recyclerView.setAdapter(userAdapter);
             }
 

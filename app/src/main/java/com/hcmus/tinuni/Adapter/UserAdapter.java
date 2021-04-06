@@ -21,67 +21,99 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.MessageActivity;
 import com.hcmus.tinuni.Model.Chat;
+import com.hcmus.tinuni.Model.ChatGroup;
+import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context context;
-    private List<User> mUsers;
+    private List<Object> mItems;
     private boolean isChat;
 
-    String lastMessage;
-    String time;
+    String lastMessage = "";
+    String time = "";
 
-    public UserAdapter(Context context, List<User> mUsers, boolean isChat) {
+
+    public UserAdapter(Context context, List<Object> mUsers, boolean isChat) {
         this.context = context;
-        this.mUsers = mUsers;
+        this.mItems = mUsers;
         this.isChat = isChat;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(context).inflate(R.layout.user_item,
                 parent,
                 false);
         return new UserAdapter.ViewHolder(view);
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = mUsers.get(position);
+    public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
+        Object item = mItems.get(position);
+        if (item instanceof User) {
 
-        holder.username.setText(user.getUserName());
-        if (user.getImageURL().equals("default")) {
-            holder.imageView.setImageResource(R.drawable.profile_image);
-        } else {
-            Glide.with(context)
-                    .load(user.getImageURL())
-                    .into(holder.imageView);
-        }
+            User user = (User) item;
 
-
-        if(isChat) {
-            getLastMessage(user.getId(), holder);
-        }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, MessageActivity.class);
-                i.putExtra("userId", user.getId());
-                context.startActivity(i);
+            holder.username.setText(user.getUserName());
+            if (user.getImageURL().equals("default")) {
+                holder.imageView.setImageResource(R.drawable.profile_image);
+            } else {
+                Glide.with(context)
+                        .load(user.getImageURL())
+                        .into(holder.imageView);
             }
-        });
+
+
+            if (isChat) {
+                getLastMessageFromUser(user.getId(), holder);
+            }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, MessageActivity.class);
+                    i.putExtra("userId", user.getId());
+                    i.putExtra("groupId", "");
+                    context.startActivity(i);
+                }
+            });
+        } else {
+
+            Group group = (Group) item;
+
+            holder.username.setText(group.getName());
+
+            Glide.with(context)
+                    .load(group.getImageURL())
+                    .into(holder.imageView);
+
+            getLastMessageFromGroup(group.getId(), holder);
+
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, MessageActivity.class);
+                    i.putExtra("userId", "");
+                    i.putExtra("groupId", group.getId());
+                    context.startActivity(i);
+                }
+            });
+
+
+        }
     }
 
-    private void getLastMessage(String id, ViewHolder holder) {
+    private void getLastMessageFromUser(String id, ViewHolder holder) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
@@ -98,8 +130,43 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     }
                 }
 
-                holder.lastMessage.setText(lastMessage);
-                if(!time.isEmpty())
+                if (!lastMessage.isEmpty())
+                    holder.lastMessage.setText(lastMessage);
+                if (!time.isEmpty())
+                    holder.time.setText(holder.convertTime(time));
+
+                lastMessage = "";
+                time = "";
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getLastMessageFromGroup(String groupId, ViewHolder holder) {
+        final DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("Groups")
+                .child(groupId)
+                .child("Messages");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ChatGroup chat = dataSnapshot.getValue(ChatGroup.class);
+
+
+                    lastMessage = chat.getMessage();
+                    time = chat.getTime();
+
+                }
+
+                if(!lastMessage.equals(""))
+                    holder.lastMessage.setText(lastMessage);
+                if(!time.equals(""))
                     holder.time.setText(holder.convertTime(time));
 
                 lastMessage = "";
@@ -115,8 +182,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return mItems.size();
     }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        if (mItems.get(position) instanceof User) {
+//            return ITEM_TYPE_USER;
+//        } else {
+//            return ITEM_TYPE_GROUP;
+//        }
+//    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView username;
@@ -133,7 +209,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             time = itemView.findViewById(R.id.time);
         }
 
-        public String convertTime(String time){
+        public String convertTime(String time) {
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy h:mm a");
             String dateString = formatter.format(new Date(Long.parseLong(time)));

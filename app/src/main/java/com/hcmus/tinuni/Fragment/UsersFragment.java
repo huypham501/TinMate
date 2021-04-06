@@ -23,12 +23,13 @@ import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UsersFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-    private ArrayList<User> mUsers;
+    private List<Object> mUsers;
 
     private FirebaseUser mUser;
     private DatabaseReference mRef;

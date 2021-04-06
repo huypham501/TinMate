@@ -37,13 +37,15 @@ import com.google.firebase.storage.UploadTask;
 import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Adapter.MessageAdapter;
 import com.hcmus.tinuni.Model.Chat;
+import com.hcmus.tinuni.Model.ChatGroup;
+import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MessageActivity extends Activity {
 
@@ -63,8 +65,15 @@ public class MessageActivity extends Activity {
     private AlertDialog alertDialog;
 
     MessageAdapter messageAdapter;
-    List<Chat> mChats;
-    String userId, file_link;
+
+    List<Object> mItems;
+    List<String> imgURLs;
+
+    String userId;
+    String groupId;
+
+    String file_link;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,48 +109,79 @@ public class MessageActivity extends Activity {
         // Receiver
         Intent i = getIntent();
         userId = i.getStringExtra("userId");
+        groupId = i.getStringExtra("groupId");
 
         // Sender
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-
         mUser = FirebaseAuth
                 .getInstance()
                 .getCurrentUser();
-        mRef = FirebaseDatabase
-                .getInstance()
-                .getReference("Users")
-                .child(userId);
 
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                username.setText(user.getUserName());
+        if(!userId.isEmpty()) {
+            mRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference("Users")
+                    .child(userId);
 
-                if (user.getImageURL().equals("default")) {
-                    imageView.setImageResource(R.drawable.profile_image);
-                } else {
-                    Glide.with(MessageActivity.this)
-                            .load(user.getImageURL())
-                            .into(imageView);
+            mRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User user = snapshot.getValue(User.class);
+                    username.setText(user.getUserName());
+
+                    if (user.getImageURL().equals("default")) {
+                        imageView.setImageResource(R.drawable.profile_image);
+                    } else {
+                        Glide.with(MessageActivity.this)
+                                .load(user.getImageURL())
+                                .into(imageView);
+                    }
+
+                    readMessagesFromUser(user.getImageURL());
                 }
 
-                readMessages(mUser.getUid(), userId, user.getImageURL());
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        } else {
+            mRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference("Groups")
+                    .child(groupId);
 
-            }
-        });
+            mRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Group group = snapshot.getValue(Group.class);
+                    username.setText(group.getName());
+
+                    if (group.getImageURL().equals("default")) {
+                        imageView.setImageResource(R.drawable.profile_image);
+                    } else {
+                        Glide.with(MessageActivity.this)
+                                .load(group.getImageURL())
+                                .into(imageView);
+                    }
+
+                    readMessagesFromGroup();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = txtSend.getText().toString();
                 String time = String.valueOf(System.currentTimeMillis());
-                if (!msg.equals("")) {
-                    sendMessage(mUser.getUid(), userId, msg, time);
+
+                if(!msg.equals("")) {
+                    sendMessage(msg, time);
                     txtSend.setText("");
                 }
             }
@@ -155,6 +195,7 @@ public class MessageActivity extends Activity {
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(intent);
 //                finish();
+                finish();
                 MessageActivity.super.onBackPressed();
             }
         });
@@ -216,12 +257,20 @@ public class MessageActivity extends Activity {
 
     }
 
+    private void sendMessage(String msg, String time) {
+        if(!userId.isEmpty()){
+            sendMessageToUser(msg, time);
+        } else {
+            sendMessageToGroup(msg, time);
+        }
+    }
 
-    private void sendMessage(String sender, String receiver, String msg, String time) {
+    private void sendMessageToUser(String msg, String time) {
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
-        // Getting current time of message
-        Chat chat = new Chat(sender, receiver, msg, time);
+        // Create chat
+        Chat chat = new Chat(mUser.getUid(), userId, msg, time);
 
         reference.push().setValue(chat);
 
@@ -247,25 +296,59 @@ public class MessageActivity extends Activity {
 
     }
 
-    private void readMessages(String myId, String userId, String imgURL) {
-        mChats = new ArrayList<>();
+    private void sendMessageToGroup(String msg, String time) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groups");
+
+        ChatGroup chatGroup = new ChatGroup(mUser.getUid(), msg, time);
+        reference.child(groupId)
+                .child("Messages")
+                .push().setValue(chatGroup);
+
+
+        // Get the latest chat message
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance()
+                .getReference("ChatList")
+                .child(mUser.getUid())
+                .child(groupId);
+
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    chatRef.child("id").setValue(groupId);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    private void readMessagesFromUser(String imgURL) {
+        mItems = new ArrayList<>();
+
+        imgURLs = new ArrayList<>();
+        imgURLs.add(imgURL);
 
         mRef = FirebaseDatabase.getInstance().getReference("Chats");
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mChats.clear();
+                mItems.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
-                    if ((chat.getReceiver().equals(myId) && chat.getSender().equals(userId)) ||
-                            (chat.getReceiver().equals(userId) && chat.getSender().equals(myId))) {
-                        mChats.add(chat);
+                    if((chat.getReceiver().equals(mUser.getUid()) && chat.getSender().equals(userId)) ||
+                        (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
+                        mItems.add(chat);
                     }
 
                 }
-                messageAdapter = new MessageAdapter(MessageActivity.this, mChats, imgURL);
+                messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
                 recyclerView.setAdapter(messageAdapter);
             }
 
@@ -275,6 +358,45 @@ public class MessageActivity extends Activity {
             }
         });
     }
+
+    private void readMessagesFromGroup() {
+        mItems = new ArrayList<>();
+        List<String> imgURLs = new ArrayList<>();
+
+        mRef= FirebaseDatabase.getInstance()
+                .getReference("Groups")
+                .child(groupId)
+                .child("Messages");
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mItems.clear();
+                imgURLs.clear();
+
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
+
+                    mItems.add(chatGroup);
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance()
+                            .getReference("Users")
+                            .child(chatGroup.getSender())
+                            .child("imageURL");
+                    imgURLs.add(reference.toString());
+                }
+
+                messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
+                recyclerView.setAdapter(messageAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 
     private String getFileExtension(Uri mUri) {
         ContentResolver cr = getContentResolver();
