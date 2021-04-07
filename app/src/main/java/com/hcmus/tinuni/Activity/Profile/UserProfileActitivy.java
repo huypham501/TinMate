@@ -67,13 +67,13 @@ public class UserProfileActitivy extends Activity {
         btnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fade fadeIn = new Fade(Fade.IN);
-                Fade fadeOut = new Fade(Fade.OUT);
                 if(linearLayout.getVisibility() == View.GONE) {
+                    Fade fadeIn = new Fade(Fade.IN);
                     TransitionManager.beginDelayedTransition(linearLayout, fadeIn);
                     linearLayout.setVisibility(View.VISIBLE);
                     btnArrow.setBackgroundResource(R.drawable.ic_arrow_up);
                 } else {
+                    Fade fadeOut = new Fade(Fade.OUT);
                     TransitionManager.beginDelayedTransition(linearLayout, fadeOut);
                     linearLayout.setVisibility(View.GONE);
                     btnArrow.setBackgroundResource(R.drawable.ic_arrow_down);
