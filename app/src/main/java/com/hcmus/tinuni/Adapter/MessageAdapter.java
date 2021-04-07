@@ -60,7 +60,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         if(item instanceof Chat) {
             Chat chat = (Chat) item;
 
-            holder.showMessage.setText(chat.getMessage());
+            if(chat.getType().equals("text")) {
+                holder.showImage.setVisibility(View.GONE);
+                holder.showMessage.setVisibility(View.VISIBLE);
+
+                holder.showMessage.setText(chat.getMessage());
+            } else if(chat.getType().equals("image")) {
+                holder.showImage.setVisibility(View.VISIBLE);
+                holder.showMessage.setVisibility(View.GONE);
+
+                Glide.with(context)
+                        .load(chat.getMessage())
+                        .into(holder.showImage);
+            }
 
             if (imgURLs.get(0).equals("default")) {
                 holder.profile_image.setImageResource(R.drawable.profile_image);
@@ -72,7 +84,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         } else {
             ChatGroup groupChat = (ChatGroup) item;
 
-            holder.showMessage.setText(groupChat.getMessage());
+            if(groupChat.getType().equals("text")) {
+                holder.showImage.setVisibility(View.GONE);
+                holder.showMessage.setVisibility(View.VISIBLE);
+
+                holder.showMessage.setText(groupChat.getMessage());
+            } else if(groupChat.getType().equals("image")) {
+                holder.showImage.setVisibility(View.VISIBLE);
+                holder.showMessage.setVisibility(View.GONE);
+
+                Glide.with(context)
+                        .load(groupChat.getMessage())
+                        .into(holder.showImage);
+            }
 
             if (imgURLs.get(position).equals("default")) {
                 holder.profile_image.setImageResource(R.drawable.profile_image);
@@ -114,11 +138,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView showMessage;
         ImageView profile_image;
+        ImageView showImage;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             showMessage = itemView.findViewById(R.id.showMessage);
             profile_image = itemView.findViewById(R.id.profile_image);
+            showImage = itemView.findViewById(R.id.showImage);
 
 
         }

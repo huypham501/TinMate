@@ -183,7 +183,7 @@ public class MessageActivity extends Activity {
                 String time = String.valueOf(System.currentTimeMillis());
 
                 if(!msg.equals("")) {
-                    sendMessage(msg, time);
+                    sendMessage(msg, time, "text");
                     txtSend.setText("");
                 }
             }
@@ -237,6 +237,10 @@ public class MessageActivity extends Activity {
                     public void onSuccess(Uri uri) {
                         file_link = uri.toString();
                         System.out.println("File link: " + file_link);
+                        String time = String.valueOf(System.currentTimeMillis());
+                        sendMessage(file_link, time, "image");
+
+
                         alertDialog.dismiss();
                         Toast.makeText(MessageActivity.this, "Upload SUCCESS", Toast.LENGTH_SHORT).show();
                     }
@@ -258,20 +262,20 @@ public class MessageActivity extends Activity {
 
     }
 
-    private void sendMessage(String msg, String time) {
+    private void sendMessage(String msg, String time,  String type) {
         if(!userId.isEmpty()){
-            sendMessageToUser(msg, time);
+            sendMessageToUser(msg, time, type);
         } else {
-            sendMessageToGroup(msg, time);
+            sendMessageToGroup(msg, time, type);
         }
     }
 
-    private void sendMessageToUser(String msg, String time) {
+    private void sendMessageToUser(String msg, String time,  String type) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
         // Create chat
-        Chat chat = new Chat(mUser.getUid(), userId, msg, time);
+        Chat chat = new Chat(mUser.getUid(), userId, msg, time, type);
 
         reference.push().setValue(chat);
 
@@ -297,10 +301,10 @@ public class MessageActivity extends Activity {
 
     }
 
-    private void sendMessageToGroup(String msg, String time) {
+    private void sendMessageToGroup(String msg, String time, String type) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groups");
 
-        ChatGroup chatGroup = new ChatGroup(mUser.getUid(), msg, time);
+        ChatGroup chatGroup = new ChatGroup(mUser.getUid(), msg, time, type);
         reference.child(groupId)
                 .child("Messages")
                 .push().setValue(chatGroup);
