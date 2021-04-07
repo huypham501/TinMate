@@ -39,20 +39,30 @@
                 android:textSize="15dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
-            android:layout_weight="7"
-            android:orientation="vertical">
+            android:layout_weight="7">
 
             <Button
                 android:id="@+id/buttonDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/delete" />
-        </LinearLayout>
+                android:text="@string/delete"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/buttonRedo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_500"
+                android:text="@string/redo"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <View

@@ -39,7 +39,7 @@ public class DemandManageFragment extends Fragment {
     private ArrayList<Demand> demandArrayList;
 
     private ImageButton imageButtonAdd, imageButtonEdit, imageButtonSave;
-    private TextView textViewContentDemandManage;
+    private TextView textViewDoNotHaveDemandManage;
 
     public DemandManageFragment() {
 
@@ -56,9 +56,11 @@ public class DemandManageFragment extends Fragment {
 
         demandArrayList = new ArrayList<>();
 
-        textViewContentDemandManage = view.findViewById(R.id.textViewContentDemandManage);
+        textViewDoNotHaveDemandManage = view.findViewById(R.id.textViewDoNotHaveDemandManage);
 
         getDemand();
+
+
 
         imageButtonAdd = view.findViewById(R.id.imageButtonAdd);
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +134,14 @@ public class DemandManageFragment extends Fragment {
                 }
                 demandAdapter = new DemandAdapter(getContext(), demandArrayList);
                 recyclerView.setAdapter(demandAdapter);
+
+                if (demandArrayList.isEmpty()) {
+                    textViewDoNotHaveDemandManage.setVisibility(View.VISIBLE);
+                    imageButtonEdit.setVisibility(View.INVISIBLE);
+                } else {
+                    textViewDoNotHaveDemandManage.setVisibility(View.INVISIBLE);
+                    imageButtonEdit.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
