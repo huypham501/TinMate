@@ -182,7 +182,6 @@ public class UserProfileActitivy extends Activity {
                         })
                         .setNegativeButton("No", null)
                         .show();
-
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.hcmus.tinuni.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
+import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
+import com.hcmus.tinuni.Activity.ShowZoomImage;
 import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.ChatGroup;
 import com.hcmus.tinuni.Model.Group;
@@ -30,6 +34,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
+    private String img_link;
 
     public MessageAdapter(Context context, List<Object> mItems, List<String> imgURLs) {
         this.context = context;
@@ -66,6 +71,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
                 holder.showMessage.setText(chat.getMessage());
             } else if(chat.getType().equals("image")) {
+                img_link = chat.getMessage();
                 holder.showImage.setVisibility(View.VISIBLE);
                 holder.showMessage.setVisibility(View.GONE);
 
@@ -147,6 +153,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             showImage = itemView.findViewById(R.id.showImage);
 
 
+            showImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent zoom_image = new Intent(context, ShowZoomImage.class);
+                    zoom_image.putExtra("img_link", img_link);
+                    context.startActivity(zoom_image);                }
+            });
         }
 
     }
