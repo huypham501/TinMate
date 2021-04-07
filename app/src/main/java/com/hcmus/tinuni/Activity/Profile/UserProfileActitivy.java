@@ -8,9 +8,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.Fade;
+import android.transition.TransitionManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +39,9 @@ public class UserProfileActitivy extends Activity {
 
     private DatabaseReference mRef;
 
+    private LinearLayout linearLayout;
+    private Button btnArrow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,26 @@ public class UserProfileActitivy extends Activity {
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnGoBack = findViewById(R.id.btnGoBack);
         btnSignOut = findViewById(R.id.btnSignOut);
+
+
+        linearLayout = findViewById(R.id.expandedLayout);
+        btnArrow = findViewById(R.id.btnArrow);
+        btnArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fade fadeIn = new Fade(Fade.IN);
+                Fade fadeOut = new Fade(Fade.OUT);
+                if(linearLayout.getVisibility() == View.GONE) {
+                    TransitionManager.beginDelayedTransition(linearLayout, fadeIn);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_up);
+                } else {
+                    TransitionManager.beginDelayedTransition(linearLayout, fadeOut);
+                    linearLayout.setVisibility(View.GONE);
+                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_down);
+                }
+            }
+        });
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");

@@ -84,7 +84,7 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         mRef = FirebaseDatabase.getInstance().getReference("Users").child(id);
-        mRef.addValueEventListener(new ValueEventListener() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //Init Alert Dialog
@@ -141,7 +141,8 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        };
+        mRef.addValueEventListener(valueEventListener);
 
         //SAVE
         btnEdit.setOnClickListener(new View.OnClickListener() {
