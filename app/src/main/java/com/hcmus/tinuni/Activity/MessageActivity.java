@@ -279,17 +279,17 @@ public class MessageActivity extends Activity {
 
         reference.push().setValue(chat);
 
-        // Get the latest chat message
-        final DatabaseReference chatRef = FirebaseDatabase.getInstance()
+        // Get the latest chat message for sender
+        final DatabaseReference chatSenderRef = FirebaseDatabase.getInstance()
                 .getReference("ChatList")
                 .child(mUser.getUid())
                 .child(userId);
 
-        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        chatSenderRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
-                    chatRef.child("id").setValue(userId);
+                    chatSenderRef.child("id").setValue(userId);
                 }
             }
 
@@ -299,6 +299,25 @@ public class MessageActivity extends Activity {
             }
         });
 
+        // Get the latest chat message for receiver
+        final DatabaseReference chatReceiverRef = FirebaseDatabase.getInstance()
+                .getReference("ChatList")
+                .child(userId)
+                .child(mUser.getUid());
+
+        chatReceiverRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+                    chatReceiverRef.child("id").setValue(mUser.getUid());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void sendMessageToGroup(String msg, String time, String type) {
