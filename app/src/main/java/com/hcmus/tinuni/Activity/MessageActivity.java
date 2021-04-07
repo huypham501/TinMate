@@ -122,7 +122,7 @@ public class MessageActivity extends Activity {
                     .getReference("Users")
                     .child(userId);
 
-            mRef.addValueEventListener(new ValueEventListener() {
+            ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User user = snapshot.getValue(User.class);
@@ -131,7 +131,7 @@ public class MessageActivity extends Activity {
                     if (user.getImageURL().equals("default")) {
                         imageView.setImageResource(R.drawable.profile_image);
                     } else {
-                        Glide.with(MessageActivity.this)
+                        Glide.with(getApplicationContext())
                                 .load(user.getImageURL())
                                 .into(imageView);
                     }
@@ -143,14 +143,15 @@ public class MessageActivity extends Activity {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
+            };
+            mRef.addValueEventListener(valueEventListener);
         } else {
             mRef = FirebaseDatabase
                     .getInstance()
                     .getReference("Groups")
                     .child(groupId);
 
-            mRef.addValueEventListener(new ValueEventListener() {
+            ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Group group = snapshot.getValue(Group.class);
@@ -159,7 +160,7 @@ public class MessageActivity extends Activity {
                     if (group.getImageURL().equals("default")) {
                         imageView.setImageResource(R.drawable.profile_image);
                     } else {
-                        Glide.with(MessageActivity.this)
+                        Glide.with(getApplicationContext())
                                 .load(group.getImageURL())
                                 .into(imageView);
                     }
@@ -171,7 +172,8 @@ public class MessageActivity extends Activity {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
+            };
+            mRef.addValueEventListener(valueEventListener);
         }
 
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +197,6 @@ public class MessageActivity extends Activity {
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(intent);
 //                finish();
-                finish();
                 MessageActivity.super.onBackPressed();
             }
         });
@@ -280,7 +281,7 @@ public class MessageActivity extends Activity {
                 .child(mUser.getUid())
                 .child(userId);
 
-        chatRef.addValueEventListener(new ValueEventListener() {
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
@@ -311,7 +312,7 @@ public class MessageActivity extends Activity {
                 .child(mUser.getUid())
                 .child(groupId);
 
-        chatRef.addValueEventListener(new ValueEventListener() {
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){
