@@ -3,6 +3,7 @@ package com.hcmus.tinuni.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +66,20 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
                                     String demandId = demand.getId();
                                     arrayListDemandId.add(demandId);
 
-                                    demands.remove(position);
-                                    notifyDataSetChanged();
+                                    holder.itemView.setBackgroundColor(Color.LTGRAY);
+                                    holder.buttonRedo.setVisibility(View.VISIBLE);
+                                    holder.buttonDelete.setVisibility(View.INVISIBLE);
+
+                                    holder.buttonRedo.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            arrayListDemandId.remove(demandId);
+
+                                            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+                                            holder.buttonRedo.setVisibility(View.INVISIBLE);
+                                            holder.buttonDelete.setVisibility(View.VISIBLE);
+                                        }
+                                    });
                                 }
                             }).setNegativeButton("No", null).show();
                 }
@@ -74,7 +87,6 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
         } else {
             holder.buttonDelete.setVisibility(View.INVISIBLE);
         }
-
     }
 
     private boolean check = false;
@@ -113,7 +125,8 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewSubject, textViewMajor;
-        private Button buttonDelete;
+        private Button buttonDelete, buttonRedo;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,7 +135,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
             textViewMajor = itemView.findViewById(R.id.textViewMajor);
 
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
-            buttonDelete.setVisibility(View.INVISIBLE);
+            buttonRedo = itemView.findViewById(R.id.buttonRedo);
         }
 
     }
