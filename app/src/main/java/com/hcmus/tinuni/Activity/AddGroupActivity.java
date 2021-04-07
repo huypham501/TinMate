@@ -25,6 +25,8 @@ import com.hcmus.tinuni.R;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class AddGroupActivity extends Activity {
     ImageView btnGoBack;
     EditText edtGroupName;
@@ -60,51 +62,74 @@ public class AddGroupActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String groupName = edtGroupName.getText().toString();
-                if(!groupName.equals("")) {
-                    String groupId = mRef.push().getKey();
-                    Group group = new Group(groupId, groupName, DEFAULT_URL);
-
-
-
-                    mRef.child(groupId).setValue(group).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                            // Create Participants
-                            Map<String, String> map = new HashMap<>();
-                            map.put("id", mUser.getUid());
-                            map.put("role", "owner");
-
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groups");
-                            reference
-                                    .child(groupId)
-                                    .child("Participants")
-                                    .child(mUser.getUid()).setValue(map);
-
-
-                            // Create ChatList
-                            final DatabaseReference chatListRef = FirebaseDatabase.getInstance()
-                                    .getReference("ChatList")
-                                    .child(mUser.getUid())
-                                    .child(groupId);
-
-                            chatListRef.addValueEventListener(new ValueEventListener() {
+                if (!groupName.equals("")) {
+                    // 5. Confirm success
+                    new SweetAlertDialog(AddGroupActivity.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Are you sure?")
+                            .setConfirmText("Yes")
+                            .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if(!snapshot.exists()){
-                                        chatListRef.child("id").setValue(groupId);
-                                    }
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
                                 }
-
+                            })
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    String groupId = mRef.push().getKey();
+                                    Group group = new Group(groupId, groupName, DEFAULT_URL);
 
+
+                                    mRef.child(groupId).setValue(group).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+
+                                            // Create Participants
+                                            Map<String, String> map = new HashMap<>();
+                                            map.put("id", mUser.getUid());
+                                            map.put("role", "owner");
+
+                                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groups");
+                                            reference
+                                                    .child(groupId)
+                                                    .child("Participants")
+                                                    .child(mUser.getUid()).setValue(map);
+
+
+                                            // Create ChatList
+                                            final DatabaseReference chatListRef = FirebaseDatabase.getInstance()
+                                                    .getReference("ChatList")
+                                                    .child(mUser.getUid())
+                                                    .child(groupId);
+
+                                            chatListRef.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (!snapshot.exists()) {
+                                                        chatListRef.child("id").setValue(groupId);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+
+                                            edtGroupName.setText("");
+                                        }
+                                    });
+
+
+                                    sDialog
+                                            .setTitleText("Created!")
+                                            .setContentText("Created successfully")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(null)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                 }
-                            });
-
-                        }
-                    });
-                    edtGroupName.setText("");
+                            })
+                            .show();
                 }
             }
         });
