@@ -125,7 +125,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                     if ((chat.getSender().equals(firebaseUser.getUid()) && chat.getReceiver().equals(id)) ||
                             (chat.getSender().equals(id) && chat.getReceiver().equals(firebaseUser.getUid()))) {
-                        lastMessage = chat.getMessage();
+                        if(chat.getType().equals("text")) {
+                            lastMessage = chat.getMessage();
+                        } else if(chat.getType().equals("image")){
+                            lastMessage = "Image was sent";
+                        }
                         time = chat.getTime();
                     }
                 }
@@ -158,15 +162,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatGroup chat = dataSnapshot.getValue(ChatGroup.class);
 
-
-                    lastMessage = chat.getMessage();
+                    if(chat.getType().equals("text")) {
+                        lastMessage = chat.getMessage();
+                    } else if(chat.getType().equals("image")){
+                        lastMessage = "Image was sent";
+                    }
                     time = chat.getTime();
 
                 }
 
-                if(!lastMessage.equals(""))
+                if(!lastMessage.isEmpty())
                     holder.lastMessage.setText(lastMessage);
-                if(!time.equals(""))
+                if(!time.isEmpty())
                     holder.time.setText(holder.convertTime(time));
 
                 lastMessage = "";

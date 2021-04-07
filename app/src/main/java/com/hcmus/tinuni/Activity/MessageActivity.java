@@ -124,7 +124,7 @@ public class MessageActivity extends Activity {
                     .getReference("Users")
                     .child(userId);
 
-            mRef.addValueEventListener(new ValueEventListener() {
+            ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User user = snapshot.getValue(User.class);
@@ -133,7 +133,7 @@ public class MessageActivity extends Activity {
                     if (user.getImageURL().equals("default")) {
                         imageView.setImageResource(R.drawable.profile_image);
                     } else {
-                        Glide.with(MessageActivity.this)
+                        Glide.with(getApplicationContext())
                                 .load(user.getImageURL())
                                 .into(imageView);
                     }
@@ -145,14 +145,15 @@ public class MessageActivity extends Activity {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
+            };
+            mRef.addValueEventListener(valueEventListener);
         } else {
             mRef = FirebaseDatabase
                     .getInstance()
                     .getReference("Groups")
                     .child(groupId);
 
-            mRef.addValueEventListener(new ValueEventListener() {
+            ValueEventListener valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Group group = snapshot.getValue(Group.class);
@@ -161,7 +162,7 @@ public class MessageActivity extends Activity {
                     if (group.getImageURL().equals("default")) {
                         imageView.setImageResource(R.drawable.profile_image);
                     } else {
-                        Glide.with(MessageActivity.this)
+                        Glide.with(getApplicationContext())
                                 .load(group.getImageURL())
                                 .into(imageView);
                     }
@@ -173,7 +174,8 @@ public class MessageActivity extends Activity {
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-            });
+            };
+            mRef.addValueEventListener(valueEventListener);
         }
 
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +185,7 @@ public class MessageActivity extends Activity {
                 String time = String.valueOf(System.currentTimeMillis());
 
                 if(!msg.equals("")) {
-                    sendMessage(msg, time);
+                    sendMessage(msg, time, "text");
                     txtSend.setText("");
                 }
             }
@@ -197,7 +199,6 @@ public class MessageActivity extends Activity {
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(intent);
 //                finish();
-                finish();
                 MessageActivity.super.onBackPressed();
             }
         });
@@ -205,26 +206,78 @@ public class MessageActivity extends Activity {
         btnSendImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseFile();
+                choosePicture();
             }
         });
 
     }
 
-    private void sendMessage(String msg, String time) {
-        if(!userId.isEmpty()){
-            sendMessageToUser(msg, time);
-        } else {
-            sendMessageToGroup(msg, time);
+    private void choosePicture() {
+        Intent intent = new Intent();
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            uploadPicture();
         }
     }
 
-    private void sendMessageToUser(String msg, String time) {
+    private void uploadPicture() {
+        StorageReference storageRef = storageReference.child("files/chats/" + System.currentTimeMillis() + "." + getFileExtension(imageUri));
+        storageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //add new image
+                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        file_link = uri.toString();
+                        System.out.println("File link: " + file_link);
+                        String time = String.valueOf(System.currentTimeMillis());
+                        sendMessage(file_link, time, "image");
+
+
+                        alertDialog.dismiss();
+                        Toast.makeText(MessageActivity.this, "Upload SUCCESS", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                alertDialog.show();
+//              Toast.makeText(EditProfileActivity.this, "Uploadinggg", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                alertDialog.dismiss();
+                Toast.makeText(MessageActivity.this, "Upload failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void sendMessage(String msg, String time,  String type) {
+        if(!userId.isEmpty()){
+            sendMessageToUser(msg, time, type);
+        } else {
+            sendMessageToGroup(msg, time, type);
+        }
+    }
+
+    private void sendMessageToUser(String msg, String time,  String type) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
         // Create chat
-        Chat chat = new Chat(mUser.getUid(), userId, msg, time);
+        Chat chat = new Chat(mUser.getUid(), userId, msg, time, type);
 
         reference.push().setValue(chat);
 
@@ -234,7 +287,7 @@ public class MessageActivity extends Activity {
                 .child(mUser.getUid())
                 .child(userId);
 
-        chatRef.addValueEventListener(new ValueEventListener() {
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
@@ -250,10 +303,10 @@ public class MessageActivity extends Activity {
 
     }
 
-    private void sendMessageToGroup(String msg, String time) {
+    private void sendMessageToGroup(String msg, String time, String type) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Groups");
 
-        ChatGroup chatGroup = new ChatGroup(mUser.getUid(), msg, time);
+        ChatGroup chatGroup = new ChatGroup(mUser.getUid(), msg, time, type);
         reference.child(groupId)
                 .child("Messages")
                 .push().setValue(chatGroup);
@@ -265,7 +318,7 @@ public class MessageActivity extends Activity {
                 .child(mUser.getUid())
                 .child(groupId);
 
-        chatRef.addValueEventListener(new ValueEventListener() {
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(!snapshot.exists()){

@@ -6,15 +6,19 @@ public class Chat {
     private String message;
     private String time;
 
+    // text/image/file
+    private String type;
+
     public Chat() {
 
     }
 
-    public Chat(String sender, String receiver, String message, String time) {
+    public Chat(String sender, String receiver, String message, String time, String type) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.time = time;
+        this.type = type;
     }
 
     public String getSender() {
@@ -47,5 +51,13 @@ public class Chat {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

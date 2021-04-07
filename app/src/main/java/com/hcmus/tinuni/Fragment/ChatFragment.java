@@ -70,7 +70,7 @@ public class ChatFragment extends Fragment {
                 mChatLists.clear();
 
                 // Loop for all users
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatList chatList = dataSnapshot.getValue(ChatList.class);
                     mChatLists.add(chatList);
                 }
@@ -90,43 +90,53 @@ public class ChatFragment extends Fragment {
     private void getChatList() {
         // Getting all chats
         mItems = new ArrayList<>();
-        mRef = FirebaseDatabase.getInstance().getReference("Users");
-        mRef.addValueEventListener(new ValueEventListener() {
+//        List<Object> mUsers = new ArrayList<>(mItems);
+        List<Object> mGroups = new ArrayList<>(mItems);
+
+        mRef = FirebaseDatabase
+                .getInstance()
+                .getReference("Users");
+
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
 
                 // Get Users
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
 
-                    for(ChatList chatList : mChatLists) {
-                        if(user.getId().equals(chatList.getId())) {
+                    for (ChatList chatList : mChatLists) {
+                        if (user.getId().equals(chatList.getId())) {
                             mItems.add(user);
                         }
                     }
                 }
 
+                DatabaseReference groupRef = FirebaseDatabase
+                        .getInstance()
+                        .getReference("Groups");
+
                 // Get Groups
-                DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("Groups");
-                groupRef.addValueEventListener(new ValueEventListener() {
+                groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot2) {
                         List<Object> mUsers = new ArrayList<>(mItems);
 
                         mItems.clear();
-                        for(DataSnapshot dataSnapshot: snapshot2.getChildren()) {
+                        for (DataSnapshot dataSnapshot : snapshot2.getChildren()) {
                             Group group = dataSnapshot.getValue(Group.class);
 
-                            for(ChatList chatList : mChatLists) {
-                                if(group.getId().equals(chatList.getId())) {
+                            for (ChatList chatList : mChatLists) {
+                                if (group.getId().equals(chatList.getId())) {
                                     mItems.add(group);
                                 }
                             }
-
                         }
                         mItems.addAll(mUsers);
 
+                        userAdapter = new UserAdapter(getContext(), mItems, true);
+                        recyclerView.setAdapter(userAdapter);
                     }
 
                     @Override
@@ -135,8 +145,6 @@ public class ChatFragment extends Fragment {
                     }
                 });
 
-                userAdapter = new UserAdapter(getContext(), mItems, true);
-                recyclerView.setAdapter(userAdapter);
             }
 
             @Override
@@ -144,6 +152,8 @@ public class ChatFragment extends Fragment {
 
             }
         });
+
+
 
     }
 }
