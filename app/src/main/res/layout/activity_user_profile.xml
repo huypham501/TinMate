@@ -73,12 +73,15 @@
                 android:background="@drawable/ic_arrow_down" />
         </LinearLayout>
 
-        <LinearLayout
+        <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/expandedLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            app:ael_expanded="false"
+            app:ael_duration="300"
+            app:ael_interpolator="accelerate"
+            app:ael_orientation="vertical">
             <!--Fullname-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -367,7 +370,7 @@
                         android:textSize="16dp" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableLinearLayout>
         <!--BUTTON AREA-->
         <LinearLayout
             android:layout_width="match_parent"

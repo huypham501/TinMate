@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +40,7 @@ public class UserProfileActitivy extends Activity {
 
     private DatabaseReference mRef;
 
-    private LinearLayout linearLayout;
+    private ExpandableLinearLayout linearLayout;
     private Button btnArrow;
 
     @Override
@@ -62,22 +63,24 @@ public class UserProfileActitivy extends Activity {
         btnSignOut = findViewById(R.id.btnSignOut);
 
 
-        linearLayout = findViewById(R.id.expandedLayout);
+        linearLayout = (ExpandableLinearLayout)findViewById(R.id.expandedLayout);
         btnArrow = findViewById(R.id.btnArrow);
         btnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(linearLayout.getVisibility() == View.GONE) {
-                    Fade fadeIn = new Fade(Fade.IN);
-                    TransitionManager.beginDelayedTransition(linearLayout, fadeIn);
-                    linearLayout.setVisibility(View.VISIBLE);
-                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_up);
-                } else {
-                    Fade fadeOut = new Fade(Fade.OUT);
-                    TransitionManager.beginDelayedTransition(linearLayout, fadeOut);
-                    linearLayout.setVisibility(View.GONE);
-                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_down);
-                }
+//                if(linearLayout.getVisibility() == View.GONE) {
+//                    Fade fadeIn = new Fade(Fade.IN);
+//                    TransitionManager.beginDelayedTransition(linearLayout, fadeIn);
+//                    linearLayout.setVisibility(View.VISIBLE);
+//                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_up);
+//                } else {
+//                    Fade fadeOut = new Fade(Fade.OUT);
+//                    TransitionManager.beginDelayedTransition(linearLayout, fadeOut);
+//                    linearLayout.setVisibility(View.GONE);
+//                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_down);
+//                }
+                linearLayout.toggle();
+
             }
         });
 

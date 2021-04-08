@@ -34,7 +34,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
-    private String img_link;
 
     public MessageAdapter(Context context, List<Object> mItems, List<String> imgURLs) {
         this.context = context;
@@ -71,13 +70,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
                 holder.showMessage.setText(chat.getMessage());
             } else if(chat.getType().equals("image")) {
-                img_link = chat.getMessage();
                 holder.showImage.setVisibility(View.VISIBLE);
                 holder.showMessage.setVisibility(View.GONE);
 
                 Glide.with(context)
                         .load(chat.getMessage())
                         .into(holder.showImage);
+
+                holder.showImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent zoom_image = new Intent(context, ShowZoomImage.class);
+                        zoom_image.putExtra("img_link", chat.getMessage());
+                        context.startActivity(zoom_image);                }
+                });
+
             }
 
             if (imgURLs.get(0).equals("default")) {
@@ -102,6 +109,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 Glide.with(context)
                         .load(groupChat.getMessage())
                         .into(holder.showImage);
+
+                holder.showImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent zoom_image = new Intent(context, ShowZoomImage.class);
+                        zoom_image.putExtra("img_link", groupChat.getMessage());
+                        context.startActivity(zoom_image);                }
+                });
             }
 
             if (imgURLs.get(position).equals("default")) {
@@ -152,14 +167,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             profile_image = itemView.findViewById(R.id.profile_image);
             showImage = itemView.findViewById(R.id.showImage);
 
-
-            showImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent zoom_image = new Intent(context, ShowZoomImage.class);
-                    zoom_image.putExtra("img_link", img_link);
-                    context.startActivity(zoom_image);                }
-            });
         }
 
     }
