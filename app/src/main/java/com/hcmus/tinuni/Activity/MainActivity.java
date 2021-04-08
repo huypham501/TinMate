@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity {
             R.drawable.ic_baseline_list_alt,
             R.drawable.fire,
             R.drawable.chat,
-            R.drawable.user
+            R.drawable.users
     };
 
     @Override

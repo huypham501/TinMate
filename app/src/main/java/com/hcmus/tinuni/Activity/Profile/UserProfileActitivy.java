@@ -63,7 +63,7 @@ public class UserProfileActitivy extends Activity {
         btnSignOut = findViewById(R.id.btnSignOut);
 
 
-        linearLayout = (ExpandableLinearLayout)findViewById(R.id.expandedLayout);
+        linearLayout = (ExpandableLinearLayout) findViewById(R.id.expandedLayout);
         btnArrow = findViewById(R.id.btnArrow);
         btnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +80,13 @@ public class UserProfileActitivy extends Activity {
 //                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_down);
 //                }
                 linearLayout.toggle();
+                if (linearLayout.isExpanded()) {
+                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_down);
+
+                } else {
+                    btnArrow.setBackgroundResource(R.drawable.ic_arrow_up);
+
+                }
 
             }
         });
@@ -143,8 +150,10 @@ public class UserProfileActitivy extends Activity {
                 Intent intent_edit = new Intent(UserProfileActitivy.this, EditProfileActivity.class);
                 intent_edit.putExtra("id", id);
                 startActivity(intent_edit);
+                finish();
             }
         });
+
         //CHANGE PASSWORD
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +162,7 @@ public class UserProfileActitivy extends Activity {
                 startActivity(intent_changePassword);
             }
         });
+
         //GO BACK
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +171,7 @@ public class UserProfileActitivy extends Activity {
 //                intent_goBack.putExtra("id", id);
 //                startActivity(intent_goBack);
                 UserProfileActitivy.super.onBackPressed();
+                finish();
             }
         });
 
@@ -172,8 +183,7 @@ public class UserProfileActitivy extends Activity {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Sign Out")
                         .setMessage("Are you sure you want to sign out?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                        {
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 FirebaseAuth.getInstance().signOut();

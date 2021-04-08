@@ -203,6 +203,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 Intent go_back = new Intent(EditProfileActivity.this, UserProfileActitivy.class);
                 go_back.putExtra("id", id);
                 startActivity(go_back);
+                finish();
             }
         });
 
