@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:ael_expanded="false"
+            app:ael_expanded="true"
             app:ael_duration="300"
             app:ael_interpolator="accelerate"
             app:ael_orientation="vertical">
@@ -379,43 +379,46 @@
 
             <Button
                 android:id="@+id/btnEdit"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_sign_up"
+                android:layout_marginHorizontal="50dp"
                 android:drawableLeft="@drawable/ic_edit"
                 android:fontFamily="@font/montserrat_black"
                 android:paddingHorizontal="20dp"
                 android:text="Edit Profile"
-                android:textColor="#fff"></Button>
+                android:textColor="#fff" />
 
             <Button
                 android:id="@+id/btnChangePassword"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_sign_up"
                 android:drawableLeft="@drawable/ic_lock"
                 android:fontFamily="@font/montserrat_black"
+                android:layout_marginHorizontal="50dp"
                 android:paddingHorizontal="20dp"
                 android:text="Change Password"
-                android:textColor="#fff"></Button>
+                android:textColor="#fff" />
 
             <Button
                 android:id="@+id/btnSignOut"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/button_sign_up"
+                android:layout_marginHorizontal="50dp"
                 android:drawableLeft="@drawable/ic_signout"
                 android:fontFamily="@font/montserrat_black"
                 android:paddingHorizontal="20dp"
                 android:text="Sign Out"
-                android:textColor="#fff"></Button>
+                android:textColor="#fff" />
         </LinearLayout>
 
     </LinearLayout>
