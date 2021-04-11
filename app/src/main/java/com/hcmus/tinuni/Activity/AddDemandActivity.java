@@ -211,7 +211,6 @@ public class AddDemandActivity extends Activity {
                     Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                 } else {
-
                     databaseReferenceDemandsInfo.child(demandId).setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -219,8 +218,18 @@ public class AddDemandActivity extends Activity {
                                 Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
                                 alertDialog.dismiss();
                             } else {
-                                alertDialog.dismiss();
-                                AddDemandActivity.super.onBackPressed();
+                                databaseReferenceDemandsInfo.child(demandId).child("userId").setValue(userId).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()) {
+                                            Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
+                                            alertDialog.dismiss();
+                                        } else {
+                                            alertDialog.dismiss();
+                                            AddDemandActivity.super.onBackPressed();
+                                        }
+                                    }
+                                });
                             }
                         }
                     });

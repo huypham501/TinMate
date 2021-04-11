@@ -2,11 +2,11 @@ package com.hcmus.tinuni.Model;
 
 public class Demand {
 
-
     private String subject;
     private String major;
     private String school;
     private String id;
+    private String userId;
 
     public Demand() {
 
@@ -17,6 +17,15 @@ public class Demand {
         this.major = major;
         this.school = school;
     }
+
+    public Demand(String subject, String major, String school, String id, String userId) {
+        this.subject = subject;
+        this.major = major;
+        this.school = school;
+        this.id = id;
+        this.userId = userId;
+    }
+
 
     public Demand(Demand demand, String id) {
         this.subject = demand.getSubject();
