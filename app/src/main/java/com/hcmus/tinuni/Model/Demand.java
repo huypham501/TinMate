@@ -19,9 +19,9 @@ public class Demand {
     }
 
     public Demand(Demand demand, String id) {
-        this.subject = demand.subject;
-        this.major = demand.major;
-        this.school = demand.school;
+        this.subject = demand.getSubject();
+        this.major = demand.getMajor();
+        this.school = demand.getSchool();
         this.id = id;
     }
 

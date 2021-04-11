@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.AddDemandActivity;
-import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Adapter.DemandAdapter;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
 public class DemandManageFragment extends Fragment {
     private RecyclerView recyclerView;
     private DemandAdapter demandAdapter;
-    private ArrayList<Demand> demandArrayList;
 
     private ImageButton imageButtonAdd, imageButtonEdit, imageButtonSave;
     private TextView textViewDoNotHaveDemandManage;
@@ -54,13 +52,7 @@ public class DemandManageFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        demandArrayList = new ArrayList<>();
-
         textViewDoNotHaveDemandManage = view.findViewById(R.id.textViewDoNotHaveDemandManage);
-
-        getDemand();
-
-
 
         imageButtonAdd = view.findViewById(R.id.imageButtonAdd);
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +93,8 @@ public class DemandManageFragment extends Fragment {
             }
         });
 
+        setDemand();
+
         return view;
     }
 
@@ -120,27 +114,47 @@ public class DemandManageFragment extends Fragment {
         imageButtonEdit.setVisibility(value_int);
     }
 
-    private void getDemand() {
+    private void setDemand() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReferenceUserDemand = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
+
+        ArrayList<Demand> demandArrayList = new ArrayList<>();
+
+        databaseReferenceUserDemand.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                demandArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Demand demand = dataSnapshot.getValue(Demand.class);
-                    demandArrayList.add(new Demand(demand, dataSnapshot.getKey()));
-                }
-                demandAdapter = new DemandAdapter(getContext(), demandArrayList);
-                recyclerView.setAdapter(demandAdapter);
 
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String demandId = dataSnapshot.getKey();
+
+                    DatabaseReference databaseReferenceDemandsInfo = FirebaseDatabase.getInstance().getReference("DemandsInfo").child(demandId);
+
+                    databaseReferenceDemandsInfo.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (!task.isComplete()) {
+                                Toast.makeText(getContext(), "Error get data demands info - setdemand() - demand manage fragment", Toast.LENGTH_SHORT).show();
+                            } else {
+                                String strSubject = task.getResult().child("subject").getValue(String.class);
+                                String strMajor = task.getResult().child("major").getValue(String.class);
+                                String strSchool = task.getResult().child("school").getValue(String.class);
+
+                                Demand demand = new Demand(strSubject, strMajor, strSchool);
+                                demandArrayList.add(new Demand(demand, snapshot.getKey()));
+
+                                demandAdapter = new DemandAdapter(getContext(), demandArrayList);
+                                recyclerView.setAdapter(demandAdapter);
+
+                                textViewDoNotHaveDemandManage.setVisibility(View.INVISIBLE);
+                                imageButtonEdit.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                }
                 if (demandArrayList.isEmpty()) {
                     textViewDoNotHaveDemandManage.setVisibility(View.VISIBLE);
                     imageButtonEdit.setVisibility(View.INVISIBLE);
-                } else {
-                    textViewDoNotHaveDemandManage.setVisibility(View.INVISIBLE);
-                    imageButtonEdit.setVisibility(View.VISIBLE);
                 }
             }
 
