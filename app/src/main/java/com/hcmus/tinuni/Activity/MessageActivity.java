@@ -2,9 +2,7 @@ package com.hcmus.tinuni.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,12 +11,12 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +34,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Adapter.MessageAdapter;
 import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.ChatGroup;
@@ -45,9 +42,7 @@ import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MessageActivity extends Activity {
 
@@ -57,6 +52,7 @@ public class MessageActivity extends Activity {
     private EditText txtSend;
     private Button btnSend;
     private Uri imageUri;
+    private RelativeLayout setting;
 
     private FirebaseUser mUser;
     private DatabaseReference mRef;
@@ -89,6 +85,7 @@ public class MessageActivity extends Activity {
         btnSend = findViewById(R.id.btnSend);
         btnGoBack = findViewById(R.id.btnGoBack);
         btnSendImage = findViewById(R.id.btnSendImage);
+        setting = findViewById(R.id.setting);
 
         //Firebase Storage
         storage = FirebaseStorage.getInstance();
@@ -207,6 +204,16 @@ public class MessageActivity extends Activity {
             @Override
             public void onClick(View v) {
                 choosePicture();
+            }
+        });
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MessageActivity.this, SettingGroupActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("groupId", groupId);
+                startActivity(intent);
             }
         });
 

@@ -30,125 +30,61 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     private Context context;
-    private List<User> mItems;
+    private List<Group> mItems;
     private boolean isChat;
 
     String lastMessage = "";
     String time = "";
 
 
-    public UserAdapter(Context context, List<User> mUsers, boolean isChat) {
+    public GroupAdapter(Context context, List<Group> mGroups, boolean isChat) {
         this.context = context;
-        this.mItems = mUsers;
+        this.mItems = mGroups;
         this.isChat = isChat;
     }
 
     @NonNull
     @Override
-    public UserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GroupAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.user_item,
+        View view = LayoutInflater.from(context).inflate(R.layout.group_item,
                 parent,
                 false);
-        return new UserAdapter.ViewHolder(view);
+        return new GroupAdapter.ViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
-        User user = mItems.get(position);
+    public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, int position) {
+        Group group = mItems.get(position);
 
 
-        holder.username.setText(user.getUserName());
-        if (user.getImageURL().equals("default")) {
-            holder.imageView.setImageResource(R.drawable.profile_image);
-        } else {
-            Glide.with(context)
-                    .load(user.getImageURL())
-                    .into(holder.imageView);
-        }
+        holder.groupName.setText(group.getName());
 
-        // Kiểm tra có chat hay không
-        if (isChat) {
-            getLastMessageFromUser(user.getId(), holder);
-        }
+        Glide.with(context)
+                .load(group.getImageURL())
+                .into(holder.imageView);
+
+        getLastMessageFromGroup(group.getId(), holder);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, MessageActivity.class);
-                i.putExtra("userId", user.getId());
-                i.putExtra("groupId", "");
+                i.putExtra("userId", "");
+                i.putExtra("groupId", group.getId());
                 context.startActivity(i);
             }
         });
-//        } else {
-//
-//            Group group = (Group) item;
-//
-//            holder.username.setText(group.getName());
-//
-//            Glide.with(context)
-//                    .load(group.getImageURL())
-//                    .into(holder.imageView);
-//
-//            getLastMessageFromGroup(group.getId(), holder);
-//
-//
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent i = new Intent(context, MessageActivity.class);
-//                    i.putExtra("userId", "");
-//                    i.putExtra("groupId", group.getId());
-//                    context.startActivity(i);
-//                }
-//            });
-//
-//
-//        }
+
+
     }
 
-    private void getLastMessageFromUser(String id, ViewHolder holder) {
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Chat chat = dataSnapshot.getValue(Chat.class);
-
-                    if ((chat.getSender().equals(firebaseUser.getUid()) && chat.getReceiver().equals(id)) ||
-                            (chat.getSender().equals(id) && chat.getReceiver().equals(firebaseUser.getUid()))) {
-                        if (chat.getType().equals("text")) {
-                            lastMessage = chat.getMessage();
-                        } else if (chat.getType().equals("image")) {
-                            lastMessage = "Image was sent";
-                        }
-                        time = chat.getTime();
-                    }
-                }
-
-                if (!lastMessage.isEmpty())
-                    holder.lastMessage.setText(lastMessage);
-                if (!time.isEmpty())
-                    holder.time.setText(holder.convertTime(time));
-
-                lastMessage = "";
-                time = "";
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    private void getLastMessageFromGroup(String groupId, ViewHolder holder) {
+    private void getLastMessageFromGroup(String groupId, GroupAdapter.ViewHolder holder) {
         final DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Groups")
                 .child(groupId)
@@ -200,7 +136,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 //    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView username;
+        private TextView groupName;
         private ImageView imageView;
         private TextView lastMessage;
         private TextView time;
@@ -208,7 +144,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.username);
+            groupName = itemView.findViewById(R.id.groupName);
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             time = itemView.findViewById(R.id.time);

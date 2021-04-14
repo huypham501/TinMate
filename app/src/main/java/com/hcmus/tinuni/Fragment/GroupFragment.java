@@ -18,19 +18,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Adapter.UserAdapter;
+import com.hcmus.tinuni.Adapter.GroupAdapter;
 import com.hcmus.tinuni.Model.ChatList;
 import com.hcmus.tinuni.Model.Group;
-import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatFragment extends Fragment {
+public class GroupFragment extends Fragment {
 
-    private UserAdapter userAdapter;
-    private List<User> mItems;
+    private GroupAdapter groupAdapter;
+    private List<Group> mItems;
     private List<ChatList> mChatLists;
 
     private FirebaseUser mUser;
@@ -38,7 +37,7 @@ public class ChatFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    public ChatFragment() {
+    public GroupFragment() {
         // Required empty public constructor
     }
 
@@ -47,7 +46,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_chat,
+        View view = inflater.inflate(R.layout.fragment_group,
                 container,
                 false);
 
@@ -90,31 +89,29 @@ public class ChatFragment extends Fragment {
     private void getChatList() {
         // Getting all chats
         mItems = new ArrayList<>();
-//        List<Object> mUsers = new ArrayList<>(mItems);
-//        List<Object> mGroups = new ArrayList<>(mItems);
 
         mRef = FirebaseDatabase
                 .getInstance()
-                .getReference("Users");
+                .getReference("Groups");
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
 
-                // Get Users
+                // Get Groups
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
+                    Group group = dataSnapshot.getValue(Group.class);
 
                     for (ChatList chatList : mChatLists) {
-                        if (user.getId().equals(chatList.getId())) {
-                            mItems.add(user);
+                        if (group.getId().equals(chatList.getId())) {
+                            mItems.add(group);
                         }
                     }
                 }
 
-                userAdapter = new UserAdapter(getContext(), mItems, true);
-                recyclerView.setAdapter(userAdapter);
+                groupAdapter = new GroupAdapter(getContext(), mItems, true);
+                recyclerView.setAdapter(groupAdapter);
 
             }
 
@@ -123,8 +120,5 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
-
-
     }
 }

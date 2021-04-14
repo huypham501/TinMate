@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Fragment.ChatFragment;
 import com.hcmus.tinuni.Fragment.DemandManageFragment;
+import com.hcmus.tinuni.Fragment.GroupFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.MatchingFragment;
 import com.hcmus.tinuni.Fragment.UsersFragment;
@@ -50,6 +51,7 @@ public class MainActivity extends FragmentActivity {
             R.drawable.home,
             R.drawable.ic_baseline_list_alt,
             R.drawable.fire,
+            R.drawable.chat,
             R.drawable.chat,
             R.drawable.users
     };
@@ -119,6 +121,7 @@ public class MainActivity extends FragmentActivity {
         viewPageAdapter.addFragment(new DemandManageFragment(), "Dem");
         viewPageAdapter.addFragment(new MatchingFragment(), "Match");
         viewPageAdapter.addFragment(new ChatFragment(), "Chat");
+        viewPageAdapter.addFragment(new GroupFragment(), "Group");
         viewPageAdapter.addFragment(new UsersFragment(), "Users");
 
         viewPager.setAdapter(viewPageAdapter);
@@ -148,6 +151,10 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case "Chat":
                         tabName.setText("Chat");
+                        imageView.setVisibility(View.VISIBLE);
+                        break;
+                    case "Group":
+                        tabName.setText("Group");
                         imageView.setVisibility(View.VISIBLE);
                         break;
                     case "Users":
