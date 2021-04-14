@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,13 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.AddDemandActivity;
 import com.hcmus.tinuni.Adapter.DemandAdapter;
@@ -38,6 +37,8 @@ public class DemandManageFragment extends Fragment {
 
     private ImageButton imageButtonAdd, imageButtonEdit, imageButtonSave;
     private TextView textViewDoNotHaveDemandManage;
+
+    private Button buttonTest;
 
     public DemandManageFragment() {
 
@@ -95,6 +96,33 @@ public class DemandManageFragment extends Fragment {
 
         setDemand();
 
+        buttonTest = view.findViewById(R.id.buttonTest);
+        buttonTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
+                Query query = databaseReference.orderByChild("subject").equalTo("Math");
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            System.out.println("HEREEEEEE");
+                            System.out.println("not exists");
+                        } else {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                System.out.println(dataSnapshot.getValue().toString());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+
         return view;
     }
 
@@ -117,44 +145,31 @@ public class DemandManageFragment extends Fragment {
     private void setDemand() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DatabaseReference databaseReferenceUserDemand = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
+        Query query = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
 
         ArrayList<Demand> demandArrayList = new ArrayList<>();
 
-        databaseReferenceUserDemand.addValueEventListener(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                demandArrayList.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String demandId = dataSnapshot.getKey();
-
-                    DatabaseReference databaseReferenceDemandsInfo = FirebaseDatabase.getInstance().getReference("DemandsInfo").child(demandId);
-
-                    databaseReferenceDemandsInfo.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (!task.isComplete()) {
-                                Toast.makeText(getContext(), "Error get data demands info - setdemand() - demand manage fragment", Toast.LENGTH_SHORT).show();
-                            } else {
-                                String strSubject = task.getResult().child("subject").getValue(String.class);
-                                String strMajor = task.getResult().child("major").getValue(String.class);
-                                String strSchool = task.getResult().child("school").getValue(String.class);
-
-                                Demand demand = new Demand(strSubject, strMajor, strSchool);
-                                demandArrayList.add(new Demand(demand, snapshot.getKey()));
-
-                                demandAdapter = new DemandAdapter(getContext(), demandArrayList);
-                                recyclerView.setAdapter(demandAdapter);
-
-                                textViewDoNotHaveDemandManage.setVisibility(View.INVISIBLE);
-                                imageButtonEdit.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
+                    Demand demand = dataSnapshot.getValue(Demand.class);
+                    demandArrayList.add(demand);
                 }
+
                 if (demandArrayList.isEmpty()) {
                     textViewDoNotHaveDemandManage.setVisibility(View.VISIBLE);
                     imageButtonEdit.setVisibility(View.INVISIBLE);
+
+                    recyclerView.setAdapter(null);
+                } else {
+                    demandAdapter = new DemandAdapter(getContext(), demandArrayList);
+                    recyclerView.setAdapter(demandAdapter);
+
+                    textViewDoNotHaveDemandManage.setVisibility(View.INVISIBLE);
+                    imageButtonEdit.setVisibility(View.VISIBLE);
                 }
             }
 

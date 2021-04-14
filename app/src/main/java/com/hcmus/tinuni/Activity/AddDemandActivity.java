@@ -21,11 +21,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
-
-import java.util.ArrayList;
 
 public class AddDemandActivity extends Activity {
     private EditText editTextSubject, editTextMajor, editTextSchool, editTextLevel;
@@ -39,13 +38,6 @@ public class AddDemandActivity extends Activity {
     private String strEditTextSchool;
 
     private String userId;
-
-    private DatabaseReference databaseReferenceUserDemand;
-    private DatabaseReference databaseReferenceDemandsInfo;
-
-
-    ValueEventListener valueEventListenerUserDemand;
-    ValueEventListener valueEventListenerDemandsInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,103 +66,27 @@ public class AddDemandActivity extends Activity {
                 if (isValidForm()) {
                     Demand demand = new Demand(strEditTextSubject, strEditTextMajor, strEditTextSchool);
 
-                    databaseReferenceUserDemand = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
+                    Query query = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
 
-                    valueEventListenerUserDemand = databaseReferenceUserDemand.addValueEventListener(new ValueEventListener() {
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                            ArrayList<String> arrayListDemandId = new ArrayList<>();
+                            boolean isDuplicate = false;
 
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                String demandId = dataSnapshot.getKey();
-                                arrayListDemandId.add(demandId);
-//                                databaseReferenceDemandsInfo = FirebaseDatabase.getInstance().getReference("DemandsInfo").child(demandId);
-//                                databaseReferenceDemandsInfo.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                        if (!task.isComplete()) {
-//                                            Toast.makeText(AddDemandActivity.this, "Error get data demands info", Toast.LENGTH_SHORT).show();
-//                                        } else {
-//                                            String strSubject = task.getResult().child("subject").getValue(String.class);
-//                                            String strMajor = task.getResult().child("major").getValue(String.class);
-//                                            String strSchool = task.getResult().child("school").getValue(String.class);
-//
-//                                            Demand demandTemp = new Demand(strSubject, strMajor, strSchool);
-//                                            System.out.println(demandTemp.toString());
-//                                            System.out.println(demand.toString());
-//                                        }
-//                                    }
-//                                });
+                                Demand demandTemp = dataSnapshot.getValue(Demand.class);
 
-
-//                                databaseReferenceDemandsInfo.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        Demand demandTemp = snapshot.getValue(Demand.class);
-//
-//                                        if (demandTemp != null && demand.isEqual(demandTemp)) {
-//                                            alertDialog.dismiss();
-//                                            textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
-//                                            databaseReferenceUserDemand.removeEventListener(valueEventListenerUserDemand);
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                    }
-//                                });
+                                if (demandTemp.isEqual(demand)) {
+                                    isDuplicate = true;
+                                    break;
+                                }
                             }
 
-                            if (arrayListDemandId.isEmpty()) {
-                                pushData(demand);
+                            if (isDuplicate) {
+                                alertDialog.dismiss();
+                                textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
                             } else {
-
-                                for (int i = 0; i < arrayListDemandId.size(); i++) {
-                                    DatabaseReference databaseReferenceTemp = FirebaseDatabase.getInstance().getReference("DemandsInfo").child(arrayListDemandId.get(i));
-
-                                    if (i == arrayListDemandId.size() - 1) {
-                                        databaseReferenceTemp.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                Demand demandTemp = snapshot.getValue(Demand.class);
-
-                                                if (demand.isEqual(demandTemp)) {
-                                                    alertDialog.dismiss();
-                                                    textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
-                                                    databaseReferenceUserDemand.removeEventListener(valueEventListenerUserDemand);
-                                                } else {
-                                                    pushData(demand);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
-                                    } else {
-
-                                        databaseReferenceTemp.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                Demand demandTemp = snapshot.getValue(Demand.class);
-
-                                                if (demand.isEqual(demandTemp)) {
-                                                    alertDialog.dismiss();
-                                                    textViewDuplicateDemandWarning.setVisibility(View.VISIBLE);
-                                                    databaseReferenceUserDemand.removeEventListener(valueEventListenerUserDemand);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
-                                    }
-                                }
+                                pushData(demand);
                             }
                         }
 
@@ -198,42 +114,45 @@ public class AddDemandActivity extends Activity {
     }
 
     private void pushData(Demand demand) {
-        databaseReferenceUserDemand.removeEventListener(valueEventListenerUserDemand);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
 
-        databaseReferenceUserDemand = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
-        databaseReferenceDemandsInfo = FirebaseDatabase.getInstance().getReference("DemandsInfo");
-
-        String demandId = databaseReferenceUserDemand.push().getKey();
-        databaseReferenceUserDemand.child(demandId).child("id").setValue(demandId).addOnCompleteListener(new OnCompleteListener<Void>() {
+        String demandKey = databaseReference.push().getKey();
+        databaseReference.child(demandKey).setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
                     Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                 } else {
-                    databaseReferenceDemandsInfo.child(demandId).setValue(demand).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    databaseReference.child(demandKey).child("userId").setValue(userId).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
                                 alertDialog.dismiss();
                             } else {
-                                databaseReferenceDemandsInfo.child(demandId).child("userId").setValue(userId).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (!task.isSuccessful()) {
-                                            Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
-                                            alertDialog.dismiss();
-                                        } else {
-                                            alertDialog.dismiss();
-                                            AddDemandActivity.super.onBackPressed();
-                                        }
-                                    }
-                                });
+                                alertDialog.dismiss();
+                                AddDemandActivity.super.onBackPressed();
                             }
                         }
                     });
                 }
+            }
+        });
+    }
+
+    private void updateMatchingInfo(Demand demand) {
+        Query query = FirebaseDatabase.getInstance().getReference("GroupsInfo").orderByChild("subject").equalTo(demand.getSubject());
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

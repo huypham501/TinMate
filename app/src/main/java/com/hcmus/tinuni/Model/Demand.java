@@ -35,10 +35,7 @@ public class Demand {
     }
 
     public boolean isEqual(Demand demand) {
-        if (subject.equals(demand.getSubject()) && major.equals(demand.getMajor()) && school.equals(demand.getSchool())) {
-            return true;
-        }
-        return false;
+        return subject.equals(demand.getSubject()) && major.equals(demand.getMajor()) && school.equals(demand.getSchool());
     }
 
     public String getSubject() {
