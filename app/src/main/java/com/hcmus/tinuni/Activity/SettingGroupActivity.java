@@ -48,7 +48,9 @@ public class SettingGroupActivity extends Activity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent add = new Intent(SettingGroupActivity.this, AddToGroupActivity.class);
+                add.putExtra("groupdId", groupId);
+                startActivity(add);
             }
         });
 

@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.AddToGroupActivity">
+    android:fillViewport="true"
+    android:id="@+id/fragmentChat"
+    android:background="@color/blue_700"
+    tools:context=".Fragment.UsersFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/rect">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Tìm kiếm"
+            android:layout_marginHorizontal="20dp"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:paddingLeft="10dp"
+            android:background="@drawable/border_search"
+            android:layout_marginTop="20dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"/>
+    </LinearLayout>
+
+
+</ScrollView>
