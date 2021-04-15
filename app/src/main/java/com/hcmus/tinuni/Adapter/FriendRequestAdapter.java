@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.hcmus.tinuni.Activity.MessageActivity;
+import com.hcmus.tinuni.Activity.Profile.ShowProfileActitivy;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -55,9 +55,8 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, MessageActivity.class);
-                i.putExtra("userId", user.getId());
-                i.putExtra("groupId", "");
+                Intent i = new Intent(context, ShowProfileActitivy.class);
+                i.putExtra("id", user.getId());
                 context.startActivity(i);
             }
         });
@@ -76,7 +75,7 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.username);
+            username = itemView.findViewById(R.id.groupName);
             imageView = itemView.findViewById(R.id.imageView);
             btnAccept = itemView.findViewById(R.id.btnAccept);
             btnDecline = itemView.findViewById(R.id.btnDecline);

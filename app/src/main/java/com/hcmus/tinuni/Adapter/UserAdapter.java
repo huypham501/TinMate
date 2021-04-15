@@ -21,15 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.MessageActivity;
 import com.hcmus.tinuni.Model.Chat;
-import com.hcmus.tinuni.Model.ChatGroup;
-import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
@@ -172,7 +168,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.username);
+            username = itemView.findViewById(R.id.groupName);
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             time = itemView.findViewById(R.id.time);

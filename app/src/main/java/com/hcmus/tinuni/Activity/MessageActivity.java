@@ -6,7 +6,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -80,7 +79,7 @@ public class MessageActivity extends Activity {
         setContentView(R.layout.activity_message);
 
         imageView = findViewById(R.id.imageView);
-        username = findViewById(R.id.username);
+        username = findViewById(R.id.groupName);
         recyclerView = findViewById(R.id.recyclerView);
         txtSend = findViewById(R.id.txtSend);
         btnSend = findViewById(R.id.btnSend);

@@ -1,7 +1,6 @@
 package com.hcmus.tinuni.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Activity.MessageActivity;
-import com.hcmus.tinuni.Model.Chat;
-import com.hcmus.tinuni.Model.ChatGroup;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -93,7 +84,7 @@ public class AddUserAdapter extends RecyclerView.Adapter<AddUserAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.username);
+            username = itemView.findViewById(R.id.groupName);
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             time = itemView.findViewById(R.id.time);
