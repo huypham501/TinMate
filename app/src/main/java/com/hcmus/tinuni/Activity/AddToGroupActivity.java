@@ -32,6 +32,7 @@ public class AddToGroupActivity extends Activity {
     private List<User> mUsers;
     private String groupId;
     private FirebaseUser mUser;
+    private ArrayList<String> mUsersGroupId;
     private DatabaseReference mRef;
 
     @Override
@@ -46,20 +47,22 @@ public class AddToGroupActivity extends Activity {
         mUser = FirebaseAuth.getInstance()
                 .getCurrentUser();
 
-        mRef = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(mUser.getUid());
-
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
-        Log.e("AddToGroup Activity: ", "hello");
-        Log.e("AddToGroup Activity: ", groupId);
 
-
+        mRef = FirebaseDatabase.getInstance()
+                .getReference("Groups")
+                .child(groupId).child("Participants");
+        mUsersGroupId = new ArrayList<>();
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
+//                mUsersGroupId.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String userId = dataSnapshot.getKey();
+                    Log.e("user id in group: ", userId);
+                    mUsersGroupId.add(userId);
+                }
 
             }
 
@@ -79,17 +82,17 @@ public class AddToGroupActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers.clear();
-
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
-
-                    if(!user.getId().equals(mUser.getUid())){
-                        mUsers.add(user);
+                        if (!user.getId().equals(mUser.getUid()) && !mUsersGroupId.contains(user.getId())) {
+                            mUsers.add(user);
                     }
                 }
+
                 addUserAdapter = new AddUserAdapter(AddToGroupActivity.this, mUsers, groupId);
                 recyclerView.setAdapter(addUserAdapter);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

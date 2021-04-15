@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,9 +20,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.AddGroupActivity;
+import com.hcmus.tinuni.Activity.AddToGroupActivity;
 import com.hcmus.tinuni.Activity.MessageActivity;
 import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.ChatGroup;
+import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -30,6 +34,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddUserAdapter extends RecyclerView.Adapter<AddUserAdapter.ViewHolder> {
     private Context context;
@@ -69,12 +75,46 @@ public class AddUserAdapter extends RecyclerView.Adapter<AddUserAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Sweet alert
+                {
+                    // 5. Confirm success
+                    new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Are you sure to add?")
+                            .setConfirmText("Yes")
+                            .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+
+                                    //Add to group
+                                    DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Groups");
+                                    Map<String, String> map = new HashMap<>();
+                                    map.put("id", user.getId());
+                                    map.put("role", "member");
+                                    mRef.child(groupId).child("Participants").child(user.getId()).setValue(map);
+
+
+                                    sDialog
+                                            .setTitleText("Created!")
+                                            .setContentText("Created successfully")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(null)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                }
+                            })
+                            .show();
+                }
                 //Add to group
-                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Groups");
-                Map<String, String> map = new HashMap<>();
-                map.put("id", user.getId());
-                map.put("role", "member");
-                mRef.child(groupId).child("Participants").child(user.getId()).setValue(map);
+//                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Groups");
+//                Map<String, String> map = new HashMap<>();
+//                map.put("id", user.getId());
+//                map.put("role", "member");
+//                mRef.child(groupId).child("Participants").child(user.getId()).setValue(map);
             }
         });
     }
