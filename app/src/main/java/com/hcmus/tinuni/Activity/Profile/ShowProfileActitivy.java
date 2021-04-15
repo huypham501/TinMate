@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,11 @@ import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class ShowProfileActitivy extends Activity {
 
     private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool, tvMajor, tvBeginYear;
@@ -33,7 +39,7 @@ public class ShowProfileActitivy extends Activity {
     private String id;
 
     private DatabaseReference mRef;
-
+    private FirebaseUser mUser;
     private ExpandableLinearLayout linearLayout;
     private Button btnArrow;
 
@@ -56,6 +62,7 @@ public class ShowProfileActitivy extends Activity {
 
         linearLayout = (ExpandableLinearLayout) findViewById(R.id.expandedLayout);
         btnArrow = findViewById(R.id.btnArrow);
+
         btnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +79,8 @@ public class ShowProfileActitivy extends Activity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         System.out.println(id);
+
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
         mRef = FirebaseDatabase.getInstance().getReference("Users").child(id);
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -125,7 +134,66 @@ public class ShowProfileActitivy extends Activity {
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Add friend here
+                //Sweet Alert
+                {
+                    // 5. Confirm success
+                    new SweetAlertDialog(ShowProfileActitivy.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Are you sure to add?")
+                            .setConfirmText("Yes")
+                            .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    //Add friend here
+                                    DatabaseReference user_friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid()).child(id);
+
+                                    user_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(!snapshot.exists()) {
+                                                user_friendRef.child("id").setValue(id);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+                                    DatabaseReference opponent_friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(id).child(mUser.getUid());
+
+                                    opponent_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(!snapshot.exists()) {
+                                                opponent_friendRef.child("id").setValue(mUser.getUid());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                    //End add friend
+
+                                    sDialog
+                                            .setTitleText("Added!")
+                                            .setContentText("Add Friend successfully !")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(null)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                }
+                            })
+                            .show();
+                }
+
             }
         });
 

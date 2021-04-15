@@ -34,7 +34,9 @@ public class AddFriendActivity extends Activity {
 
     private List<User> friendRecommends, friendRequests, friends;
 
-    FirebaseUser mUser;
+    private ArrayList<String> friendsOfUserId;
+    private DatabaseReference mRef;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,17 +59,32 @@ public class AddFriendActivity extends Activity {
             }
         });
 
+        //Get all friends of user
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        getFriends(mUser.getUid());
+        mRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
 
-        getFriendRequests(mUser.getUid());
+        friendsOfUserId = new ArrayList<>();
 
-        getFriendRecommends(mUser.getUid());
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendsOfUserId.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String userId = dataSnapshot.getKey();
+                    Log.e("friends of user: ", userId);
+                    friendsOfUserId.add(userId);
+                }
+                getFriendRequests(mUser.getUid());
 
+                getFriendRecommends(mUser.getUid());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-
+            }
+        });
     }
 
     private void getFriendRecommends(String uid) {
@@ -81,10 +98,10 @@ public class AddFriendActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 friendRecommends.clear();
-                for(DataSnapshot userSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
 
-                    if(!user.getId().equals(uid)) {
+                    if (!user.getId().equals(uid) && !friendsOfUserId.contains(user.getId())) {
                         friendRecommends.add(user);
                     }
                 }
@@ -108,10 +125,4 @@ public class AddFriendActivity extends Activity {
                 .child(uid);
     }
 
-    private void getFriends(String uid) {
-        DatabaseReference friendRef = FirebaseDatabase
-                .getInstance()
-                .getReference("Friends")
-                .child(uid);
-    }
 }

@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,9 +32,10 @@ public class AddToGroupActivity extends Activity {
     private RecyclerView recyclerView;
     private AddUserAdapter addUserAdapter;
     private List<User> mUsers;
+    private ImageView btnGoBack;
     private String groupId;
     private FirebaseUser mUser;
-    private ArrayList<String> mUsersGroupId;
+    private ArrayList<String> usersOfGroupId;
     private DatabaseReference mRef;
 
     @Override
@@ -40,6 +43,7 @@ public class AddToGroupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_group);
 
+        btnGoBack = findViewById(R.id.btnGoBack);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(AddToGroupActivity.this));
@@ -53,17 +57,19 @@ public class AddToGroupActivity extends Activity {
         mRef = FirebaseDatabase.getInstance()
                 .getReference("Groups")
                 .child(groupId).child("Participants");
-        mUsersGroupId = new ArrayList<>();
+        usersOfGroupId = new ArrayList<>();
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                mUsersGroupId.clear();
+                usersOfGroupId.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String userId = dataSnapshot.getKey();
                     Log.e("user id in group: ", userId);
-                    mUsersGroupId.add(userId);
+                    usersOfGroupId.add(userId);
                 }
 
+                mUsers = new ArrayList<>();
+                getUsers();
             }
 
             @Override
@@ -72,8 +78,14 @@ public class AddToGroupActivity extends Activity {
             }
         });
 
-        mUsers = new ArrayList<>();
-        getUsers();
+        //GO BACK
+        btnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddToGroupActivity.super.onBackPressed();
+                finish();
+            }
+        });
     }
 
     private void getUsers() {
@@ -84,7 +96,7 @@ public class AddToGroupActivity extends Activity {
                 mUsers.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
-                        if (!user.getId().equals(mUser.getUid()) && !mUsersGroupId.contains(user.getId())) {
+                        if (!user.getId().equals(mUser.getUid()) && !usersOfGroupId.contains(user.getId())) {
                             mUsers.add(user);
                     }
                 }
