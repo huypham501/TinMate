@@ -32,9 +32,9 @@ public class AddFriendActivity extends Activity {
     private FriendRequestAdapter friendRequestAdapter;
     private FriendRecommendAdapter friendRecommendAdapter;
 
-    private List<User> friendRecommends, friendRequests, friends;
+    private List<User> friendRecommends, friendRequests;
 
-    private ArrayList<String> friendsOfUserId;
+    private ArrayList<String> friendsOfUserId, friendRequestsOfUserId;
     private DatabaseReference mRef;
     private FirebaseUser mUser;
 
@@ -58,15 +58,14 @@ public class AddFriendActivity extends Activity {
                 AddFriendActivity.this.onBackPressed();
             }
         });
-
-        //Get all friends of user
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        mRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
+        //Get all friends of user
+        DatabaseReference mFriendRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
 
         friendsOfUserId = new ArrayList<>();
 
-        mRef.addValueEventListener(new ValueEventListener() {
+        mFriendRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 friendsOfUserId.clear();
@@ -75,8 +74,6 @@ public class AddFriendActivity extends Activity {
                     Log.e("friends of user: ", userId);
                     friendsOfUserId.add(userId);
                 }
-                getFriendRequests(mUser.getUid());
-
                 getFriendRecommends(mUser.getUid());
             }
 
@@ -85,6 +82,30 @@ public class AddFriendActivity extends Activity {
 
             }
         });
+
+        DatabaseReference mRequestRef = FirebaseDatabase.getInstance().getReference("FriendRequests").child(mUser.getUid());
+
+        friendRequestsOfUserId = new ArrayList<>();
+
+        mRequestRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendRequestsOfUserId.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String userId = dataSnapshot.getKey();
+                    Log.e("friend requests of user: ", userId);
+                    friendRequestsOfUserId.add(userId);
+                }
+                //toi day
+                getFriendRequests(mUser.getUid());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void getFriendRecommends(String uid) {
@@ -100,14 +121,36 @@ public class AddFriendActivity extends Activity {
                 friendRecommends.clear();
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
-
                     if (!user.getId().equals(uid) && !friendsOfUserId.contains(user.getId())) {
                         friendRecommends.add(user);
                     }
                 }
-
                 friendRecommendAdapter = new FriendRecommendAdapter(AddFriendActivity.this, friendRecommends);
                 recyclerViewFriendRecommend.setAdapter(friendRecommendAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+    private void getFriendRequests(String uid) {
+        friendRequests = new ArrayList<>();
+        DatabaseReference friendRequestRef = FirebaseDatabase
+                .getInstance()
+                .getReference("Users");
+
+        friendRequestRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendRequests.clear();
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    if(friendRequestsOfUserId.contains(user.getId())) {
+                        friendRequests.add(user);
+                    }
+                }
+                friendRequestAdapter = new FriendRequestAdapter(AddFriendActivity.this, friendRequests);
+                recyclerViewFriendRequest.setAdapter(friendRequestAdapter);
             }
 
             @Override
@@ -115,14 +158,6 @@ public class AddFriendActivity extends Activity {
 
             }
         });
-
-    }
-
-    private void getFriendRequests(String uid) {
-        DatabaseReference friendRequestRef = FirebaseDatabase
-                .getInstance()
-                .getReference("FriendRequests")
-                .child(uid);
     }
 
 }

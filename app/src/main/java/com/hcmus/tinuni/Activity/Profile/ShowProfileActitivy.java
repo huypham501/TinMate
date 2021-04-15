@@ -166,7 +166,7 @@ public class ShowProfileActitivy extends Activity {
                                         }
                                     });
 
-                                    DatabaseReference opponent_friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(id).child(mUser.getUid());
+                                    DatabaseReference opponent_friendRef = FirebaseDatabase.getInstance().getReference("FriendRequests").child(id).child(mUser.getUid());
 
                                     opponent_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
