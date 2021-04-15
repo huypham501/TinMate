@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue_700"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:fillViewport="true">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageRoom"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:background="@drawable/bgmatching"
+            android:src="@drawable/room_9"
+            app:civ_border_color="@color/blue_200"
+            app:civ_border_width="8dp" />
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/hat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/hat" />
+
+                <TextView
+                    android:id="@+id/txtSchoolTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_toRightOf="@+id/hat"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="School"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/txtSchoolTitle"
+                    android:layout_marginStart="20dp"
+                    android:layout_toRightOf="@+id/hat"
+
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="HCMUS-VN"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/book" />
+
+                <TextView
+                    android:id="@+id/txtSubjectTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_toRightOf="@+id/book"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Subject Name"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtSubject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/txtSubjectTitle"
+                    android:layout_marginStart="20dp"
+                    android:layout_toRightOf="@+id/book"
+
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Xác Suất Thống Kê"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/major"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/major" />
+
+                <TextView
+                    android:id="@+id/txtMajorTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_toRightOf="@+id/major"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Major"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/txtMajor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/txtMajorTitle"
+                    android:layout_marginStart="20dp"
+                    android:layout_toRightOf="@+id/major"
+
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Công Nghệ Thông Tin"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/button_go_back"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Cancel"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/btnJoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/button_sign_in"
+                    android:fontFamily="@font/montserrat_black"
+                    android:text="Join"
+                    android:textColor="@color/black" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+</LinearLayout>
+</ScrollView>

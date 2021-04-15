@@ -4,11 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -16,15 +14,12 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Fragment.HomeViewFragment.GeneralRoomSlider;
 import com.hcmus.tinuni.Fragment.HomeViewFragment.MajorRoomSlider;
 import com.hcmus.tinuni.Model.User;
@@ -109,10 +103,6 @@ public class HomeFragment extends Fragment {
     ImageAdapter adapter;
 
     private TextView[] mDots;
-
-    private Button mButtonBack;
-    private Button mButtonNext;
-
     private int mCurrentPage;
 
     private FirebaseUser mUser;
@@ -162,8 +152,6 @@ public class HomeFragment extends Fragment {
         viewPagerHome = view.findViewById(R.id.viewPagerHome);
         mDotLayout = view.findViewById(R.id.dots);
 
-        mButtonBack= view.findViewById(R.id.buttonBackSlide);
-        mButtonNext= view.findViewById(R.id.buttonNextSlide);
 
         adapter = new ImageAdapter(getContext());
 
@@ -185,7 +173,7 @@ public class HomeFragment extends Fragment {
         };
 
         timer = new Timer();
-        timer.schedule(timerTask,6000,6000);
+        timer.schedule(timerTask,8000,8000);
         addDotsIndicator(0);
 
         viewPagerHome.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -198,25 +186,6 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 addDotsIndicator(position);
                 mCurrentPage = position;
-
-                if(position==0){
-                    mButtonNext.setEnabled(true);
-                    mButtonBack.setEnabled(false);
-                    mButtonBack.setVisibility(View.INVISIBLE);
-                    mButtonNext.setVisibility(View.VISIBLE);
-                }
-                else if(position == mDots.length - 1){
-                    mButtonNext.setEnabled(false);
-                    mButtonBack.setEnabled(true);
-                    mButtonNext.setVisibility(View.INVISIBLE);
-                    mButtonBack.setVisibility(View.VISIBLE);
-                }
-                else{
-                    mButtonNext.setEnabled(true);
-                    mButtonBack.setEnabled(true);
-                    mButtonNext.setVisibility(View.VISIBLE);
-                    mButtonBack.setVisibility(View.VISIBLE);
-                }
 
                 if(position == 3){
                     buttonHomeSlider.setVisibility(View.VISIBLE);
@@ -234,20 +203,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPageScrollStateChanged(int state) {
 
-            }
-        });
-
-        mButtonNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPagerHome.setCurrentItem(mCurrentPage+1);
-            }
-        });
-
-        mButtonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPagerHome.setCurrentItem(mCurrentPage-1);
             }
         });
 
