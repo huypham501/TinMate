@@ -2,6 +2,7 @@ package com.hcmus.tinuni.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Profile.ShowProfileActitivy;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
@@ -22,6 +30,7 @@ import java.util.List;
 public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdapter.ViewHolder> {
     private Context context;
     private List<User> mItems;
+    private FirebaseUser mUser;
 
     public FriendRequestAdapter(Context context, List<User> mUsers) {
         this.context = context;
@@ -60,6 +69,59 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
                 context.startActivity(i);
             }
         });
+
+        holder.btnAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Delete the request
+                DatabaseReference delRequest = FirebaseDatabase.getInstance().getReference("FriendRequests").child(mUser.getUid()).child(user.getId());
+                delRequest.removeValue();
+
+                //Add friend from 2 side here
+                DatabaseReference user_friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid()).child(user.getId());
+
+                user_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            user_friendRef.child("id").setValue(user.getId());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                DatabaseReference opponent_friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(user.getId()).child(mUser.getUid());
+
+                user_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            opponent_friendRef.child("id").setValue(mUser.getUid());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                //End add friend from 2 side
+
+            }
+        });
+
+        holder.btnDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Delete the request
+                DatabaseReference delRequest = FirebaseDatabase.getInstance().getReference("FriendRequests").child(mUser.getUid()).child(user.getId());
+                delRequest.removeValue();
+            }
+        });
+
     }
 
     @Override
@@ -74,12 +136,12 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             username = itemView.findViewById(R.id.groupName);
             imageView = itemView.findViewById(R.id.imageView);
             btnAccept = itemView.findViewById(R.id.btnAccept);
             btnDecline = itemView.findViewById(R.id.btnDecline);
 
+            mUser = FirebaseAuth.getInstance().getCurrentUser();
         }
     }
 }

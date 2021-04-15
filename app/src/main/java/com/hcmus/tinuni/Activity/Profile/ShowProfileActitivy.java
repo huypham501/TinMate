@@ -150,22 +150,23 @@ public class ShowProfileActitivy extends Activity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     //Add friend here
-                                    DatabaseReference user_friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid()).child(id);
+//                                    DatabaseReference user_friendRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid()).child(id);
+//
+//                                    user_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                            if(!snapshot.exists()) {
+//                                                user_friendRef.child("id").setValue(id);
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                        }
+//                                    });
 
-                                    user_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            if(!snapshot.exists()) {
-                                                user_friendRef.child("id").setValue(id);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-
+                                    //Add request here
                                     DatabaseReference opponent_friendRef = FirebaseDatabase.getInstance().getReference("FriendRequests").child(id).child(mUser.getUid());
 
                                     opponent_friendRef.addListenerForSingleValueEvent(new ValueEventListener() {
