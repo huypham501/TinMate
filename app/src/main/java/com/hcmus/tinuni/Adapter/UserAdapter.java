@@ -147,43 +147,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
     }
 
-    private void getLastMessageFromGroup(String groupId, ViewHolder holder) {
-        final DatabaseReference reference = FirebaseDatabase.getInstance()
-                .getReference("Groups")
-                .child(groupId)
-                .child("Messages");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ChatGroup chat = dataSnapshot.getValue(ChatGroup.class);
-
-                    if (chat.getType().equals("text")) {
-                        lastMessage = chat.getMessage();
-                    } else if (chat.getType().equals("image")) {
-                        lastMessage = "Image was sent";
-                    }
-                    time = chat.getTime();
-
-                }
-
-                if (!lastMessage.isEmpty())
-                    holder.lastMessage.setText(lastMessage);
-                if (!time.isEmpty())
-                    holder.time.setText(holder.convertTime(time));
-
-                lastMessage = "";
-                time = "";
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
         return mItems.size();
