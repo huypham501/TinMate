@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayoutHomePage"
+            android:id="@+id/linearLayoutMatching"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -53,30 +53,7 @@
                     android:orientation="horizontal"
                     android:textAlignment="center" />
 
-                <Button
-                    android:id="@+id/buttonBackSlide"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/buttonHomeSlider"
-                    android:layout_alignLeft="@id/viewPagerHome"
-                    android:text="Back"
-                    android:textSize="20dp"
-                    android:visibility="invisible"
-                    android:fontFamily="@font/montserrat_black"/>
 
-
-                <Button
-                    android:id="@+id/buttonNextSlide"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/buttonHomeSlider"
-                    android:layout_alignRight="@id/viewPagerHome"
-                    android:layout_marginTop="-3dp"
-                    android:text="Next"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/montserrat_black"/>
             </RelativeLayout>
 
             <FrameLayout

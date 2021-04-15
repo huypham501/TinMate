@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:fillViewport="true"
     android:background="#2D9CDB"
-    tools:context=".Fragment.MatchingFragment">
+    tools:context=".Activity.SettingGroupActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

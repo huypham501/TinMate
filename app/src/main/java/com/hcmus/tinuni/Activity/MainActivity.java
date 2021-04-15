@@ -103,6 +103,15 @@ public class MainActivity extends FragmentActivity {
                     }
                 });
 
+                ImageView btnAddFriend = (ImageView) toolbar.getChildAt(3);
+                btnAddFriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
             }
 
             @Override
@@ -135,31 +144,36 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 TextView tabName = (TextView)toolbar.getChildAt(1);
-                ImageView imageView = (ImageView) toolbar.getChildAt(2);
+                ImageView addGroup = (ImageView) toolbar.getChildAt(2);
+                ImageView addFriend = (ImageView) toolbar.getChildAt(3);
                 switch (tab.getText().toString()) {
                     case "Home":
                         tabName.setText("Home");
-                        imageView.setVisibility(View.GONE);
+                        addGroup.setVisibility(View.GONE);
+                        addFriend.setVisibility(View.VISIBLE);
                         break;
                     case "Dem":
                         tabName.setText("Demand");
-                        imageView.setVisibility(View.GONE);
+                        addGroup.setVisibility(View.GONE);
                         break;
                     case "Match":
                         tabName.setText("Matching");
-                        imageView.setVisibility(View.GONE);
+                        addGroup.setVisibility(View.GONE);
                         break;
                     case "Chat":
                         tabName.setText("Chat");
-                        imageView.setVisibility(View.VISIBLE);
+                        addGroup.setVisibility(View.GONE);
+                        addFriend.setVisibility(View.VISIBLE);
                         break;
                     case "Group":
                         tabName.setText("Group");
-                        imageView.setVisibility(View.VISIBLE);
+                        addGroup.setVisibility(View.VISIBLE);
+                        addFriend.setVisibility(View.GONE);
+
                         break;
                     case "Users":
                         tabName.setText("Users");
-                        imageView.setVisibility(View.VISIBLE);
+                        addGroup.setVisibility(View.VISIBLE);
                         break;
                     default:
                         throw null;

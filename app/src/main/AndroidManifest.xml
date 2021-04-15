@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TinUni">
-        <activity android:name=".Activity.AddToGroupActivity"></activity>
+        <activity android:name=".Activity.AddFriendActivity"></activity>
+        <activity android:name=".Activity.AddToGroupActivity" />
         <activity android:name=".Activity.SettingGroupActivity" />
         <activity android:name=".Activity.ShowZoomImage" />
         <activity android:name=".Activity.AddGroupActivity" />
@@ -31,6 +32,7 @@
         </activity>
         <activity android:name=".Activity.Profile.EditProfileActivity" />
         <activity android:name=".Activity.Profile.UserProfileActitivy" />
+        <activity android:name=".Activity.Profile.ShowProfileActitivy" />
         <activity
             android:name=".Activity.MessageActivity"
             android:label="@string/title_activity_message" />
