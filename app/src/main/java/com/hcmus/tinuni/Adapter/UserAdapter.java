@@ -60,7 +60,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
         User user = mItems.get(position);
 
-
         holder.username.setText(user.getUserName());
         if (user.getImageURL().equals("default")) {
             holder.imageView.setImageResource(R.drawable.profile_image);

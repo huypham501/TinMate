@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,7 +30,7 @@ public class AddToGroupActivity extends Activity {
     private RecyclerView recyclerView;
     private AddUserAdapter addUserAdapter;
     private List<User> mUsers;
-
+    private String groupId;
     private FirebaseUser mUser;
     private DatabaseReference mRef;
 
@@ -43,9 +45,16 @@ public class AddToGroupActivity extends Activity {
 
         mUser = FirebaseAuth.getInstance()
                 .getCurrentUser();
+
         mRef = FirebaseDatabase.getInstance()
                 .getReference("Users")
                 .child(mUser.getUid());
+
+        Intent i = getIntent();
+        groupId = i.getStringExtra("groupId");
+        Log.e("AddToGroup Activity: ", "hello");
+        Log.e("AddToGroup Activity: ", groupId);
+
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,7 +87,7 @@ public class AddToGroupActivity extends Activity {
                         mUsers.add(user);
                     }
                 }
-                addUserAdapter = new AddUserAdapter(AddToGroupActivity.this, mUsers, "");
+                addUserAdapter = new AddUserAdapter(AddToGroupActivity.this, mUsers, groupId);
                 recyclerView.setAdapter(addUserAdapter);
             }
             @Override

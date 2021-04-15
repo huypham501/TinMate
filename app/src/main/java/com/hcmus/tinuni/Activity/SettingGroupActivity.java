@@ -4,6 +4,7 @@ package com.hcmus.tinuni.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -41,7 +42,7 @@ public class SettingGroupActivity extends Activity {
 
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
-
+        Log.e("SettingActivity: ", groupId);
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mRef = FirebaseDatabase.getInstance().getReference("Groups");
 
@@ -49,7 +50,7 @@ public class SettingGroupActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent add = new Intent(SettingGroupActivity.this, AddToGroupActivity.class);
-                add.putExtra("groupdId", groupId);
+                add.putExtra("groupId", groupId);
                 startActivity(add);
             }
         });
