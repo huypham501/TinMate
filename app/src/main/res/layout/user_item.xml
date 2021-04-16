@@ -18,7 +18,7 @@
         app:civ_border_width="1dp" />
 
     <TextView
-        android:id="@+id/groupName"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -38,7 +38,7 @@
         android:maxWidth="140dp"
         android:ellipsize="end"
         android:textColor="@color/lighterBlack"
-        android:layout_below="@+id/groupName"
+        android:layout_below="@+id/userName"
         android:layout_toEndOf="@+id/imageView"
         />
 
@@ -50,7 +50,7 @@
         android:maxLines="1"
         android:textColor="@color/lighterBlack"
         android:layout_toEndOf="@+id/lastMessage"
-        android:layout_below="@id/groupName"
+        android:layout_below="@id/userName"
         />
 
 

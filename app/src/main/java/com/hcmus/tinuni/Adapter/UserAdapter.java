@@ -81,31 +81,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 context.startActivity(i);
             }
         });
-//        } else {
-//
-//            Group group = (Group) item;
-//
-//            holder.username.setText(group.getName());
-//
-//            Glide.with(context)
-//                    .load(group.getImageURL())
-//                    .into(holder.imageView);
-//
-//            getLastMessageFromGroup(group.getId(), holder);
-//
-//
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent i = new Intent(context, MessageActivity.class);
-//                    i.putExtra("userId", "");
-//                    i.putExtra("groupId", group.getId());
-//                    context.startActivity(i);
-//                }
-//            });
-//
-//
-//        }
     }
 
     private void getLastMessageFromUser(String id, ViewHolder holder) {
@@ -168,7 +143,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.groupName);
+            username = itemView.findViewById(R.id.userName);
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             time = itemView.findViewById(R.id.time);
