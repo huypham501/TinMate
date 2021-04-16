@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
+import com.hcmus.tinuni.Activity.ShowMediaActivity;
 import com.hcmus.tinuni.Activity.ShowZoomImage;
 import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.ChatGroup;
@@ -65,15 +68,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             Chat chat = (Chat) item;
 
             if(chat.getType().equals("text")) {
-                holder.showImage.setVisibility(View.GONE);
                 holder.showMessage.setVisibility(View.VISIBLE);
+                holder.showImage.setVisibility(View.GONE);
+                holder.showMedia.setVisibility(View.GONE);
 
                 holder.showMessage.setText(chat.getMessage());
             } else if(chat.getType().equals("image")) {
                 holder.showImage.setVisibility(View.VISIBLE);
                 holder.showMessage.setVisibility(View.GONE);
+                holder.showMedia.setVisibility(View.GONE);
 
-                Glide.with(context)
+                Glide.with(context.getApplicationContext())
                         .load(chat.getMessage())
                         .into(holder.showImage);
 
@@ -85,6 +90,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                         context.startActivity(zoom_image);                }
                 });
 
+            } else if(chat.getType().equals("media")) {
+                holder.showMedia.setVisibility(View.VISIBLE);
+                holder.showImage.setVisibility(View.GONE);
+                holder.showMessage.setVisibility(View.GONE);
+                holder.showMedia.setText(URLUtil.guessFileName(chat.getMessage(), null, null));
+
+                holder.showMedia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent show_media = new Intent(context, ShowMediaActivity.class);
+                        show_media.putExtra("media_link", chat.getMessage());
+                        context.startActivity(show_media);
+                    }
+                });
             }
 
             if (imgURLs.get(0).equals("default")) {
@@ -106,7 +125,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 holder.showImage.setVisibility(View.VISIBLE);
                 holder.showMessage.setVisibility(View.GONE);
 
-                Glide.with(context)
+                Glide.with(context.getApplicationContext())
                         .load(groupChat.getMessage())
                         .into(holder.showImage);
 
@@ -122,7 +141,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             if (imgURLs.get(position).equals("default")) {
                 holder.profile_image.setImageResource(R.drawable.profile_image);
             } else {
-                Glide.with(context)
+                Glide.with(context.getApplicationContext())
                         .load(imgURLs.get(position))
                         .into(holder.profile_image);
             }
@@ -160,13 +179,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         TextView showMessage;
         ImageView profile_image;
         ImageView showImage;
+        Button showMedia;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             showMessage = itemView.findViewById(R.id.showMessage);
             profile_image = itemView.findViewById(R.id.profile_image);
             showImage = itemView.findViewById(R.id.showImage);
-
+            showMedia = itemView.findViewById(R.id.showMedia);
         }
 
     }
