@@ -126,29 +126,13 @@ public class AddUserAdapter extends RecyclerView.Adapter<AddUserAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView username;
         private ImageView imageView;
-        private TextView lastMessage;
-        private TextView time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.groupName);
+            username = itemView.findViewById(R.id.userName);
             imageView = itemView.findViewById(R.id.imageView);
-            lastMessage = itemView.findViewById(R.id.lastMessage);
-            time = itemView.findViewById(R.id.time);
         }
 
-        public String convertTime(String time) {
-
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy h:mm a");
-            String dateString = formatter.format(new Date(Long.parseLong(time)));
-
-            // Nếu ngày hiện tại -> h:mm a
-            // Nếu khác ngày hiện tại nhưng là ngày trong tuần thì hiện thứ mấy trong tuần
-            // Nếu khác tháng thì hiện thêm tháng
-            // Nếu khác năm thì hiện Ngày/Tháng/Năm
-
-            return dateString;
-        }
     }
 }

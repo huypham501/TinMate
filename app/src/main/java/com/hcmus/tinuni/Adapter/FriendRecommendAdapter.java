@@ -73,7 +73,7 @@ public class FriendRecommendAdapter extends RecyclerView.Adapter<FriendRecommend
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.groupName);
+            username = itemView.findViewById(R.id.userName);
             imageView = itemView.findViewById(R.id.imageView);
         }
     }

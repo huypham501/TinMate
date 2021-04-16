@@ -1,7 +1,6 @@
 package com.hcmus.tinuni.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Adapter.AddUserAdapter;
-import com.hcmus.tinuni.Adapter.UserAdapter;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -31,12 +29,12 @@ public class AddToGroupActivity extends Activity {
 
     private RecyclerView recyclerView;
     private AddUserAdapter addUserAdapter;
-    private List<User> mUsers;
     private ImageView btnGoBack;
     private String groupId;
     private FirebaseUser mUser;
-    private ArrayList<String> usersOfGroupId;
-    private DatabaseReference mRef;
+    private List<User> mUsers;
+    private List<String> usersOfGroup;
+    private List<String> friendsOfUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,29 +52,12 @@ public class AddToGroupActivity extends Activity {
         Intent i = getIntent();
         groupId = i.getStringExtra("groupId");
 
-        mRef = FirebaseDatabase.getInstance()
-                .getReference("Groups")
-                .child(groupId).child("Participants");
-        usersOfGroupId = new ArrayList<>();
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                usersOfGroupId.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String userId = dataSnapshot.getKey();
-                    Log.e("user id in group: ", userId);
-                    usersOfGroupId.add(userId);
-                }
 
-                mUsers = new ArrayList<>();
-                getUsers();
-            }
+        usersOfGroup = new ArrayList<>();
+        mUsers = new ArrayList<>();
+        friendsOfUser = new ArrayList<>();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        getUsersOfGroup();
 
         //GO BACK
         btnGoBack.setOnClickListener(new View.OnClickListener() {
@@ -88,16 +69,73 @@ public class AddToGroupActivity extends Activity {
         });
     }
 
+
+    private void getUsersOfGroup() {
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("Groups")
+                .child(groupId)
+                .child("Participants");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usersOfGroup.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String userId = dataSnapshot.getKey();
+                    Log.e("user id in group: ", userId);
+                    usersOfGroup.add(userId);
+                }
+                getFriendsOfUser();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getFriendsOfUser() {
+        DatabaseReference friendRef = FirebaseDatabase
+                .getInstance()
+                .getReference("Friends")
+                .child(mUser.getUid());
+        friendRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendsOfUser.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Log.e("friend of user: ", dataSnapshot.getKey());
+
+                    friendsOfUser.add(dataSnapshot.getKey());
+                }
+                getUsers();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
     private void getUsers() {
-        DatabaseReference Ref = FirebaseDatabase.getInstance().getReference("Users");
-        Ref.addValueEventListener(new ValueEventListener() {
+        DatabaseReference usersRef = FirebaseDatabase
+                .getInstance()
+                .getReference("Users");
+        usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mUsers.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
-                        if (!user.getId().equals(mUser.getUid()) && !usersOfGroupId.contains(user.getId())) {
-                            mUsers.add(user);
+
+                    // Không phải là user hiện tại, không tồn tại trong group trước đó
+                    // và là bạn của user hiện tại
+                    if (!user.getId().equals(mUser.getUid()) &&
+                            !usersOfGroup.contains(user.getId()) &&
+                            friendsOfUser.contains(user.getId())) {
+                        mUsers.add(user);
                     }
                 }
 
