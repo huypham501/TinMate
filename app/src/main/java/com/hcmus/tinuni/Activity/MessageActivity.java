@@ -115,7 +115,7 @@ public class MessageActivity extends Activity {
                 .getInstance()
                 .getCurrentUser();
 
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             mRef = FirebaseDatabase
                     .getInstance()
                     .getReference("Users")
@@ -181,7 +181,7 @@ public class MessageActivity extends Activity {
                 String msg = txtSend.getText().toString();
                 String time = String.valueOf(System.currentTimeMillis());
 
-                if(!msg.equals("")) {
+                if (!msg.equals("")) {
                     sendMessage(msg, time, "text");
                     txtSend.setText("");
                 }
@@ -203,7 +203,7 @@ public class MessageActivity extends Activity {
         btnSendImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choosePicture();
+                chooseFile();
             }
         });
 
@@ -219,7 +219,7 @@ public class MessageActivity extends Activity {
 
     }
 
-    private void choosePicture() {
+    private void chooseFile() {
         Intent intent = new Intent();
         intent.setType("*/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -231,11 +231,11 @@ public class MessageActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            uploadPicture();
+            uploadFile();
         }
     }
 
-    private void uploadPicture() {
+    private void uploadFile() {
         StorageReference storageRef = storageReference.child("files/chats/" + System.currentTimeMillis() + "." + getFileExtension(imageUri));
         storageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -248,7 +248,6 @@ public class MessageActivity extends Activity {
                         System.out.println("File link: " + file_link);
                         String time = String.valueOf(System.currentTimeMillis());
                         sendMessage(file_link, time, "image");
-
 
                         alertDialog.dismiss();
                         Toast.makeText(MessageActivity.this, "Upload SUCCESS", Toast.LENGTH_SHORT).show();
@@ -271,15 +270,15 @@ public class MessageActivity extends Activity {
 
     }
 
-    private void sendMessage(String msg, String time,  String type) {
-        if(!userId.isEmpty()){
+    private void sendMessage(String msg, String time, String type) {
+        if (!userId.isEmpty()) {
             sendMessageToUser(msg, time, type);
         } else {
             sendMessageToGroup(msg, time, type);
         }
     }
 
-    private void sendMessageToUser(String msg, String time,  String type) {
+    private void sendMessageToUser(String msg, String time, String type) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -347,7 +346,7 @@ public class MessageActivity extends Activity {
         chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists()){
+                if (!snapshot.exists()) {
                     chatRef.child("id").setValue(groupId);
                 }
             }
@@ -374,8 +373,8 @@ public class MessageActivity extends Activity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
-                    if((chat.getReceiver().equals(mUser.getUid()) && chat.getSender().equals(userId)) ||
-                        (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
+                    if ((chat.getReceiver().equals(mUser.getUid()) && chat.getSender().equals(userId)) ||
+                            (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
                         mItems.add(chat);
                     }
 
@@ -395,7 +394,7 @@ public class MessageActivity extends Activity {
         mItems = new ArrayList<>();
         List<String> imgURLs = new ArrayList<>();
 
-        mRef= FirebaseDatabase.getInstance()
+        mRef = FirebaseDatabase.getInstance()
                 .getReference("Groups")
                 .child(groupId)
                 .child("Messages");
@@ -405,7 +404,7 @@ public class MessageActivity extends Activity {
                 mItems.clear();
                 imgURLs.clear();
 
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
 
                     mItems.add(chatGroup);
