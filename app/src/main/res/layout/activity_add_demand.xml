@@ -161,7 +161,7 @@
                 android:fontFamily="@font/montserrat_black"
                 android:paddingLeft="140dp"
                 android:paddingRight="155dp"
-                android:text="Find"
+                android:text="Add"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
