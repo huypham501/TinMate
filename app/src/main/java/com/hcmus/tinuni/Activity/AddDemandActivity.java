@@ -132,6 +132,7 @@ public class AddDemandActivity extends Activity {
                                 alertDialog.dismiss();
                             } else {
                                 alertDialog.dismiss();
+                                updateSuggests(demand);
                                 AddDemandActivity.super.onBackPressed();
                             }
                         }
@@ -141,13 +142,22 @@ public class AddDemandActivity extends Activity {
         });
     }
 
-    private void updateMatchingInfo(Demand demand) {
-        Query query = FirebaseDatabase.getInstance().getReference("GroupsInfo").orderByChild("subject").equalTo(demand.getSubject());
-
+    private void updateSuggests(Demand demand) {
+        String strSubject = demand.getSubject();
+        Query query = FirebaseDatabase.getInstance().getReference("Groups").orderByChild("subject").equalTo(strSubject);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                if (!snapshot.exists()) {
+                    System.out.println("create new group");
+                } else
+                {
+                    DatabaseReference databaseReferenceSuggestGroup = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        databaseReferenceSuggestGroup.child(dataSnapshot.getKey()).child("id").setValue(dataSnapshot.getKey());
+                    }
+                    System.out.println("Update done");
+                }
             }
 
             @Override
