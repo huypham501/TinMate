@@ -17,9 +17,6 @@ public class Group {
         this.school = school;
     }
 
-// Participants
-    // Demand
-
     public Group() {
 
     }

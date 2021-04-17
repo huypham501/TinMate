@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -172,7 +173,7 @@ public class MessageActivity extends Activity {
 
                 }
             };
-            mRef.addValueEventListener(valueEventListener);
+            mRef.addListenerForSingleValueEvent(valueEventListener);
         }
 
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -322,7 +323,7 @@ public class MessageActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    chatReceiverRef.child("id").setValue(mUser.getUid());
+                chatReceiverRef.child("id").setValue(mUser.getUid());
 
             }
 
@@ -348,7 +349,22 @@ public class MessageActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String user_id = dataSnapshot.getKey();
-                    chatListRef.child(user_id).child(groupId).child("id").setValue(groupId);
+
+                    chatListRef.child(user_id).child(groupId);
+                    chatListRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (!snapshot.exists()) {
+                                chatListRef.child("id").setValue(groupId);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+//                    chatListRef.child(user_id).child(groupId).child("id").setValue(groupId);
                 }
             }
 
@@ -409,7 +425,6 @@ public class MessageActivity extends Activity {
 
                     mItems.add(chatGroup);
                 }
-
                 getImgURLs();
 
             }
@@ -423,43 +438,36 @@ public class MessageActivity extends Activity {
 
     }
 
+
     private void getImgURLs() {
         imgURLs = new ArrayList<>();
-        mRef =  FirebaseDatabase.getInstance()
+        mRef = FirebaseDatabase
+                .getInstance()
                 .getReference("Users");
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 imgURLs.clear();
-
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
 
-//                    System.out.println("HEREEEEEEEEEe " + mItems.size());
-
-                    for(Object item : mItems) {
+                    for (Object item : mItems) {
                         ChatGroup chatGroup = (ChatGroup) item;
-                        if(chatGroup.getSender().equals(user.getId())) {
+                        if (user.getId().equals(chatGroup.getSender())) {
                             imgURLs.add(user.getImageURL());
-                            System.out.println("******: " + user.getUserName());
                         }
                     }
-
-//                    mItems.forEach(item -> {
-//                        if (((ChatGroup) item).getSender().equals(user.getId())) {
-//                            imgURLs.add(user.getImageURL());
-//                            System.out.println("******: " + user.getUserName());
-//                        }
-//                    });
                 }
+
                 messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
                 recyclerView.setAdapter(messageAdapter);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("TAG>>", String.valueOf(error.toException()));
             }
         });
     }
