@@ -2,48 +2,41 @@ package com.hcmus.tinuni.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Model.User;
+import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
+
+import java.util.ArrayList;
 
 class MatchingAdapter extends PagerAdapter {
 
-    private Context mContext;
-    public int rooms[] = {
-            R.drawable.room_1,
-            R.drawable.room_2,
-            R.drawable.room_3,
-            R.drawable.room_4,
-            R.drawable.room_5,
-            R.drawable.room_6,
-            R.drawable.room_7,
-            R.drawable.room_8,
-            R.drawable.room_9,
-            R.drawable.room_10
-    };
+    private Context context;
+    private ArrayList<Group> arrayListGroup = new ArrayList<>();
 
+    public MatchingAdapter(Context context, ArrayList<Group> arrayListGroup) {
+        this.context = context;
+        this.arrayListGroup = arrayListGroup;
+    }
 
-    public MatchingAdapter(Context context){
-        mContext = context;
+    public MatchingAdapter(Context context) {
+        this.context = context;
     }
 
     public MatchingAdapter(MatchingFragment matchingFragment) {
@@ -51,7 +44,7 @@ class MatchingAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return rooms.length ;
+        return arrayListGroup.size();
     }
 
     @Override
@@ -62,13 +55,28 @@ class MatchingAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.room_matching,container,false);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
+        Group group = arrayListGroup.get(position);
+
+        View view = layoutInflater.inflate(R.layout.room_matching, container, false);
         ImageView imageView = view.findViewById(R.id.imageRoom);
 
+        TextView textViewSchool = view.findViewById(R.id.textViewSchool);
+        TextView textViewSubject = view.findViewById(R.id.textViewSubject);
+        TextView textViewMajor = view.findViewById(R.id.textViewMajor);
 
-        imageView.setImageResource(rooms[position]);
+        if (group.getImageURL().equals("default")) {
+            imageView.setImageResource(R.drawable.room_1);
+        } else {
+            Glide.with(context)
+                    .load(group.getImageURL())
+                    .into(imageView);
+        }
+
+        textViewSubject.setText(group.getSubject());
+        textViewSchool.setText(group.getSchool());
+        textViewMajor.setText(group.getMajor());
 
         container.addView(view);
 
@@ -84,18 +92,15 @@ class MatchingAdapter extends PagerAdapter {
 
 public class MatchingFragment extends Fragment {
 
+    private ViewPager viewPager;
+    private MatchingAdapter matchingAdapter;
+
+    private int currentPagePosition;
+    private String userId;
+
     public MatchingFragment() {
         // Required empty public constructor
     }
-
-    public ViewPager viewPager;
-    MatchingAdapter adapter;
-
-    private int mCurrentPage;
-
-    private FirebaseUser mUser;
-    private DatabaseReference mRef;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,30 +109,57 @@ public class MatchingFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_matching, container, false);
 
-//        Toolbar toolbar = view.findViewById(R.id.toolbar);
-//        TextView tabName = (TextView) toolbar.getChildAt(1);
-//        tabName.setText("Home");
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mUser = FirebaseAuth.getInstance()
-                .getCurrentUser();
-        mRef = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(mUser.getUid());
+        viewPager = view.findViewById(R.id.viewPagerMatching);
 
-        mRef.addValueEventListener(new ValueEventListener() {
+        loadGroupSuggest();
+
+        return view;
+    }
+
+    private void loadGroupSuggest() {
+        DatabaseReference databaseReferenceSuggests = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
+        databaseReferenceSuggests.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
+                if (!snapshot.exists()) {
 
-//                ImageView imageView = (ImageView) toolbar.getChildAt(0);
-//                if (user.getImageURL().equals("default")) {
-//                    imageView.setImageResource(R.drawable.profile_image);
-//                } else {
-//                    Glide.with(HomeFragment.this)
-//                            .load(user.getImageURL())
-//                            .into(imageView);
-//
-//                }
+                } else {
+
+                    ArrayList<Group> arrayListGroup = new ArrayList<>();
+
+
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String strGroupId = dataSnapshot.getKey();
+
+                        DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
+                        databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
+                                if (!groupSnapshot.exists()) {
+
+                                } else {
+                                    System.out.println(groupSnapshot.getValue());
+                                    Group group = groupSnapshot.getValue(Group.class);
+
+                                    System.out.println(group.toString());
+//                                String strId = snapshot.child("id").getValue().toString();
+//                                String strName = snapshot.child("name").getValue().toString();
+//                                String strImageURL = snapshot.child("imageURL").getValue().toString();
+//                                String strSubject = snapshot.child("subject").getValue().toString();
+//                                String strMajor = snapshot.child("major").getValue().toString();
+//                                String strSchool = snapshot.child("school").getValue().toString();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
             }
 
             @Override
@@ -135,17 +167,5 @@ public class MatchingFragment extends Fragment {
 
             }
         });
-
-        viewPager = view.findViewById(R.id.viewPagerMatching);
-
-        adapter = new MatchingAdapter(getContext());
-
-        viewPager.setAdapter(adapter);
-
-        return view;
     }
-
-
-
-
 }

@@ -247,7 +247,12 @@ public class MessageActivity extends Activity {
                         file_link = uri.toString();
                         System.out.println("File link: " + file_link);
                         String time = String.valueOf(System.currentTimeMillis());
-                        sendMessage(file_link, time, "image");
+
+                        if (getFileExtension(imageUri).contains("mp")) {
+                            sendMessage(file_link, time, "media");
+                        } else {
+                            sendMessage(file_link, time, "image");
+                        }
 
                         alertDialog.dismiss();
                         Toast.makeText(MessageActivity.this, "Upload SUCCESS", Toast.LENGTH_SHORT).show();

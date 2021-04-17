@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
-import com.hcmus.tinuni.Activity.ShowVideoActivity;
+import com.hcmus.tinuni.Activity.ShowMediaActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -101,7 +101,7 @@ public class UserProfileActitivy extends Activity {
                 if (user.getImageURL().matches("default")) {
                     ivAvatar.setImageResource(R.drawable.profile_image);
                 } else {
-                    Glide.with(UserProfileActitivy.this)
+                    Glide.with(getApplicationContext())
                             .load(user.getImageURL())
                             .into(ivAvatar);
                 }
@@ -153,7 +153,7 @@ public class UserProfileActitivy extends Activity {
             @Override
             public void onClick(View v) {
                 //test show video here
-                Intent intent_changePassword = new Intent(UserProfileActitivy.this, ShowVideoActivity.class);
+                Intent intent_changePassword = new Intent(UserProfileActitivy.this, ShowMediaActivity.class);
                 startActivity(intent_changePassword);
             }
         });

@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,18 +24,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.hcmus.tinuni.R;
 
-public class ShowVideoActivity extends Activity {
+public class ShowMediaActivity extends Activity {
 
     private ImageView btnGoBack, btnDownload;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private VideoView videoView;
-    String video_link;
+    String media_link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_video);
+        setContentView(R.layout.activity_show_media);
 
         btnGoBack = findViewById(R.id.btnGoBack);
         btnDownload = findViewById(R.id.btnDownload);
@@ -43,30 +45,30 @@ public class ShowVideoActivity extends Activity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-//        Intent intent = getIntent();
-//        video_link = intent.getStringExtra("video_link");
+        Intent intent = getIntent();
+        media_link = intent.getStringExtra("media_link");
 
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowVideoActivity.super.onBackPressed();
+                ShowMediaActivity.super.onBackPressed();
             }
         });
-//        String music_link = "https://firebasestorage.googleapis.com/v0/b/tinmuser.appspot.com/o/songs%2F1618162806194-sample4.mp3?alt=media&token=9e9b218b-cae5-4ae7-bed2-8ba68a9a1459";
-        video_link = "https://firebasestorage.googleapis.com/v0/b/tinuni.appspot.com/o/files%2Fchats%2Ffile_example_MP4_480_1_5MG.mp4?alt=media&token=79ab6f18-bc68-45c4-8f7b-190bd79f2a3e";
 
-        videoView.setVideoURI(Uri.parse(video_link));
-
+        videoView.setVideoURI(Uri.parse(media_link));
+        if(URLUtil.guessFileName(media_link, null, null).contains("mp3")) {
+            videoView.setBackgroundResource(R.drawable.bg_media);
+        }
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
-//        videoView.start();
+        videoView.start();
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("********* download");
-                new AlertDialog.Builder(ShowVideoActivity.this)
+                new AlertDialog.Builder(ShowMediaActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Sign Out")
                         .setMessage("Are you sure you want to download ?")
@@ -74,7 +76,7 @@ public class ShowVideoActivity extends Activity {
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String filename = URLUtil.guessFileName(video_link, null, null);
+                                String filename = URLUtil.guessFileName(media_link, null, null);
                                 download(filename);
                             }
                         })
@@ -89,7 +91,7 @@ public class ShowVideoActivity extends Activity {
         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                downloadFile(ShowVideoActivity.this, filename, Environment.DIRECTORY_DOWNLOADS, video_link);
+                downloadFile(ShowMediaActivity.this, filename, Environment.DIRECTORY_DOWNLOADS, media_link);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

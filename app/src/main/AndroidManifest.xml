@@ -35,6 +35,7 @@
         <activity android:name=".Activity.Profile.EditProfileActivity" />
         <activity android:name=".Activity.Profile.UserProfileActitivy" />
         <activity android:name=".Activity.Profile.ShowProfileActitivy" />
+        <activity android:name=".Activity.Authentication.LoadingActivity" />
         <activity
             android:name=".Activity.MessageActivity"
             android:label="@string/title_activity_message" />

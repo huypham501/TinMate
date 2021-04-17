@@ -25,6 +25,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:background="@drawable/background_right"
+            android:layout_marginTop="2dp"
             android:padding="8dp"
             android:paddingRight="5dp"
             android:text="Hello"
@@ -39,8 +40,21 @@
             android:layout_height="200dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
+            android:layout_marginTop="2dp"
             android:src="@drawable/background_find_demand"
             android:visibility="gone"/>
+        <Button
+            android:id="@+id/showMedia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filename"
+            android:layout_alignParentEnd="true"
+            android:padding="5dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="2dp"
+            android:drawableLeft="@drawable/ic_media"
+            android:background="@drawable/background_right"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
