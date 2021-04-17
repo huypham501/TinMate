@@ -14,23 +14,30 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.util.ScopeUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
 
 class MatchingAdapter extends PagerAdapter {
 
     private Context context;
-    private ArrayList<Group> arrayListGroup = new ArrayList<>();
+    private ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
 
-    public MatchingAdapter(Context context, ArrayList<Group> arrayListGroup) {
+    public MatchingAdapter(Context context, ArrayList<HashMap<String, Object>> arrayListGroup) {
         this.context = context;
         this.arrayListGroup = arrayListGroup;
     }
@@ -57,7 +64,7 @@ class MatchingAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
-        Group group = arrayListGroup.get(position);
+        HashMap<String, Object> hashMapGroup = arrayListGroup.get(position);
 
         View view = layoutInflater.inflate(R.layout.room_matching, container, false);
         ImageView imageView = view.findViewById(R.id.imageRoom);
@@ -65,18 +72,20 @@ class MatchingAdapter extends PagerAdapter {
         TextView textViewSchool = view.findViewById(R.id.textViewSchool);
         TextView textViewSubject = view.findViewById(R.id.textViewSubject);
         TextView textViewMajor = view.findViewById(R.id.textViewMajor);
+        TextView textViewNumberMembers = view.findViewById(R.id.textViewNumberMembers);
 
-        if (group.getImageURL().equals("default")) {
+        if (hashMapGroup.get("imageURL").equals("default")) {
             imageView.setImageResource(R.drawable.room_1);
         } else {
             Glide.with(context)
-                    .load(group.getImageURL())
+                    .load(hashMapGroup.get("imageURL"))
                     .into(imageView);
         }
 
-        textViewSubject.setText(group.getSubject());
-        textViewSchool.setText(group.getSchool());
-        textViewMajor.setText(group.getMajor());
+        textViewSubject.setText(hashMapGroup.get("subject").toString());
+        textViewSchool.setText(hashMapGroup.get("school").toString());
+        textViewMajor.setText(hashMapGroup.get("major").toString());
+        textViewNumberMembers.setText(hashMapGroup.get("numberMembers").toString() + " members");
 
         container.addView(view);
 
@@ -118,38 +127,36 @@ public class MatchingFragment extends Fragment {
         return view;
     }
 
+
+
     private void loadGroupSuggest() {
         DatabaseReference databaseReferenceSuggests = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
         databaseReferenceSuggests.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
-
                 } else {
-
-                    ArrayList<Group> arrayListGroup = new ArrayList<>();
-
+                    ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
 
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         String strGroupId = dataSnapshot.getKey();
-
                         DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
+
                         databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
+                                @Override
                             public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
                                 if (!groupSnapshot.exists()) {
 
                                 } else {
-                                    System.out.println(groupSnapshot.getValue());
                                     Group group = groupSnapshot.getValue(Group.class);
+                                    HashMap<String, Object> hashMapGroup = Group.toHashMap(group);
 
-                                    System.out.println(group.toString());
-//                                String strId = snapshot.child("id").getValue().toString();
-//                                String strName = snapshot.child("name").getValue().toString();
-//                                String strImageURL = snapshot.child("imageURL").getValue().toString();
-//                                String strSubject = snapshot.child("subject").getValue().toString();
-//                                String strMajor = snapshot.child("major").getValue().toString();
-//                                String strSchool = snapshot.child("school").getValue().toString();
+                                    long numberMembers = groupSnapshot.child("Participants").getChildrenCount();
+                                    hashMapGroup.put("numberMembers", numberMembers);
+
+                                    arrayListGroup.add(hashMapGroup);
+                                    matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+                                    viewPager.setAdapter(matchingAdapter);
                                 }
                             }
 

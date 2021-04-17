@@ -1,5 +1,8 @@
 package com.hcmus.tinuni.Model;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 public class Group {
     String id;
 
@@ -84,5 +87,18 @@ public class Group {
                 ", major='" + major + '\'' +
                 ", school='" + school + '\'' +
                 '}';
+    }
+
+    public static HashMap<String, Object> toHashMap(Object group) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        for (Field field : group.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                hashMap.put(field.getName(), field.get(group));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return hashMap;
     }
 }
