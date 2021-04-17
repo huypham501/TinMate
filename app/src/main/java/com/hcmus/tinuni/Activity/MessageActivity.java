@@ -321,9 +321,9 @@ public class MessageActivity extends Activity {
         chatReceiverRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {
+
                     chatReceiverRef.child("id").setValue(mUser.getUid());
-                }
+
             }
 
             @Override
@@ -343,10 +343,10 @@ public class MessageActivity extends Activity {
 
         DatabaseReference chatListRef = FirebaseDatabase.getInstance().getReference("ChatList");
 
-        reference.child(groupId).child("Participants").addValueEventListener(new ValueEventListener() {
+        reference.child(groupId).child("Participants").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String user_id = dataSnapshot.getKey();
                     chatListRef.child(user_id).child(groupId).child("id").setValue(groupId);
                 }
@@ -394,7 +394,6 @@ public class MessageActivity extends Activity {
 
     private void readMessagesFromGroup() {
         mItems = new ArrayList<>();
-        List<String> imgURLs = new ArrayList<>();
 
         mRef = FirebaseDatabase.getInstance()
                 .getReference("Groups")
@@ -404,20 +403,56 @@ public class MessageActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
-                imgURLs.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
 
                     mItems.add(chatGroup);
-
-                    DatabaseReference reference = FirebaseDatabase.getInstance()
-                            .getReference("Users")
-                            .child(chatGroup.getSender())
-                            .child("imageURL");
-                    imgURLs.add(reference.toString());
                 }
 
+                getImgURLs();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    private void getImgURLs() {
+        imgURLs = new ArrayList<>();
+        mRef =  FirebaseDatabase.getInstance()
+                .getReference("Users");
+
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                imgURLs.clear();
+
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+
+//                    System.out.println("HEREEEEEEEEEe " + mItems.size());
+
+                    for(Object item : mItems) {
+                        ChatGroup chatGroup = (ChatGroup) item;
+                        if(chatGroup.getSender().equals(user.getId())) {
+                            imgURLs.add(user.getImageURL());
+                            System.out.println("******: " + user.getUserName());
+                        }
+                    }
+
+//                    mItems.forEach(item -> {
+//                        if (((ChatGroup) item).getSender().equals(user.getId())) {
+//                            imgURLs.add(user.getImageURL());
+//                            System.out.println("******: " + user.getUserName());
+//                        }
+//                    });
+                }
                 messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
                 recyclerView.setAdapter(messageAdapter);
             }
@@ -427,7 +462,6 @@ public class MessageActivity extends Activity {
 
             }
         });
-
     }
 
     private String getFileExtension(Uri mUri) {
