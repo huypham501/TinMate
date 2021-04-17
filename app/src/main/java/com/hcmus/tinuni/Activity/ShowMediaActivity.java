@@ -6,6 +6,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -55,7 +56,9 @@ public class ShowMediaActivity extends Activity {
         });
 
         videoView.setVideoURI(Uri.parse(media_link));
-
+        if(URLUtil.guessFileName(media_link, null, null).contains("mp3")) {
+            videoView.setBackgroundResource(R.drawable.bg_media);
+        }
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
