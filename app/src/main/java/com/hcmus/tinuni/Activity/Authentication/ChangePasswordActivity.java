@@ -3,11 +3,13 @@ package com.hcmus.tinuni.Activity.Authentication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,11 +19,13 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.hcmus.tinuni.Activity.MainActivity;
+import com.hcmus.tinuni.Activity.Profile.ShowProfileActitivy;
 import com.hcmus.tinuni.R;
 
-public class ChangePasswordActivity extends AppCompatActivity {
+public class ChangePasswordActivity extends Activity {
     private EditText edtOldPassword, edtNewPassword, edtReconfirm;
-    private Button btnConfirm, btnGoBack;
+    private Button btnConfirm;
+    private ImageView btnGoBack;
     String id;
     FirebaseUser mUser;
 
@@ -71,9 +75,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_goBack = new Intent(ChangePasswordActivity.this, MainActivity.class);
-                intent_goBack.putExtra("id", id);
-                startActivity(intent_goBack);
+                ChangePasswordActivity.super.onBackPressed();
+                finish();
             }
         });
     }

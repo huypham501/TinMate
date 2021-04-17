@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Authentication.ChangePasswordActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.ShowMediaActivity;
 import com.hcmus.tinuni.Model.User;
@@ -153,7 +154,7 @@ public class UserProfileActitivy extends Activity {
             @Override
             public void onClick(View v) {
                 //test show video here
-                Intent intent_changePassword = new Intent(UserProfileActitivy.this, ShowMediaActivity.class);
+                Intent intent_changePassword = new Intent(UserProfileActitivy.this, ChangePasswordActivity.class);
                 startActivity(intent_changePassword);
             }
         });

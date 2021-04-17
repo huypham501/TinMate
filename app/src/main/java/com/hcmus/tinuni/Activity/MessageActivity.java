@@ -341,18 +341,14 @@ public class MessageActivity extends Activity {
                 .child("Messages")
                 .push().setValue(chatGroup);
 
+        DatabaseReference chatListRef = FirebaseDatabase.getInstance().getReference("ChatList");
 
-        // Get the latest chat message
-        final DatabaseReference chatRef = FirebaseDatabase.getInstance()
-                .getReference("ChatList")
-                .child(mUser.getUid())
-                .child(groupId);
-
-        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(groupId).child("Participants").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {
-                    chatRef.child("id").setValue(groupId);
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String user_id = dataSnapshot.getKey();
+                    chatListRef.child(user_id).child(groupId).child("id").setValue(groupId);
                 }
             }
 
@@ -361,6 +357,7 @@ public class MessageActivity extends Activity {
 
             }
         });
+
     }
 
     private void readMessagesFromUser(String imgURL) {

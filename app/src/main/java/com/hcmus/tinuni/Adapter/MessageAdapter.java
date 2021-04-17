@@ -136,6 +136,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                         zoom_image.putExtra("img_link", groupChat.getMessage());
                         context.startActivity(zoom_image);                }
                 });
+            } else if(groupChat.getType().equals("media")) {
+                holder.showMedia.setVisibility(View.VISIBLE);
+                holder.showImage.setVisibility(View.GONE);
+                holder.showMessage.setVisibility(View.GONE);
+                holder.showMedia.setText(URLUtil.guessFileName(groupChat.getMessage(), null, null));
+
+                holder.showMedia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent show_media = new Intent(context, ShowMediaActivity.class);
+                        show_media.putExtra("media_link", groupChat.getMessage());
+                        context.startActivity(show_media);
+                    }
+                });
             }
 
             if (imgURLs.get(position).equals("default")) {
