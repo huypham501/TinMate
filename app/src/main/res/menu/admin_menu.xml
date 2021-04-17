@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/adminHome"
+        android:title="Home"
+        android:icon="@drawable/ic_admin_home"/>
+    <item
+        android:id="@+id/manageRoomFragment"
+        android:title="Room"
+        android:icon="@drawable/ic_admin_school"/>
+    <item
+        android:id="@+id/manageUserFragment"
+        android:title="User"
+        android:icon="@drawable/ic_admin_user"/>
+    <item
+        android:id="@+id/manageDemandFragment"
+        android:title="Demand"
+        android:icon="@drawable/ic_admin_demand" />
+</menu>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Admin.AdminHomeFragment"
+    android:background="@drawable/admin_gradient_bg_animation"
+    android:id="@+id/animated_gradient_bg">
+
+    <!-- TODO: Update blank fragment layout -->
+    <include
+        android:id="@+id/admin_toolbar"
+        layout="@layout/admin_toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/admin_toolbar">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/manage_room"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/study_room" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MANAGE ROOM"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/manage_user"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/user" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MANAGE USER"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/manage_demand"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/request" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MANAGE DEMAND"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
