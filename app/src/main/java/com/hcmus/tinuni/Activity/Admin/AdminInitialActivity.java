@@ -14,6 +14,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,7 +30,7 @@ import com.hcmus.tinuni.R;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class InitialActivity extends FragmentActivity {
+public class AdminInitialActivity extends FragmentActivity {
 
     protected BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -79,8 +80,18 @@ public class InitialActivity extends FragmentActivity {
         BottomNavigationView bottomNav = findViewById(R.id.admin_bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+//        Button btn_room = (Button) findViewById(R.id.btn_room);
+//        btn_room.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bottomNav.getMenu().getItem(1).setChecked(true);
+//            }
+//        });
+
         //Stick home fragment to screen
         Fragment home_fragment = new AdminHomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, home_fragment).commit();
         }
+
+
 }
