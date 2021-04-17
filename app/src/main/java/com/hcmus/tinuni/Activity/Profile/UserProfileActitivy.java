@@ -183,7 +183,7 @@ public class UserProfileActitivy extends Activity {
                             public void onClick(DialogInterface dialog, int which) {
                                 FirebaseAuth.getInstance().signOut();
                                 System.out.println("***********************************************");
-                                Intent intent = new Intent(UserProfileActitivy.this, SignInActivity.class);
+                                Intent intent = new Intent(UserProfileActitivy.this, SignInActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
                             }

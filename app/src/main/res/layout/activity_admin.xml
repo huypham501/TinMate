@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.AdminActivity">
+    <ImageButton
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_menu"
+        android:layout_margin="10dp"
+        android:id="@+id/btn_menu"
+        android:visibility="visible"/>
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:background="@color/blue_500"
+        android:id="@+id/toggle_menu"
+        android:visibility="gone"
+        android:padding="8dp">
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_cancel"
+            android:id="@+id/btn_cancel"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:id="@+id/username"
+            android:layout_centerHorizontal="true"
+            android:textColor="#fff"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MANAGE USERS"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:background="@color/blue_200"
+                android:id="@+id/btn_mUsers"
+                android:padding="8dp"
+                android:layout_marginBottom="5dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MANAGE ROOMS"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:background="@color/blue_200"
+                android:id="@+id/btn_mRooms"
+                android:padding="8dp"
+                android:layout_marginBottom="5dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LOG OUT"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:background="@color/blue_200"
+                android:id="@+id/btn_logout"
+                android:padding="8dp"
+                android:layout_marginBottom="5dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@+id/toggle_menu"
+        android:gravity="center"
+        android:layout_alignWithParentIfMissing="true"
+        android:paddingLeft="20dp"
+        android:id="@+id/container">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/blue_500"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_user"
+                    android:id="@+id/icon_user"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manage users"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    android:layout_below="@id/icon_user"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/blue_500"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_group"
+                    android:id="@+id/icon_room"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manage rooms"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    android:layout_below="@id/icon_room"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
