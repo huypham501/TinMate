@@ -30,8 +30,19 @@ import com.hcmus.tinuni.R;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class AdminInitialActivity extends FragmentActivity {
+public class AdminInitialActivity extends FragmentActivity implements AdminHomeFragment.AdminHomeFragmentListener{
+    //---------------------------------------------
+    Toolbar toolbar;
+    TextView toolbar_title;
+    ImageView log_out_btn;
 
+    private BottomNavigationView bottomNav;
+
+    private AdminHomeFragment homeFrag;
+    private AdminRoomFragment roomFrag;
+    private  AdminUserFragment userFrag;
+    private  AdminDemandFragment demandFrag;
+    //---------------------------------------------
     protected BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -41,18 +52,23 @@ public class AdminInitialActivity extends FragmentActivity {
                     switch (item.getItemId()){
                         case R.id.adminHome:
                             selectedFragment = new AdminHomeFragment();
+                            toolbar_title.setText("MANAGE");
                             break;
                         case R.id.manageRoomFragment:
                             selectedFragment = new AdminRoomFragment();
+                            toolbar_title.setText("MANAGE ROOM");
                             break;
                         case R.id.manageUserFragment:
                             selectedFragment = new AdminUserFragment();
+                            toolbar_title.setText("MANAGE USER");
                             break;
                         case R.id.manageDemandFragment:
                             selectedFragment = new AdminDemandFragment();
+                            toolbar_title.setText("MANAGE DEMAND");
                             break;
                     }
 
+                    assert selectedFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, selectedFragment).commit();
 
                     return true;
@@ -64,34 +80,55 @@ public class AdminInitialActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_initial);
 
-//        //Set up Toolbar
-//        Toolbar toolbar = findViewById(R.id.admin_toolbar);
-//        TextView toolbar_title = findViewById(R.id.admin_toolbar_title);
-//        toolbar_title.setText("MANAGE");
-//        ImageView log_out = findViewById(R.id.admin_log_out);
-//        log_out.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Log out
-//            }
-//        });
+        //Set up Toolbar
+        toolbar = findViewById(R.id.admin_toolbar);
+        toolbar_title = findViewById(R.id.admin_toolbar_title);
+        toolbar_title.setText("MANAGE");
+        log_out_btn = findViewById(R.id.admin_log_out);
+        log_out_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Log out
+            }
+        });
 
         //Set up navigation bar
-        BottomNavigationView bottomNav = findViewById(R.id.admin_bottom_nav);
+        bottomNav = findViewById(R.id.admin_bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-//        Button btn_room = (Button) findViewById(R.id.btn_room);
-//        btn_room.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bottomNav.getMenu().getItem(1).setChecked(true);
-//            }
-//        });
+        //Allocate needed fragments
+        homeFrag = new AdminHomeFragment();
+        roomFrag = new AdminRoomFragment();
+        userFrag = new AdminUserFragment();
+        demandFrag = new AdminDemandFragment();
 
-        //Stick home fragment to screen
-        Fragment home_fragment = new AdminHomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, home_fragment).commit();
+        //Stick AdminHomeFragment to screen
+        getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, homeFrag).commit();
+    }
+
+    //Listen to message send from AdminHomeFragment
+    @Override
+    public void onInputHomeSent(CharSequence input) {
+        String message = input.toString();
+        Fragment selectedFrag = null;
+        int navItemIndex = -1;
+
+        if (message.equals("ROOM")){
+            selectedFrag = roomFrag;
+            navItemIndex = 1;
+        }
+        if (message.equals("USER")){
+            selectedFrag = userFrag;
+            navItemIndex = 2;
+        }
+        if (message.equals("DEMAND")){
+            selectedFrag = demandFrag;
+            navItemIndex = 3;
         }
 
-
+        message = "MANAGE " + message;
+        toolbar_title.setText(message);
+        getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, selectedFrag).commit();
+        bottomNav.getMenu().getItem(navItemIndex).setChecked(true);
+    }
 }
