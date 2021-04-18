@@ -12,6 +12,7 @@ public class User {
     private String beginYear;
     private String gender;
 
+
     public User() {
 
     }

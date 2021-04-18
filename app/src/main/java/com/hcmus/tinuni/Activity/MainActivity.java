@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
+import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Fragment.ChatFragment;
 import com.hcmus.tinuni.Fragment.DemandManageFragment;
@@ -66,6 +68,11 @@ public class MainActivity extends FragmentActivity {
 
         mUser = FirebaseAuth.getInstance()
                 .getCurrentUser();
+        if (mUser == null){
+            Intent i = new Intent(MainActivity.this, SignInActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        }
+        else
         mRef = FirebaseDatabase.getInstance()
                 .getReference("Users")
                 .child(mUser.getUid());
@@ -288,5 +295,27 @@ public class MainActivity extends FragmentActivity {
         public boolean onTouchEvent(MotionEvent arg0) {
             return (this.swipeable) && super.onTouchEvent(arg0);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mUser = FirebaseAuth.getInstance()
+                .getCurrentUser();
+        FirebaseDatabase.getInstance().getReference().child("Roles").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String role = snapshot.getValue(String.class);
+                if (role != null && role.equals("admin")){
+                    Intent i = new Intent(MainActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
