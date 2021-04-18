@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -74,6 +75,47 @@ class MatchingAdapter extends PagerAdapter {
         TextView textViewMajor = view.findViewById(R.id.textViewMajor);
         TextView textViewNumberMembers = view.findViewById(R.id.textViewNumberMembers);
 
+        Button buttonJoin = view.findViewById(R.id.buttonJoin);
+        buttonJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String groupId = hashMapGroup.get("id").toString();
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                DatabaseReference databaseReferenceSuggest = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
+                databaseReferenceSuggest.child(groupId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (!task.isSuccessful()) {
+
+                        } else {
+                            DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("Participants");
+                            databaseReferenceGroups.child(userId).child("id").setValue(userId).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()) {
+
+                                    } else {
+                                        databaseReferenceGroups.child(userId).child("role").setValue("member").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (!task.isSuccessful()) {
+
+                                                } else {
+                                                    System.out.println("Join success");
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
         if (hashMapGroup.get("imageURL").equals("default")) {
             imageView.setImageResource(R.drawable.room_1);
         } else {
@@ -128,7 +170,6 @@ public class MatchingFragment extends Fragment {
     }
 
 
-
     private void loadGroupSuggest() {
         DatabaseReference databaseReferenceSuggests = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
         databaseReferenceSuggests.addValueEventListener(new ValueEventListener() {
@@ -138,12 +179,15 @@ public class MatchingFragment extends Fragment {
                 } else {
                     ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
 
+                    matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+                    viewPager.setAdapter(matchingAdapter);
+
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         String strGroupId = dataSnapshot.getKey();
                         DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
 
                         databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
+                            @Override
                             public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
                                 if (!groupSnapshot.exists()) {
 

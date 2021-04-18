@@ -13,10 +13,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
@@ -86,29 +92,47 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
         }
     }
 
-    private boolean check = false;
-
     public void deleteCommit() {
         if (arrayListDemandId.isEmpty()) {
             return;
         }
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands").child(userId);
 
         for (String demandId : arrayListDemandId) {
-            databaseReference.child(demandId).removeValue().addOnFailureListener(new OnFailureListener() {
+
+            Query query = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
-                    new AlertDialog.Builder(context).setTitle("Error").setMessage("Something went wrong...\nAction has been broken").setNegativeButton("Ok", null);
-                    check = true;
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            if (demandId.equals(dataSnapshot.getKey())) {
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
+                                databaseReference.child(demandId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()) {
+
+                                        } else {
+                                            System.out.println("Delete demand done");
+                                        }
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
             });
-
-            if (check) {
-                return;
-            }
         }
+
+        arrayListDemandId.clear();
     }
 
     public void updateVisibility(boolean value) {
