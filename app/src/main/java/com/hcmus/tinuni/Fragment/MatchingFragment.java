@@ -173,17 +173,9 @@ public class MatchingFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        System.out.println("ON STARTTTTTTTTT");
-        loadGroupSuggest();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         loadGroupSuggest();
-        System.out.println("ON RESUMEEEE");
     }
 
     private void loadGroupSuggest() {

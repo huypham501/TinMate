@@ -34,7 +34,6 @@ import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Fragment.ChatFragment;
 import com.hcmus.tinuni.Fragment.ConversationFragment;
-import com.hcmus.tinuni.Fragment.DemandManageFragment;
 import com.hcmus.tinuni.Fragment.GroupFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.MatchingFragment;
@@ -50,9 +49,12 @@ public class MainActivity extends FragmentActivity {
 
     TabLayout tabLayout;
     CustomViewPager viewPager;
+
+    TextView tabName;
+
+    ImageView imageViewManageDemand, addGroup, addFriend, imageView;
     private final int[] tabIcons = {
             R.drawable.home,
-            R.drawable.ic_baseline_list_alt,
             R.drawable.fire,
             R.drawable.chat,
             R.drawable.users
@@ -66,21 +68,21 @@ public class MainActivity extends FragmentActivity {
 
         mUser = FirebaseAuth.getInstance()
                 .getCurrentUser();
-        if (mUser == null){
+        if (mUser == null) {
             Intent i = new Intent(MainActivity.this, SignInActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
-        }
-        else
-        mRef = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(mUser.getUid());
+        } else
+            mRef = FirebaseDatabase.getInstance()
+                    .getReference("Users")
+                    .child(mUser.getUid());
+
+        imageView = (ImageView) toolbar.getChildAt(0);
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
 
-                ImageView imageView = (ImageView) toolbar.getChildAt(0);
                 if (user.getImageURL().equals("default")) {
                     imageView.setImageResource(R.drawable.profile_image);
                 } else {
@@ -89,39 +91,50 @@ public class MainActivity extends FragmentActivity {
                             .into(imageView);
 
                 }
-
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
-                        intent_profile.putExtra("id", mUser.getUid());
-                        startActivity(intent_profile);
-                    }
-                });
-
-                ImageView btnAddGroup = (ImageView) toolbar.getChildAt(2);
-                btnAddGroup.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
-                ImageView btnAddFriend = (ImageView) toolbar.getChildAt(3);
-                btnAddFriend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        tabName = (TextView) toolbar.findViewById(R.id.textViewTabName);
+        imageViewManageDemand = (ImageView) toolbar.findViewById(R.id.imageViewManageDemand);
+        addGroup = (ImageView) toolbar.findViewById(R.id.imageViewAddGroup);
+        addFriend = (ImageView) toolbar.findViewById(R.id.imageViewAddFriend);
+
+        imageViewManageDemand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DemandManageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddGroupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
+                intent_profile.putExtra("id", mUser.getUid());
+                startActivity(intent_profile);
             }
         });
 
@@ -132,7 +145,6 @@ public class MainActivity extends FragmentActivity {
         ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
 
         viewPageAdapter.addFragment(new HomeFragment(), "Home");
-        viewPageAdapter.addFragment(new DemandManageFragment(), "Dem");
         viewPageAdapter.addFragment(new MatchingFragment(), "Match");
         viewPageAdapter.addFragment(new ConversationFragment(), "Chat");
         viewPageAdapter.addFragment(new UsersFragment(), "Users");
@@ -147,31 +159,30 @@ public class MainActivity extends FragmentActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                TextView tabName = (TextView)toolbar.getChildAt(1);
-                ImageView addGroup = (ImageView) toolbar.getChildAt(2);
-                ImageView addFriend = (ImageView) toolbar.getChildAt(3);
+
                 switch (tab.getText().toString()) {
                     case "Home":
                         tabName.setText("Home");
                         addGroup.setVisibility(View.GONE);
+                        imageViewManageDemand.setVisibility(View.GONE);
                         addFriend.setVisibility(View.VISIBLE);
-                        break;
-                    case "Dem":
-                        tabName.setText("Demand");
-                        addGroup.setVisibility(View.GONE);
                         break;
                     case "Match":
                         tabName.setText("Matching");
+                        imageViewManageDemand.setVisibility(View.VISIBLE);
                         addGroup.setVisibility(View.GONE);
+                        addFriend.setVisibility(View.GONE);
                         break;
                     case "Chat":
                         tabName.setText("Chat");
-                        addGroup.setVisibility(View.GONE);
-                        addFriend.setVisibility(View.VISIBLE);
+                        addGroup.setVisibility(View.VISIBLE);
+                        imageViewManageDemand.setVisibility(View.GONE);
+                        addFriend.setVisibility(View.GONE);
                         break;
                     case "Users":
                         tabName.setText("Users");
-                        addGroup.setVisibility(View.VISIBLE);
+                        imageViewManageDemand.setVisibility(View.GONE);
+                        addFriend.setVisibility(View.GONE);
                         break;
                     default:
                         throw null;
@@ -297,7 +308,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String role = snapshot.getValue(String.class);
-                if (role != null && role.equals("admin")){
+                if (role != null && role.equals("admin")) {
                     Intent i = new Intent(MainActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
                 }

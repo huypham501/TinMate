@@ -15,6 +15,7 @@
         android:theme="@style/Theme.TinUni">
 
         <activity android:name=".Activity.AddFriendActivity" />
+        <activity android:name=".Activity.DemandManageActivity" />
         <activity android:name=".Activity.AddToGroupActivity" />
         <activity android:name=".Activity.SettingGroupActivity" />
         <activity android:name=".Activity.ShowZoomImage" />

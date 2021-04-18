@@ -1,19 +1,17 @@
-package com.hcmus.tinuni.Fragment;
+package com.hcmus.tinuni.Activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,46 +21,46 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Activity.AddDemandActivity;
 import com.hcmus.tinuni.Adapter.DemandAdapter;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 
-public class DemandManageFragment extends Fragment {
+public class DemandManageActivity extends Activity {
     private RecyclerView recyclerView;
     private DemandAdapter demandAdapter;
 
     private ImageButton imageButtonAdd, imageButtonEdit, imageButtonSave;
+    private ImageView imageViewButtonAdd;
     private TextView textViewDoNotHaveDemandManage;
+    private ImageView imageViewBack;
 
-    private Button buttonTest;
-
-    public DemandManageFragment() {
+    public DemandManageActivity() {
 
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_demand_manage, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.recyclerViewDemandList);
+        setContentView(R.layout.activity_demand_manage);
+
+        recyclerView = findViewById(R.id.recyclerViewDemandList);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        textViewDoNotHaveDemandManage = view.findViewById(R.id.textViewDoNotHaveDemandManage);
+        textViewDoNotHaveDemandManage = findViewById(R.id.textViewDoNotHaveDemandManage);
 
-        imageButtonAdd = view.findViewById(R.id.imageButtonAdd);
-        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
+        imageViewButtonAdd = findViewById(R.id.imageViewButtonAdd);
+        imageViewButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moveActivity(getActivity(), AddDemandActivity.class);
+                moveActivity(DemandManageActivity.this, AddDemandActivity.class);
             }
         });
 
-        imageButtonEdit = view.findViewById(R.id.imageButtonEdit);
+        imageButtonEdit = findViewById(R.id.imageButtonEdit);
         imageButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,11 +73,11 @@ public class DemandManageFragment extends Fragment {
             }
         });
 
-        imageButtonSave = view.findViewById(R.id.imageButtonSave);
+        imageButtonSave = findViewById(R.id.imageButtonSave);
         imageButtonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setCancelable(false).setView(R.layout.layout_loading_dialog).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(DemandManageActivity.this).setCancelable(false).setView(R.layout.layout_loading_dialog).create();
 
                 demandAdapter.deleteCommit();
 
@@ -93,18 +91,15 @@ public class DemandManageFragment extends Fragment {
             }
         });
 
-        setDemand();
-
-        buttonTest = view.findViewById(R.id.buttonTest);
-        buttonTest.setOnClickListener(new View.OnClickListener() {
+        imageViewBack = findViewById(R.id.imageViewBack);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                onBackPressed();
             }
         });
 
-        return view;
+        setDemand();
     }
 
     private void setVisibleAdapterItem(boolean value) {
@@ -146,7 +141,7 @@ public class DemandManageFragment extends Fragment {
 
                     recyclerView.setAdapter(null);
                 } else {
-                    demandAdapter = new DemandAdapter(getContext(), demandArrayList);
+                    demandAdapter = new DemandAdapter(DemandManageActivity.this, demandArrayList);
                     recyclerView.setAdapter(demandAdapter);
 
                     textViewDoNotHaveDemandManage.setVisibility(View.INVISIBLE);
