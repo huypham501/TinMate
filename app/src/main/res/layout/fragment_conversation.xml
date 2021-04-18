@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:id="@+id/fragmentChat"
+    android:background="@color/blue_700"
+    tools:context=".Fragment.GroupFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/rect">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Tìm kiếm"
+            android:layout_marginHorizontal="20dp"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:paddingLeft="10dp"
+            android:background="@drawable/border_search"
+            android:layout_marginTop="20dp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp">
+            <View
+                android:id="@+id/indicator"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/gradient_bg"/>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="#ffffff"
+                app:tabIndicatorColor="@null"
+                app:tabRippleColor="@null"
+                android:background="@drawable/tab_shape"
+                />
+        </FrameLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"/>
+    </LinearLayout>
+
+
+</ScrollView>

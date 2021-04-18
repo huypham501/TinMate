@@ -33,6 +33,7 @@ import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Fragment.ChatFragment;
+import com.hcmus.tinuni.Fragment.ConversationFragment;
 import com.hcmus.tinuni.Fragment.DemandManageFragment;
 import com.hcmus.tinuni.Fragment.GroupFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
@@ -54,7 +55,6 @@ public class MainActivity extends FragmentActivity {
             R.drawable.ic_baseline_list_alt,
             R.drawable.fire,
             R.drawable.chat,
-            R.drawable.chat,
             R.drawable.users
     };
 
@@ -62,8 +62,6 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         mUser = FirebaseAuth.getInstance()
@@ -136,8 +134,7 @@ public class MainActivity extends FragmentActivity {
         viewPageAdapter.addFragment(new HomeFragment(), "Home");
         viewPageAdapter.addFragment(new DemandManageFragment(), "Dem");
         viewPageAdapter.addFragment(new MatchingFragment(), "Match");
-        viewPageAdapter.addFragment(new ChatFragment(), "Chat");
-        viewPageAdapter.addFragment(new GroupFragment(), "Group");
+        viewPageAdapter.addFragment(new ConversationFragment(), "Chat");
         viewPageAdapter.addFragment(new UsersFragment(), "Users");
 
         viewPager.setAdapter(viewPageAdapter);
@@ -171,12 +168,6 @@ public class MainActivity extends FragmentActivity {
                         tabName.setText("Chat");
                         addGroup.setVisibility(View.GONE);
                         addFriend.setVisibility(View.VISIBLE);
-                        break;
-                    case "Group":
-                        tabName.setText("Group");
-                        addGroup.setVisibility(View.VISIBLE);
-                        addFriend.setVisibility(View.GONE);
-
                         break;
                     case "Users":
                         tabName.setText("Users");
