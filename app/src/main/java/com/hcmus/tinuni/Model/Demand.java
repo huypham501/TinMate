@@ -12,12 +12,6 @@ public class Demand {
 
     }
 
-    public Demand(String subject, String major, String school) {
-        this.subject = subject;
-        this.major = major;
-        this.school = school;
-    }
-
     public Demand(String subject, String major, String school, String id, String userId) {
         this.subject = subject;
         this.major = major;
@@ -26,12 +20,10 @@ public class Demand {
         this.userId = userId;
     }
 
-
-    public Demand(Demand demand, String id) {
-        this.subject = demand.getSubject();
-        this.major = demand.getMajor();
-        this.school = demand.getSchool();
-        this.id = id;
+    public Demand(String subject, String major, String school) {
+        this.subject = subject;
+        this.major = major;
+        this.school = school;
     }
 
     public boolean isEqual(Demand demand) {
@@ -70,12 +62,22 @@ public class Demand {
         this.id = id;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "Demand{" +
                 "subject='" + subject + '\'' +
                 ", major='" + major + '\'' +
                 ", school='" + school + '\'' +
+                ", id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

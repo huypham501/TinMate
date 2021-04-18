@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.AddDemandActivity;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
@@ -67,8 +68,8 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     String demandId = demand.getId();
-                                    arrayListDemandId.add(demandId);
 
+                                    arrayListDemandId.add(demandId);
                                     holder.itemView.setBackgroundColor(Color.LTGRAY);
                                     holder.buttonRedo.setVisibility(View.VISIBLE);
                                     holder.buttonDelete.setVisibility(View.INVISIBLE);
@@ -93,6 +94,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
     }
 
     public void deleteCommit() {
+
         if (arrayListDemandId.isEmpty()) {
             return;
         }
@@ -100,7 +102,6 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         for (String demandId : arrayListDemandId) {
-
             Query query = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -108,6 +109,8 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
                     if (snapshot.exists()) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             if (demandId.equals(dataSnapshot.getKey())) {
+                                Demand demand = dataSnapshot.getValue(Demand.class);
+
                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
                                 databaseReference.child(demandId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -115,7 +118,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
                                         if (!task.isSuccessful()) {
 
                                         } else {
-                                            System.out.println("Delete demand done");
+                                            System.out.println("Deleted demand done");
                                         }
                                     }
                                 });

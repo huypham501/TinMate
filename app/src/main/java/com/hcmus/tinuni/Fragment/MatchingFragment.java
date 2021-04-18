@@ -25,13 +25,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Queue;
+import java.util.Set;
 
 class MatchingAdapter extends PagerAdapter {
 
@@ -164,53 +167,90 @@ public class MatchingFragment extends Fragment {
 
         viewPager = view.findViewById(R.id.viewPagerMatching);
 
-        loadGroupSuggest();
+
 
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        System.out.println("ON STARTTTTTTTTT");
+        loadGroupSuggest();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadGroupSuggest();
+        System.out.println("ON RESUMEEEE");
+    }
 
     private void loadGroupSuggest() {
-        DatabaseReference databaseReferenceSuggests = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
-        databaseReferenceSuggests.addValueEventListener(new ValueEventListener() {
+        ArrayList<String> arrayListGroupId = new ArrayList<>();
+
+        Query query = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {
-                } else {
-                    ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
+            public void onDataChange(@NonNull DataSnapshot snapshotDemands) {
+                for (DataSnapshot dataSnapshot : snapshotDemands.getChildren()) {
+                    Demand demand = dataSnapshot.getValue(Demand.class);
 
-                    matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
-                    viewPager.setAdapter(matchingAdapter);
+                    Query queryGroupId = FirebaseDatabase.getInstance().getReference("Groups").orderByChild("subject").equalTo(demand.getSubject());
+                    queryGroupId.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshotGroups) {
+                            for (DataSnapshot dataSnapshot1 : snapshotGroups.getChildren()) {
+                                arrayListGroupId.add(dataSnapshot1.getKey());
+                            }
+                            //REMOVE DUPLICATE
+                            Set<String> set = new HashSet<>(arrayListGroupId);
+                            arrayListGroupId.clear();
+                            arrayListGroupId.addAll(set);
+                            //END REMOVE DUPLICATE
 
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        String strGroupId = dataSnapshot.getKey();
-                        DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
+                            ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
 
-                        databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
-                                if (!groupSnapshot.exists()) {
+                            matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+                            viewPager.setAdapter(matchingAdapter);
 
-                                } else {
-                                    Group group = groupSnapshot.getValue(Group.class);
-                                    HashMap<String, Object> hashMapGroup = Group.toHashMap(group);
+                            for (String strGroupId : arrayListGroupId) {
+                                DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
 
-                                    long numberMembers = groupSnapshot.child("Participants").getChildrenCount();
-                                    hashMapGroup.put("numberMembers", numberMembers);
+                                databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
+                                        if (!groupSnapshot.exists()) {
 
-                                    arrayListGroup.add(hashMapGroup);
-                                    matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
-                                    viewPager.setAdapter(matchingAdapter);
-                                }
+                                        } else {
+                                            Group group = groupSnapshot.getValue(Group.class);
+                                            HashMap<String, Object> hashMapGroup = Group.toHashMap(group);
+
+                                            long numberMembers = groupSnapshot.child("Participants").getChildrenCount();
+                                            hashMapGroup.put("numberMembers", numberMembers);
+
+                                            arrayListGroup.add(hashMapGroup);
+                                            matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+                                            viewPager.setAdapter(matchingAdapter);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                        }
 
-                            }
-                        });
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
+
             }
 
             @Override
@@ -218,5 +258,52 @@ public class MatchingFragment extends Fragment {
 
             }
         });
+//        DatabaseReference databaseReferenceSuggests = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
+//        databaseReferenceSuggests.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (!snapshot.exists()) {
+//                } else {
+//                    ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
+//
+//                    matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+//                    viewPager.setAdapter(matchingAdapter);
+//
+//                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                        String strGroupId = dataSnapshot.getKey();
+//                        DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
+//
+//                        databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
+//                                if (!groupSnapshot.exists()) {
+//
+//                                } else {
+//                                    Group group = groupSnapshot.getValue(Group.class);
+//                                    HashMap<String, Object> hashMapGroup = Group.toHashMap(group);
+//
+//                                    long numberMembers = groupSnapshot.child("Participants").getChildrenCount();
+//                                    hashMapGroup.put("numberMembers", numberMembers);
+//
+//                                    arrayListGroup.add(hashMapGroup);
+//                                    matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+//                                    viewPager.setAdapter(matchingAdapter);
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+//                        });
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }

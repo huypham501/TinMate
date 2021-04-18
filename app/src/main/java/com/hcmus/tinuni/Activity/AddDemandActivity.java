@@ -132,37 +132,23 @@ public class AddDemandActivity extends Activity {
                                 alertDialog.dismiss();
                             } else {
                                 alertDialog.dismiss();
-                                updateSuggests(demand);
-                                AddDemandActivity.super.onBackPressed();
+                                databaseReference.child(demandKey).child("id").setValue(demandKey).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()) {
+                                            Toast.makeText(AddDemandActivity.this, "Error commit data", Toast.LENGTH_SHORT).show();
+                                            alertDialog.dismiss();
+                                        } else {
+                                            alertDialog.dismiss();
+                                            AddDemandActivity.super.onBackPressed();
+                                        }
+                                    }
+                                });
+
                             }
                         }
                     });
                 }
-            }
-        });
-    }
-
-    private void updateSuggests(Demand demand) {
-        String strSubject = demand.getSubject();
-        Query query = FirebaseDatabase.getInstance().getReference("Groups").orderByChild("subject").equalTo(strSubject);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {
-                    System.out.println("create new group");
-                } else
-                {
-                    DatabaseReference databaseReferenceSuggestGroup = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        databaseReferenceSuggestGroup.child(dataSnapshot.getKey()).child("id").setValue(dataSnapshot.getKey());
-                    }
-                    System.out.println("Update done");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
