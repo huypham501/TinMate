@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,8 +32,8 @@
             android:id="@+id/imageViewBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_gravity="center"
+            android:layout_marginStart="10dp"
             android:src="@drawable/ic_back" />
 
         <RelativeLayout
@@ -54,9 +55,9 @@
                 android:id="@+id/imageButtonSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/dark_green"
                 android:padding="10dp"
-                android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_check_circle"
                 android:visibility="invisible" />
 
@@ -95,18 +96,15 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <ImageButton
                         android:id="@+id/imageViewButtonAdd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_add_24"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="100dp"
-                        android:backgroundTint="@color/blue_500"
-                        />
+                        android:backgroundTint="@color/trans_success_stroke_color"
+                        android:src="@drawable/ic_baseline_add_circle" />
                 </RelativeLayout>
             </FrameLayout>
         </RelativeLayout>

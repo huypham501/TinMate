@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -31,7 +32,7 @@ public class DemandManageActivity extends Activity {
     private RecyclerView recyclerView;
     private DemandAdapter demandAdapter;
 
-    private ImageButton imageButtonAdd, imageButtonEdit, imageButtonSave;
+    private ImageButton imageButtonEdit, imageButtonSave;
     private ImageView imageViewButtonAdd;
     private TextView textViewDoNotHaveDemandManage;
     private ImageView imageViewBack;
@@ -114,7 +115,7 @@ public class DemandManageActivity extends Activity {
         } else {
             value_int = 4; // INVISIBLE
         }
-        imageButtonAdd.setVisibility(value_int);
+        imageViewButtonAdd.setVisibility(value_int);
         imageButtonEdit.setVisibility(value_int);
     }
 
