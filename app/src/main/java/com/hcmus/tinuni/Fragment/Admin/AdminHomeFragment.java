@@ -43,7 +43,7 @@ public class AdminHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_admin_home, container, false);
 
         //Animated background
-        RelativeLayout relativeLayout = view.findViewById(R.id.animated_gradient_bg);
+        RelativeLayout relativeLayout = view.findViewById(R.id.admin_home_animated_gradient_bg);
         AnimationDrawable animationDrawable = (AnimationDrawable) relativeLayout.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
         animationDrawable.setExitFadeDuration(4000);

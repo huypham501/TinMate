@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.Admin.AdminHomeFragment"
     android:background="@drawable/admin_gradient_bg_animation"
-    android:id="@+id/animated_gradient_bg">
+    android:id="@+id/admin_home_animated_gradient_bg">
 
         <ScrollView
             android:layout_width="match_parent"
