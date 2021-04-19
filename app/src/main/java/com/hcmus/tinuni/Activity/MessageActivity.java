@@ -441,37 +441,48 @@ public class MessageActivity extends Activity {
 
     private void getImgURLs() {
         imgURLs = new ArrayList<>();
+
+
         mRef = FirebaseDatabase
                 .getInstance()
                 .getReference("Users");
-
+        List<User> users = new ArrayList<>();
+        // Get list user
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 imgURLs.clear();
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
+                    users.add(user);
+                }
 
-                    for (Object item : mItems) {
-                        ChatGroup chatGroup = (ChatGroup) item;
-                        if (user.getId().equals(chatGroup.getSender())) {
+                for (Object item : mItems) {
+                    ChatGroup chatGroup = (ChatGroup) item;
+
+                    for(User user : users) {
+                        if (chatGroup.getSender().equals(user.getId())) {
                             imgURLs.add(user.getImageURL());
                             Log.e("IMAGE>> ", user.getImageURL());
                         }
-                    }
-                }
 
+                    }
+
+                }
                 messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
                 recyclerView.setAdapter(messageAdapter);
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
                 Log.e("TAG>>", String.valueOf(error.toException()));
             }
         });
+
+
     }
+
 
     private String getFileExtension(Uri mUri) {
         ContentResolver cr = getContentResolver();
