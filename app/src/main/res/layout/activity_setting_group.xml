@@ -32,6 +32,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
+                app:civ_border_width="1dp"
                 android:src="@drawable/profile_image" />
 
             <TextView
@@ -144,6 +145,48 @@
                     android:src="@drawable/arrow" />
 
             </RelativeLayout>
+
+            <View
+                android:layout_below="@+id/layoutChangeName"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="50dp"
+                android:background="@color/black"/>
+
+            <RelativeLayout
+                android:id="@+id/layoutChangeAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutChangeName"
+                android:background="@color/circleBorder"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/ivChangeAvatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/profile_image"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change avatar"
+                    android:layout_toEndOf="@+id/ivChangeAvatar"
+                    android:layout_marginStart="10dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow" />
+
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -163,7 +206,7 @@
                 android:textSize="25sp"/>
 
             <RelativeLayout
-                android:id="@+id/layoutPrivate"
+                android:id="@+id/layoutLeave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtPrivate"
