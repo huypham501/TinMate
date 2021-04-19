@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10dp">
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/black"
                 app:tabIndicatorColor="@null"
+                app:tabIndicatorHeight="0dp"
                 app:tabRippleColor="@null"
                 android:background="@drawable/tab_shape"
                 />
@@ -45,12 +46,11 @@
                 android:layout_height="35dp"
                 android:text="Chats"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:gravity="center"
                 android:background="@drawable/indicator_shape"
-                android:layout_marginStart="20dp"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 

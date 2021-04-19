@@ -46,7 +46,7 @@ public class ConversationFragment extends Fragment {
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                indicatorWidth = tabLayout.getWidth() / tabLayout.getTabCount() - 25;
+                indicatorWidth = tabLayout.getWidth() / tabLayout.getTabCount();
 
 
                 //Assign new width
