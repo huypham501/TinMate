@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -35,7 +36,7 @@ import com.google.firebase.storage.UploadTask;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends Activity {
 
     private EditText edtFullname, edtEmail, edtPhone, edtSchool, edtMajor, edtBeginYear;
     private ImageView ivAvatar, btnGoBack;

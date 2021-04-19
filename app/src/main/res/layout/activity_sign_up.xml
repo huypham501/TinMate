@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/fire"
             android:fontFamily="@font/montserrat_black"
-            android:text="@string/tinuni"
+            android:text="tinmate"
             android:textColor="@color/black"
             android:textSize="40sp"
             android:textStyle="bold"
