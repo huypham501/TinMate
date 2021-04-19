@@ -23,28 +23,36 @@
             android:paddingLeft="10dp"
             android:background="@drawable/border_search"
             android:layout_marginTop="20dp" />
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="5dp">
-            <View
-                android:id="@+id/indicator"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@drawable/gradient_bg"/>
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 app:tabGravity="fill"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="#ffffff"
+                app:tabSelectedTextColor="@color/black"
                 app:tabIndicatorColor="@null"
                 app:tabRippleColor="@null"
                 android:background="@drawable/tab_shape"
                 />
-        </FrameLayout>
+            <TextView
+                android:id="@+id/indicator"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:text="Chats"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:gravity="center"
+                android:background="@drawable/indicator_shape"
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
