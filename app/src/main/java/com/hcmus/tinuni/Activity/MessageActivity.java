@@ -410,7 +410,6 @@ public class MessageActivity extends Activity {
 
     private void readMessagesFromGroup() {
         mItems = new ArrayList<>();
-        imgURLs = new ArrayList<>();
 
         mRef = FirebaseDatabase.getInstance()
                 .getReference("Groups")
@@ -420,33 +419,13 @@ public class MessageActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
-                imgURLs.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
 
-                    DatabaseReference reference = FirebaseDatabase.getInstance()
-                            .getReference("Users")
-                            .child(chatGroup.getSender())
-                            .child("imageURL");
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String imageURL = snapshot.getValue(String.class);
-
-                            imgURLs.add(imageURL);
-                            mItems.add(chatGroup);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
+                    mItems.add(chatGroup);
                 }
-                messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
-                recyclerView.setAdapter(messageAdapter);
+                getImgURLs();
 
             }
 
@@ -459,6 +438,40 @@ public class MessageActivity extends Activity {
 
     }
 
+
+    private void getImgURLs() {
+        imgURLs = new ArrayList<>();
+        mRef = FirebaseDatabase
+                .getInstance()
+                .getReference("Users");
+
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                imgURLs.clear();
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+
+                    for (Object item : mItems) {
+                        ChatGroup chatGroup = (ChatGroup) item;
+                        if (user.getId().equals(chatGroup.getSender())) {
+                            imgURLs.add(user.getImageURL());
+                            Log.e("IMAGE>> ", user.getImageURL());
+                        }
+                    }
+                }
+
+                messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
+                recyclerView.setAdapter(messageAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("TAG>>", String.valueOf(error.toException()));
+            }
+        });
+    }
 
     private String getFileExtension(Uri mUri) {
         ContentResolver cr = getContentResolver();
