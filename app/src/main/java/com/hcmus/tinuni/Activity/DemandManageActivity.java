@@ -65,7 +65,7 @@ public class DemandManageActivity extends Activity {
         viewSheet.findViewById(R.id.linearLayoutCreateGroup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                moveActivity(DemandManageActivity.this, AddGroupDemandActivity.class);
             }
         });
 

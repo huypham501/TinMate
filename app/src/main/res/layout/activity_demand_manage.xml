@@ -104,7 +104,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginEnd="10dp"
-                        android:backgroundTint="@color/trans_success_stroke_color"
+                        android:backgroundTint="@color/float_transparent"
                         android:src="@drawable/ic_baseline_add_circle" />
                 </RelativeLayout>
             </FrameLayout>

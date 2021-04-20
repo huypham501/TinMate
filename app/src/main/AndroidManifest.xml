@@ -16,6 +16,7 @@
         <activity android:name=".Activity.ShowGroupMemberActivity"></activity>
         <activity android:name=".Activity.AddFriendActivity" />
         <activity android:name=".Activity.DemandManageActivity" />
+        <activity android:name=".Activity.AddGroupDemandActivity" />
         <activity android:name=".Activity.AddToGroupActivity" />
         <activity android:name=".Activity.SettingGroupActivity" />
         <activity android:name=".Activity.ShowZoomImage" />
