@@ -157,7 +157,6 @@ public class HomeFragment extends Fragment {
 
         viewPagerHome.setAdapter(adapter);
 
-        buttonHomeSlider= view.findViewById(R.id.buttonHomeSlider);
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -186,18 +185,6 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 addDotsIndicator(position);
                 mCurrentPage = position;
-
-                if(position == 3){
-                    buttonHomeSlider.setVisibility(View.VISIBLE);
-                    buttonHomeSlider.setEnabled(true);
-                    buttonHomeSlider.setText("Create room");
-                    buttonHomeSlider.setOnClickListener(null);
-                }
-                else{
-                    buttonHomeSlider.setVisibility(View.INVISIBLE);
-                    buttonHomeSlider.setEnabled(false);
-                    buttonHomeSlider.setOnClickListener(null);
-                }
             }
 
             @Override
