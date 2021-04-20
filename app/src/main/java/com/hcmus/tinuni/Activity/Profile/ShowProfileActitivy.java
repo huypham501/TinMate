@@ -77,7 +77,7 @@ public class ShowProfileActitivy extends Activity {
         });
 
         Intent intent = getIntent();
-        id = intent.getStringExtra("id");
+        id = intent.getStringExtra("userId");
         System.out.println(id);
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();

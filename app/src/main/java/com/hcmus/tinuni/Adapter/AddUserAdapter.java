@@ -97,7 +97,6 @@ public class AddUserAdapter extends RecyclerView.Adapter<AddUserAdapter.ViewHold
                                     map.put("role", "member");
                                     mRef.child(groupId).child("Participants").child(user.getId()).setValue(map);
 
-
                                     sDialog
                                             .setTitleText("Created!")
                                             .setContentText("Created successfully")
@@ -108,12 +107,7 @@ public class AddUserAdapter extends RecyclerView.Adapter<AddUserAdapter.ViewHold
                             })
                             .show();
                 }
-                //Add to group
-//                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Groups");
-//                Map<String, String> map = new HashMap<>();
-//                map.put("id", user.getId());
-//                map.put("role", "member");
-//                mRef.child(groupId).child("Participants").child(user.getId()).setValue(map);
+
             }
         });
     }
