@@ -1,28 +1,20 @@
 package com.hcmus.tinuni.Activity.Authentication;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.MainActivity;
-import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 public class LoadingStartActivity extends Activity {
@@ -35,12 +27,23 @@ public class LoadingStartActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-firebaseUser.
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            moveActivity(LoadingStartActivity.this, MainActivity.class);
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Service.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null) {
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    moveActivity(LoadingStartActivity.this, MainActivity.class);
+                } else {
+                    moveActivity(LoadingStartActivity.this, SignInActivity.class);
+                }
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle("DISCONNECTED")
+                        .setMessage("You are not connect to the internet")
+                        .setPositiveButton("OK", null);
+            }
         } else {
-            moveActivity(LoadingStartActivity.this, SignInActivity.class);
+            Toast.makeText(this, "Error CONNECTIVITY SERVICE", Toast.LENGTH_SHORT).show();
         }
     }
 
