@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_sign_in"
     android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".Activity.Authentication.LoadingActivity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
