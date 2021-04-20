@@ -31,8 +31,7 @@
             android:text="Add Demand"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textSize="25dp" />
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -97,10 +96,9 @@
                     android:id="@+id/autoCompleteTextViewMajor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="10dp"
                     android:layout_marginTop="3dp"
-                    />
+                    android:background="@drawable/rounded_edittext"
+                    android:padding="10dp" />
 
             </LinearLayout>
 

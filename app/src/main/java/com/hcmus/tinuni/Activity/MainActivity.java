@@ -49,7 +49,6 @@ public class MainActivity extends FragmentActivity {
 
     TabLayout tabLayout;
     CustomViewPager viewPager;
-
     TextView tabName;
 
     ImageView imageViewManageDemand, addGroup, addFriend, imageView;

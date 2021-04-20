@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +17,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -37,6 +39,8 @@ public class DemandManageActivity extends Activity {
     private TextView textViewDoNotHaveDemandManage;
     private ImageView imageViewBack;
 
+    private BottomSheetDialog bottomSheetDialog;
+
     public DemandManageActivity() {
 
     }
@@ -53,11 +57,33 @@ public class DemandManageActivity extends Activity {
 
         textViewDoNotHaveDemandManage = findViewById(R.id.textViewDoNotHaveDemandManage);
 
+        //BOTTOM SHEET SETUP
+        bottomSheetDialog = new BottomSheetDialog(DemandManageActivity.this);
+
+        View viewSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.add_demand_modal_bottom_sheet, (ViewGroup)findViewById(R.id.linearLayoutBottomSheet));
+
+        viewSheet.findViewById(R.id.linearLayoutCreateGroup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        viewSheet.findViewById(R.id.linearLayoutAddDemand).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveActivity(DemandManageActivity.this, AddDemandActivity.class);
+            }
+        });
+
+        bottomSheetDialog.setContentView(viewSheet);
+
+        //BUTTON ADD SETUP
         imageViewButtonAdd = findViewById(R.id.imageViewButtonAdd);
         imageViewButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moveActivity(DemandManageActivity.this, AddDemandActivity.class);
+                bottomSheetDialog.show();
             }
         });
 
@@ -101,6 +127,18 @@ public class DemandManageActivity extends Activity {
         });
 
         setDemand();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomSheetDialog.dismiss();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bottomSheetDialog.dismiss();
     }
 
     private void setVisibleAdapterItem(boolean value) {
