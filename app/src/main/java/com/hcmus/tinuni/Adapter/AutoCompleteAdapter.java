@@ -1,10 +1,17 @@
 package com.hcmus.tinuni.Adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +28,22 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> {
     @Override
     public Filter getFilter() {
         return objectFilter;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.auto_complete_text_item, parent, false);
+        }
+
+        TextView textViewContent = convertView.findViewById(R.id.textViewContent);
+
+        String strContent = getItem(position);
+        if (strContent != null) {
+            textViewContent.setText(strContent);
+        }
+        return convertView;
     }
 
     private Filter objectFilter = new Filter() {

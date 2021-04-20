@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,11 +24,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Adapter.AutoCompleteAdapter;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
+import java.util.ArrayList;
+
 public class AddDemandActivity extends Activity {
-    private EditText editTextSubject, editTextMajor, editTextSchool, editTextLevel;
+    private EditText editTextSubject, editTextSchool;
+
+    private AutoCompleteTextView autoCompleteTextViewMajor;
+
     private Button buttonSave;
     private TextView textViewDuplicateDemandWarning;
     private ImageView btnGoBack;
@@ -39,13 +46,15 @@ public class AddDemandActivity extends Activity {
 
     private String userId;
 
+    ArrayList<String> arrayListSuggestMajor = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_demand);
 
         editTextSubject = findViewById(R.id.editTextSubject);
-        editTextMajor = findViewById(R.id.editTextMajor);
+        autoCompleteTextViewMajor = findViewById(R.id.autoCompleteTextViewMajor);
         editTextSchool = findViewById(R.id.editTextSchool);
 
         textViewDuplicateDemandWarning = findViewById(R.id.textViewDuplicateDemandWarning);
@@ -111,6 +120,27 @@ public class AddDemandActivity extends Activity {
                 }
             }
         });
+
+        DatabaseReference databaseReferenceSuggestMajor = FirebaseDatabase.getInstance().getReference("Menu").child("major");
+        databaseReferenceSuggestMajor.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+
+                } else {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        arrayListSuggestMajor.add(dataSnapshot.getValue().toString());
+                    }
+                    AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddDemandActivity.this, arrayListSuggestMajor);
+                    autoCompleteTextViewMajor.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void pushData(Demand demand) {
@@ -165,9 +195,9 @@ public class AddDemandActivity extends Activity {
             return false;
         }
 
-        strEditTextMajor = editTextMajor.getText().toString();
+        strEditTextMajor = autoCompleteTextViewMajor.getText().toString();
         if (strEditTextMajor.isEmpty()) {
-            editTextMajor.setError("Please fill in major");
+            autoCompleteTextViewMajor.setError("Please fill in major");
             return false;
         }
 
@@ -180,7 +210,7 @@ public class AddDemandActivity extends Activity {
         if (strEditTextSubject.length() < 2 || strEditTextSubject.length() > 50) {
             editTextSubject.setError("Subject name should be from 2 - 50 characters");
         } else if (strEditTextMajor.length() < 2 || strEditTextMajor.length() > 50) {
-            editTextMajor.setError("Major name should be from 2 - 50 characters");
+            autoCompleteTextViewMajor.setError("Major name should be from 2 - 50 characters");
         } else if (strEditTextSchool.length() < 2 || strEditTextSchool.length() > 50) {
             editTextSchool.setError("School name should be from 2 - 50 characters");
         } else {
