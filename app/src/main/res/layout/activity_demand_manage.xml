@@ -19,6 +19,7 @@
             android:text="Demand"
             android:textColor="@color/black"
             android:textSize="20dp"
+            android:fontFamily="@font/montserrat_black"
             android:textStyle="bold" />
 
     </LinearLayout>

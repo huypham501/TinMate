@@ -29,10 +29,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Friends"
+                android:text="FRIEND"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="25sp"
+                android:fontFamily="@font/montserrat_black"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
@@ -49,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Add friend invitations"
+                android:fontFamily="@font/montserrat_black"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="25sp"/>
@@ -73,7 +75,8 @@
                 android:id="@+id/txtUsers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Users"
+                android:text="People you may know"
+                android:fontFamily="@font/montserrat_black"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="25sp"/>
