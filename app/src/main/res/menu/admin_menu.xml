@@ -13,7 +13,11 @@
         android:title="User"
         android:icon="@drawable/ic_admin_user"/>
     <item
-        android:id="@+id/manageDemandFragment"
+        android:id="@+id/adminDiaryFragment"
         android:title="Diary"
         android:icon="@drawable/ic_diary" />
+    <item
+        android:id="@+id/adminUserReportFragment"
+        android:title="Report"
+        android:icon="@drawable/ic_report"/>
 </menu>

@@ -1,7 +1,6 @@
 package com.hcmus.tinuni.Activity.Authentication;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,8 +25,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +32,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -168,7 +164,7 @@ public class SignUpActivity extends Activity {
                                     .child(firebaseUser.getUid());
 
                             // Create HashMap to put into Database
-                            User user = new User(firebaseUser.getUid(), email, "default");
+                            User user = new User(firebaseUser.getUid(), email, "default", "False");
 
                             // Put into Database
                             mRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

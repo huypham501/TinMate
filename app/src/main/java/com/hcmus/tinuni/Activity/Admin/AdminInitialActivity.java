@@ -21,6 +21,7 @@ import com.hcmus.tinuni.Fragment.Admin.AdminDiaryFragment;
 import com.hcmus.tinuni.Fragment.Admin.AdminHomeFragment;
 import com.hcmus.tinuni.Fragment.Admin.AdminRoomFragment;
 import com.hcmus.tinuni.Fragment.Admin.AdminUserFragment;
+import com.hcmus.tinuni.Fragment.Admin.AdminUserReportFragment;
 import com.hcmus.tinuni.R;
 
 public class AdminInitialActivity extends FragmentActivity implements AdminHomeFragment.AdminHomeFragmentListener{
@@ -34,7 +35,8 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
     private AdminHomeFragment homeFrag;
     private AdminRoomFragment roomFrag;
     private  AdminUserFragment userFrag;
-    private AdminDiaryFragment demandFrag;
+    private AdminDiaryFragment diaryFrag;
+    private  AdminUserReportFragment reportFrag;
     //---------------------------------------------
     protected BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,7 +47,7 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
                     switch (item.getItemId()){
                         case R.id.adminHome:
                             selectedFragment = new AdminHomeFragment();
-                            toolbar_title.setText("MANAGE");
+                            toolbar_title.setText("WELCOME");
                             break;
                         case R.id.manageRoomFragment:
                             selectedFragment = new AdminRoomFragment();
@@ -55,9 +57,13 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
                             selectedFragment = new AdminUserFragment();
                             toolbar_title.setText("MANAGE USER");
                             break;
-                        case R.id.manageDemandFragment:
+                        case R.id.adminDiaryFragment:
                             selectedFragment = new AdminDiaryFragment();
-                            toolbar_title.setText("MANAGE DEMAND");
+                            toolbar_title.setText("ADMIN DIARY");
+                            break;
+                        case R.id.adminUserReportFragment:
+                            selectedFragment = new AdminUserReportFragment();
+                            toolbar_title.setText("USER REPORT");
                             break;
                     }
 
@@ -76,7 +82,7 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
         //Set up Toolbar
         toolbar = findViewById(R.id.admin_toolbar);
         toolbar_title = findViewById(R.id.admin_toolbar_title);
-        toolbar_title.setText("MANAGE");
+        toolbar_title.setText("WELCOME");
         log_out_btn = findViewById(R.id.admin_log_out);
         log_out_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +115,7 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
         homeFrag = new AdminHomeFragment();
         roomFrag = new AdminRoomFragment();
         userFrag = new AdminUserFragment();
-        demandFrag = new AdminDiaryFragment();
+        diaryFrag = new AdminDiaryFragment();
 
         //Stick AdminHomeFragment to screen
         getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, homeFrag).commit();
@@ -122,20 +128,23 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
         Fragment selectedFrag = null;
         int navItemIndex = -1;
 
-        if (message.equals("ROOM")){
+        if (message.equals("MANAGE ROOM")){
             selectedFrag = roomFrag;
             navItemIndex = 1;
         }
-        if (message.equals("USER")){
+        if (message.equals("MANAGE USER")){
             selectedFrag = userFrag;
             navItemIndex = 2;
         }
-        if (message.equals("DEMAND")){
-            selectedFrag = demandFrag;
+        if (message.equals("ADMIN DIARY")){
+            selectedFrag = diaryFrag;
             navItemIndex = 3;
         }
+        if (message.equals("USER REPORT")){
+            selectedFrag = diaryFrag;
+            navItemIndex = 4;
+        }
 
-        message = "MANAGE " + message;
         toolbar_title.setText(message);
         getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, selectedFrag).commit();
         bottomNav.getMenu().getItem(navItemIndex).setChecked(true);

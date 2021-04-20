@@ -1,6 +1,7 @@
 package com.hcmus.tinuni.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,10 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
         holder.name.setText(user.getUserName());
         holder.gender.setText(user.getGender());
 
-
+//        boolean red = user.isBanned();
+//        if (user.isBanned()){
+//
+//        }
         //Neu attribute "banned" == 1 -> Tai khoan dang bi ban, == 0 -> Tai khoan binh thuong
         //Neu tk dang bi ban
 //        holder.ban_btn.setText("UNBAN");
@@ -57,6 +61,7 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
 
         //Nhan nut "BAN" -> ghi len firebase attribute "banned" = 1
         //Nhan nut "UNBAN" -> ghi len firebase attribute "banned" = 0
+
     }
 
     @Override
