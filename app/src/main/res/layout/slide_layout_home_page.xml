@@ -28,8 +28,7 @@
         android:text="@string/shortTextSlider"
         android:textAlignment="center"
         style="@style/TextAppearance.AppCompat.Title"
-        android:textAllCaps="true"
-        android:textSize="25dp"
+        android:textSize="20dp"
         tools:text="HEADING"
         android:textStyle="bold"/>
 
@@ -42,7 +41,7 @@
         android:layout_marginTop="25dp"
         android:text="@string/longTextSlider"
         android:textAlignment="center"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:textColor="@color/lighterBlack"
         android:textStyle="bold"
         android:layout_marginHorizontal="50dp"/>
