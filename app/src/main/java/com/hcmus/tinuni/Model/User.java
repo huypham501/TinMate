@@ -11,39 +11,42 @@ public class User {
     private String major;
     private String beginYear;
     private String gender;
-
+    private String banned;
 
     public User() {
-
     }
 
-    public User(String id, String email, String imageURL) {
+    public User(String id, String email, String imageURL, String banned) {
         this.id = id;
         this.email = email;
         this.imageURL = imageURL;
+        this.banned = banned;
     }
 
-    public User(String id, String userName, String email, String imageURL, String phone) {
+    public User(String id, String userName, String email, String imageURL, String phone, String banned) {
         this.id = id;
         this.email = email;
         this.imageURL = imageURL;
         this.userName = userName;
         this.phone = phone;
+        this.banned = banned;
     }
 
-    public User(String id, String userName, String email, String imageURL) {
+    public User(String id, String userName, String email, String imageURL, String banned) {
         this.id = id;
         this.userName = userName;
         this.email = email;
         this.imageURL = imageURL;
+        this.banned = banned;
     }
 
-    public User(String userName, String imageURL) {
+    public User(String userName, String imageURL, String banned) {
         this.userName = userName;
         this.imageURL = imageURL;
+        this.banned = banned;
     }
 
-    public User(String id, String userName, String email, String imageURL, String phone, String gender, String schoolName, String major, String beginYear) {
+    public User(String id, String userName, String email, String imageURL, String phone, String gender, String schoolName, String major, String beginYear, String banned) {
         this.id = id;
         this.userName = userName;
         this.email = email;
@@ -53,6 +56,7 @@ public class User {
         this.schoolName = schoolName;
         this.major = major;
         this.beginYear = beginYear;
+        this.banned = banned;
     }
 
     public String getId() {
@@ -134,4 +138,6 @@ public class User {
     public void setYearBegins(String beginYear) {
         this.beginYear = beginYear;
     }
+
+    public String getBanned() { return this.banned;}
 }

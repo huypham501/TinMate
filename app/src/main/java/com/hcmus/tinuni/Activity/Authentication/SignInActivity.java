@@ -1,7 +1,6 @@
 package com.hcmus.tinuni.Activity.Authentication;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
@@ -35,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.MainActivity;
-import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -292,7 +289,7 @@ public class SignInActivity extends Activity {
                                                 firebaseUser.getDisplayName(),
                                                 firebaseUser.getEmail(),
                                                 firebaseUser.getPhotoUrl().toString(),
-                                                firebaseUser.getPhoneNumber());
+                                                firebaseUser.getPhoneNumber(), "False");
 
                                         Ref.setValue(user)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
