@@ -48,7 +48,6 @@ public class ConversationFragment extends Fragment {
             public void run() {
                 indicatorWidth = tabLayout.getWidth() / tabLayout.getTabCount();
 
-
                 //Assign new width
                 RelativeLayout.LayoutParams indicatorParams = (RelativeLayout.LayoutParams) indicator.getLayoutParams();
                 indicatorParams.width = indicatorWidth;

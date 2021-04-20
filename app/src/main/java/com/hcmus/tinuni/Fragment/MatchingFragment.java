@@ -1,6 +1,7 @@
 package com.hcmus.tinuni.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,8 +168,6 @@ public class MatchingFragment extends Fragment {
 
         viewPager = view.findViewById(R.id.viewPagerMatching);
 
-
-
         return view;
     }
 
@@ -182,7 +181,7 @@ public class MatchingFragment extends Fragment {
         ArrayList<String> arrayListGroupId = new ArrayList<>();
 
         Query query = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshotDemands) {
                 for (DataSnapshot dataSnapshot : snapshotDemands.getChildren()) {
