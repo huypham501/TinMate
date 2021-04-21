@@ -30,6 +30,7 @@ import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddDemandActivity extends Activity {
     private EditText editTextSubject, editTextSchool;
@@ -47,7 +48,7 @@ public class AddDemandActivity extends Activity {
 
     private String userId;
 
-    ArrayList<String> arrayListSuggestMajor = new ArrayList<>();
+    List<String> arrayListSuggestMajor = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
