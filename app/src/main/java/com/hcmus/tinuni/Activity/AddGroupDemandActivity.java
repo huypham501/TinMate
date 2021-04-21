@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,12 +32,13 @@ import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddGroupDemandActivity extends Activity {
-    private EditText editTextSubject, editTextSchool, editTextGroupName;
+    private EditText editTextGroupName;
 
-    private AutoCompleteTextView autoCompleteTextViewMajor;
+    private AutoCompleteTextView autoCompleteTextViewMajor,  autoCompleteTextViewSchool, autoCompleteTextViewSubject;
 
     private Button buttonSave;
     private TextView textViewDuplicateGroupNameWarning;
@@ -48,6 +50,8 @@ public class AddGroupDemandActivity extends Activity {
     private String userId;
 
     ArrayList<String> arrayListSuggestMajor = new ArrayList<>();
+    List<String> arrayListSuggestSubject = new ArrayList<>();
+    List<String> arrayListSuggestSchool = new ArrayList<>();
 
     final String DEFAULT_URL = "https://firebasestorage.googleapis.com/v0/b/tinuni.appspot.com/o/images%2Favatars%2Fdefault_group.png?alt=media&token=ac09066b-0948-4d70-a73d-ea96e3967470";
 
@@ -58,9 +62,9 @@ public class AddGroupDemandActivity extends Activity {
 
         //FIELD SETUP
         editTextGroupName = findViewById(R.id.editTextGroupName);
-        editTextSubject = findViewById(R.id.editTextSubject);
+        autoCompleteTextViewSubject = findViewById(R.id.autoCompleteTextViewSubject);
         autoCompleteTextViewMajor = findViewById(R.id.autoCompleteTextViewMajor);
-        editTextSchool = findViewById(R.id.editTextSchool);
+        autoCompleteTextViewSchool = findViewById(R.id.autoCompleteTextViewSchool);
 
         textViewDuplicateGroupNameWarning = findViewById(R.id.textViewDuplicateGroupNameWarning);
 
@@ -117,6 +121,7 @@ public class AddGroupDemandActivity extends Activity {
             }
         });
 
+        // LOAD SUGGEST
         DatabaseReference databaseReferenceSuggestMajor = FirebaseDatabase.getInstance().getReference("Menu").child("major");
         databaseReferenceSuggestMajor.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -129,6 +134,48 @@ public class AddGroupDemandActivity extends Activity {
                     }
                     AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddGroupDemandActivity.this, arrayListSuggestMajor);
                     autoCompleteTextViewMajor.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference databaseReferenceSuggestSubject = FirebaseDatabase.getInstance().getReference("Menu").child("subject");
+        databaseReferenceSuggestSubject.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+
+                } else {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        arrayListSuggestSubject.add(dataSnapshot.getValue().toString());
+                    }
+                    AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddGroupDemandActivity.this, arrayListSuggestSubject);
+                    autoCompleteTextViewSubject.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference databaseReferenceSuggestSchool = FirebaseDatabase.getInstance().getReference("Menu").child("school");
+        databaseReferenceSuggestSchool.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+
+                } else {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        arrayListSuggestSchool.add(dataSnapshot.getValue().toString());
+                    }
+                    AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddGroupDemandActivity.this, arrayListSuggestSchool);
+                    autoCompleteTextViewSchool.setAdapter(adapter);
                 }
             }
 
@@ -196,9 +243,9 @@ public class AddGroupDemandActivity extends Activity {
             return false;
         }
 
-        strEditTextSubject = editTextSubject.getText().toString();
+        strEditTextSubject = autoCompleteTextViewSubject.getText().toString();
         if (strEditTextSubject.isEmpty()) {
-            editTextSubject.setError("Please fill in subject");
+            autoCompleteTextViewSubject.setError("Please fill in subject");
             return false;
         }
 
@@ -208,20 +255,20 @@ public class AddGroupDemandActivity extends Activity {
             return false;
         }
 
-        strEditTextSchool = editTextSchool.getText().toString();
+        strEditTextSchool = autoCompleteTextViewSchool.getText().toString();
         if (strEditTextSchool.isEmpty()) {
-            editTextSchool.setError("Please fill in school");
+            autoCompleteTextViewSchool.setError("Please fill in school");
             return false;
         }
 
         if (strEditTextGroupName.length() < 2 || strEditTextGroupName.length() > 50) {
             editTextGroupName.setError("Group name should be from 2 - 50 characters");
         } else if (strEditTextSubject.length() < 2 || strEditTextSubject.length() > 50) {
-            editTextSubject.setError("Subject name should be from 2 - 50 characters");
+            autoCompleteTextViewSubject.setError("Subject name should be from 2 - 50 characters");
         } else if (strEditTextMajor.length() < 2 || strEditTextMajor.length() > 50) {
             autoCompleteTextViewMajor.setError("Major name should be from 2 - 50 characters");
         } else if (strEditTextSchool.length() < 2 || strEditTextSchool.length() > 50) {
-            editTextSchool.setError("School name should be from 2 - 50 characters");
+            autoCompleteTextViewSchool.setError("School name should be from 2 - 50 characters");
         } else {
             return true;
         }

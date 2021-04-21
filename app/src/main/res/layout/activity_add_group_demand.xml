@@ -93,8 +93,8 @@
                     android:textColor="@color/black"
                     android:textSize="14dp" />
 
-                <EditText
-                    android:id="@+id/editTextSubject"
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewSubject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -139,8 +139,8 @@
                     android:textColor="@color/black"
                     android:textSize="14dp" />
 
-                <EditText
-                    android:id="@+id/editTextSchool"
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewSchool"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"

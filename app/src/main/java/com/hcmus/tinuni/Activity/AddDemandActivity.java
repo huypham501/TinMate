@@ -33,9 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddDemandActivity extends Activity {
-    private EditText editTextSubject, editTextSchool;
-
-    private AutoCompleteTextView autoCompleteTextViewMajor;
+    private AutoCompleteTextView autoCompleteTextViewMajor, autoCompleteTextViewSchool, autoCompleteTextViewSubject;
 
     private Button buttonSave;
     private TextView textViewDuplicateDemandWarning;
@@ -49,15 +47,17 @@ public class AddDemandActivity extends Activity {
     private String userId;
 
     List<String> arrayListSuggestMajor = new ArrayList<>();
+    List<String> arrayListSuggestSubject = new ArrayList<>();
+    List<String> arrayListSuggestSchool = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_demand);
 
-        editTextSubject = findViewById(R.id.editTextSubject);
+        autoCompleteTextViewSubject = findViewById(R.id.autoCompleteTextViewSubject);
         autoCompleteTextViewMajor = findViewById(R.id.autoCompleteTextViewMajor);
-        editTextSchool = findViewById(R.id.editTextSchool);
+        autoCompleteTextViewSchool = findViewById(R.id.autoCompleteTextViewSchool);
 
         textViewDuplicateDemandWarning = findViewById(R.id.textViewDuplicateDemandWarning);
 
@@ -123,6 +123,7 @@ public class AddDemandActivity extends Activity {
             }
         });
 
+        // LOAD SUGGEST
         DatabaseReference databaseReferenceSuggestMajor = FirebaseDatabase.getInstance().getReference("Menu").child("major");
         databaseReferenceSuggestMajor.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -135,6 +136,51 @@ public class AddDemandActivity extends Activity {
                     }
                     AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddDemandActivity.this, arrayListSuggestMajor);
                     autoCompleteTextViewMajor.setAdapter(adapter);
+                    System.out.println("DONE MAJOR");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference databaseReferenceSuggestSubject = FirebaseDatabase.getInstance().getReference("Menu").child("subject");
+        databaseReferenceSuggestSubject.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+
+                } else {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        arrayListSuggestSubject.add(dataSnapshot.getValue().toString());
+                    }
+                    AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddDemandActivity.this, arrayListSuggestSubject);
+                    autoCompleteTextViewSubject.setAdapter(adapter);
+                    System.out.println("DONE SUBJECT");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference databaseReferenceSuggestSchool = FirebaseDatabase.getInstance().getReference("Menu").child("school");
+        databaseReferenceSuggestSchool.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+
+                } else {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        arrayListSuggestSchool.add(dataSnapshot.getValue().toString());
+                    }
+                    AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddDemandActivity.this, arrayListSuggestSchool);
+                    autoCompleteTextViewSchool.setAdapter(adapter);
+                    System.out.println("DONE SCHOOL");
                 }
             }
 
@@ -191,9 +237,9 @@ public class AddDemandActivity extends Activity {
     }
 
     private boolean isValidForm() {
-        strEditTextSubject = editTextSubject.getText().toString();
+        strEditTextSubject = autoCompleteTextViewSubject.getText().toString();
         if (strEditTextSubject.isEmpty()) {
-            editTextSubject.setError("Please fill in subject");
+            autoCompleteTextViewSubject.setError("Please fill in subject");
             return false;
         }
 
@@ -203,18 +249,18 @@ public class AddDemandActivity extends Activity {
             return false;
         }
 
-        strEditTextSchool = editTextSchool.getText().toString();
+        strEditTextSchool = autoCompleteTextViewSchool.getText().toString();
         if (strEditTextSchool.isEmpty()) {
-            editTextSchool.setError("Please fill in school");
+            autoCompleteTextViewSchool.setError("Please fill in school");
             return false;
         }
 
         if (strEditTextSubject.length() < 2 || strEditTextSubject.length() > 50) {
-            editTextSubject.setError("Subject name should be from 2 - 50 characters");
+            autoCompleteTextViewSubject.setError("Subject name should be from 2 - 50 characters");
         } else if (strEditTextMajor.length() < 2 || strEditTextMajor.length() > 50) {
             autoCompleteTextViewMajor.setError("Major name should be from 2 - 50 characters");
         } else if (strEditTextSchool.length() < 2 || strEditTextSchool.length() > 50) {
-            editTextSchool.setError("School name should be from 2 - 50 characters");
+            autoCompleteTextViewSchool.setError("School name should be from 2 - 50 characters");
         } else {
             return true;
         }

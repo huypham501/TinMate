@@ -8,19 +8,19 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Trace;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.internal.Sleeper;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.R;
+
+import java.util.ArrayList;
 
 public class LoadingStartActivity extends Activity {
     @Override
@@ -34,7 +34,6 @@ public class LoadingStartActivity extends Activity {
         super.onStart();
         Thread thread = new Thread(new Loading(this));
         thread.start();
-
     }
 
     private void moveActivity(Context from, Class<?> to) {

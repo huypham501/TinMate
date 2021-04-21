@@ -15,13 +15,14 @@ import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AutoCompleteAdapter extends ArrayAdapter<String> {
     private List<String> arrayList;
 
     public AutoCompleteAdapter(@NonNull Context context, @NonNull List<String> objects) {
         super(context, 0, objects);
-        arrayList = objects;
+        arrayList = new ArrayList<>(objects);
     }
 
     @NonNull
@@ -49,6 +50,8 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> {
     private Filter objectFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
+            System.out.println("RUN 1");
+            System.out.println(charSequence);
             FilterResults filterResults = new FilterResults();
             ArrayList<String> arrayListSuggestions = new ArrayList<>();
 
@@ -72,9 +75,12 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            System.out.println("RUN 2");
+            System.out.println(filterResults.values);
             clear();
             addAll((List) filterResults.values);
             notifyDataSetChanged();
+            System.out.println("END RUN 2");
         }
 
         @Override
