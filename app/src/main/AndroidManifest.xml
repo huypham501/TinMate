@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TinUni">
-        <activity android:name=".Activity.ShowGroupMemberActivity"></activity>
+        <activity android:name=".Activity.ShowGroupMemberActivity"/>
         <activity android:name=".Activity.AddFriendActivity" />
         <activity android:name=".Activity.DemandManageActivity" />
         <activity android:name=".Activity.AddGroupDemandActivity" />
@@ -35,7 +35,8 @@
         </activity>
         <activity android:name=".Activity.Profile.EditProfileActivity" />
         <activity android:name=".Activity.Profile.UserProfileActitivy" />
-        <activity android:name=".Activity.Profile.ShowProfileActitivy" />
+        <activity android:name=".Activity.Profile.ShowProfileActitivy" >
+        </activity>
         <activity android:name=".Activity.Authentication.LoadingStartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

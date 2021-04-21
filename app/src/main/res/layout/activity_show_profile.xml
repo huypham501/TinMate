@@ -13,10 +13,9 @@
         android:orientation="vertical"
         tools:context=".Activity.Profile.UserProfileActitivy">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
             android:background="#7AD5E1"
             android:orientation="horizontal">
 
@@ -24,11 +23,18 @@
                 android:id="@+id/btnGoBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/ic_back"/>
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/btnReport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_report"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

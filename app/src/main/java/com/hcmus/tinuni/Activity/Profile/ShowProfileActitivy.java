@@ -34,7 +34,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class ShowProfileActitivy extends Activity {
 
     private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool, tvMajor, tvBeginYear;
-    private ImageView ivAvatar, btnGoBack;
+    private ImageView ivAvatar, btnGoBack, btnReport;
     private Button btnAddFriend;
     private String id;
 
@@ -59,6 +59,7 @@ public class ShowProfileActitivy extends Activity {
         ivAvatar = findViewById(R.id.ivAvatar);
         btnAddFriend = findViewById(R.id.btnAddFriend);
         btnGoBack = findViewById(R.id.btnGoBack);
+        btnReport = findViewById(R.id.btnReport);
 
         linearLayout = (ExpandableLinearLayout) findViewById(R.id.expandedLayout);
         btnArrow = findViewById(R.id.btnArrow);
@@ -210,5 +211,13 @@ public class ShowProfileActitivy extends Activity {
             }
         });
 
+
+        //REPORT
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
