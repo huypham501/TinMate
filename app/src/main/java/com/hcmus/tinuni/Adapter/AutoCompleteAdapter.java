@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AutoCompleteAdapter extends ArrayAdapter<String> {
-    private ArrayList<String> arrayList;
+    private List<String> arrayList;
 
     public AutoCompleteAdapter(@NonNull Context context, @NonNull List<String> objects) {
         super(context, 0, objects);
-        arrayList = new ArrayList<>(objects);
+        arrayList = objects;
     }
 
     @NonNull

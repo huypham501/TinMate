@@ -99,7 +99,7 @@ public class SignInActivity extends Activity {
                     if (role != null && role.equals("admin")){
                         Intent i = new Intent(SignInActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                        return;
+                        finish();
                     }
                 }
 
@@ -108,7 +108,7 @@ public class SignInActivity extends Activity {
                 }
             });
 
-            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String banned = snapshot.getValue(String.class);
@@ -128,7 +128,6 @@ public class SignInActivity extends Activity {
 
                 }
             });
-//            moveActivity(SignInActivity.this, MainActivity.class);
 
         }
     }
