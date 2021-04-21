@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +27,17 @@ import com.hcmus.tinuni.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersFragment extends Fragment {
+public class FriendsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-    private List<User> mUsers;
+    private List<User> mFriends;
 
     private FirebaseUser mUser;
     private DatabaseReference mRef;
+    private ArrayList<String> listFriendsId;
 
-    public UsersFragment() {
+    public FriendsFragment() {
         // Required empty public constructor
     }
 
@@ -51,43 +54,46 @@ public class UsersFragment extends Fragment {
 
         mUser = FirebaseAuth.getInstance()
                 .getCurrentUser();
-        mRef = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(mUser.getUid());
 
-        mRef.addValueEventListener(new ValueEventListener() {
+        //Get all friends of user
+        DatabaseReference mFriendRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
+
+        listFriendsId = new ArrayList<>();
+
+        mFriendRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-
+                listFriendsId.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String userId = dataSnapshot.getKey();
+                    listFriendsId.add(userId);
+                }
+                getFriends();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
-        mUsers = new ArrayList<>();
-        getUsers();
         return view;
     }
 
-    private void getUsers() {
-        DatabaseReference Ref = FirebaseDatabase.getInstance().getReference("Users");
-        Ref.addValueEventListener(new ValueEventListener() {
+    private void getFriends() {
+        mFriends = new ArrayList<>();
+        DatabaseReference friendRef = FirebaseDatabase.getInstance().getReference("Users");
+        friendRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
-
+                mFriends.clear();
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
 
-                    if(!user.getId().equals(mUser.getUid())){
-                        mUsers.add(user);
+                    if(listFriendsId.contains(user.getId())){
+                        mFriends.add(user);
                     }
                 }
-                userAdapter = new UserAdapter(getContext(), mUsers, false);
+                userAdapter = new UserAdapter(getContext(), mFriends, false);
                 recyclerView.setAdapter(userAdapter);
             }
             @Override

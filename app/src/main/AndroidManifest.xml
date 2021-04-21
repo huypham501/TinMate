@@ -26,13 +26,12 @@
         <activity android:name=".Activity.Authentication.SignUpProcessLevelActivity" />
         <activity android:name=".Activity.Authentication.SignUpProcessEducationActivity" />
         <activity android:name=".Activity.Authentication.SignUpProcessPersonalActivity">
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
         <activity android:name=".Activity.Profile.EditProfileActivity" />
         <activity android:name=".Activity.Profile.UserProfileActitivy" />

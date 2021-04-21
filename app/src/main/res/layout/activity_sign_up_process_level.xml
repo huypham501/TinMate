@@ -22,10 +22,10 @@
         android:id="@+id/logoContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/sign_up_process_level"
+        android:text="Your academic level is"
         android:textAlignment="center"
         android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_black"
         android:textSize="30dp"
         android:textStyle="bold" />
 
@@ -63,6 +63,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/button_sign_up"
+            android:fontFamily="@font/montserrat_black"
             android:text="@string/next"
             android:textColor="#fff" />
 
@@ -74,6 +75,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/button_sign_up"
+            android:fontFamily="@font/montserrat_black"
             android:text="@string/skip"
             android:textColor="#fff" />
     </LinearLayout>

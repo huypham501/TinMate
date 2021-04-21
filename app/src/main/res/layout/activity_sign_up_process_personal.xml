@@ -12,8 +12,8 @@
         android:id="@+id/logoContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/sign_up_process_personal"
+        android:fontFamily="@font/montserrat_black"
+        android:text="Personal Information"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30dp"
@@ -45,13 +45,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="70dp"
+            android:layout_marginHorizontal="2dp"
             android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat_black"
+                android:text="Gender"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
 
             <RadioGroup
                 android:id="@+id/radioGroupGender"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -80,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp"
             android:textColorHint="@color/white"
             android:hint="@string/your_phone">
 
@@ -108,8 +119,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/button_sign_up"
+            android:background="@drawable/button_sign_in"
             android:text="@string/next"
+            android:fontFamily="@font/montserrat_black"
             android:textColor="#fff" />
 
         <Button
@@ -119,8 +131,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/button_sign_up"
-            android:drawableLeft="@drawable/ic_arrow_back"
+            android:background="@drawable/button_sign_in"
+            android:fontFamily="@font/montserrat_black"
             android:text="@string/back"
             android:textColor="#fff" />
 

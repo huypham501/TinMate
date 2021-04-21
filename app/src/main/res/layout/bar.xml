@@ -13,10 +13,11 @@
 
     <TextView
         android:id="@+id/textViewTabName"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:text="Matching"
+        android:layout_marginStart="130dp"
+        android:text="Home"
+        android:fontFamily="@font/montserrat_black"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold" />

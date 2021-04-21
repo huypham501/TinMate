@@ -15,10 +15,8 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -32,12 +30,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
-import com.hcmus.tinuni.Fragment.ChatFragment;
 import com.hcmus.tinuni.Fragment.ConversationFragment;
-import com.hcmus.tinuni.Fragment.GroupFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.MatchingFragment;
-import com.hcmus.tinuni.Fragment.UsersFragment;
+import com.hcmus.tinuni.Fragment.FriendsFragment;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -146,7 +142,7 @@ public class MainActivity extends FragmentActivity {
         viewPageAdapter.addFragment(new HomeFragment(), "Home");
         viewPageAdapter.addFragment(new MatchingFragment(), "Match");
         viewPageAdapter.addFragment(new ConversationFragment(), "Chat");
-        viewPageAdapter.addFragment(new UsersFragment(), "Users");
+        viewPageAdapter.addFragment(new FriendsFragment(), "Friends");
 
         viewPager.setAdapter(viewPageAdapter);
 
@@ -167,7 +163,7 @@ public class MainActivity extends FragmentActivity {
                         addFriend.setVisibility(View.VISIBLE);
                         break;
                     case "Match":
-                        tabName.setText("Matching");
+                        tabName.setText("Match");
                         imageViewManageDemand.setVisibility(View.VISIBLE);
                         addGroup.setVisibility(View.GONE);
                         addFriend.setVisibility(View.GONE);
@@ -178,8 +174,8 @@ public class MainActivity extends FragmentActivity {
                         imageViewManageDemand.setVisibility(View.GONE);
                         addFriend.setVisibility(View.GONE);
                         break;
-                    case "Users":
-                        tabName.setText("Users");
+                    case "Friends":
+                        tabName.setText("Friends");
                         imageViewManageDemand.setVisibility(View.GONE);
                         addFriend.setVisibility(View.GONE);
                         break;
