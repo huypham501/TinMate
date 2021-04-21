@@ -110,6 +110,7 @@ public class SignInActivity extends Activity {
 
             //Gia su tai khoan nay da dc dang nhap tren app truoc do, thi ham nay se auto link toi Main Activity luon
             //Nhung neu tai khoan da bi ban, thi khong cho no link qua MainActivity, chi hien AlertDialog thoi.
+
             FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -130,7 +131,6 @@ public class SignInActivity extends Activity {
 
                 }
             });
-//            moveActivity(SignInActivity.this, MainActivity.class);
 
         }
     }
