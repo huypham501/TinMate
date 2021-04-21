@@ -53,7 +53,7 @@ public class GeneralRoomSlider extends Fragment {
         mainAdapter = new MainAdapter(mainModels, getContext());
         majorRoomRecyclerView.setAdapter(mainAdapter);
         textViewListRoom = view.findViewById(R.id.textViewMajorRoomsName);
-        textViewListRoom.setText("Dai Cuong");
+        textViewListRoom.setText("General Subjects");
        
 
         return view;

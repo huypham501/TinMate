@@ -25,15 +25,15 @@
             android:src="@drawable/ic_download" />
     </RelativeLayout>
 
-    <FrameLayout
+    <FrameLayouthell
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp">
+        android:layout_marginTop="100dp">
 
         <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </FrameLayout>
+    </FrameLayouthell>
 
 </LinearLayout>
