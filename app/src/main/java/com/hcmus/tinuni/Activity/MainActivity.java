@@ -84,7 +84,9 @@ public class MainActivity extends FragmentActivity {
                     Glide.with(MainActivity.this)
                             .load(user.getImageURL())
                             .into(imageView);
-
+//                    Glide.with(getApplicationContext())
+//                            .load(user.getImageURL())
+//                            .into(imageView);
                 }
             }
 

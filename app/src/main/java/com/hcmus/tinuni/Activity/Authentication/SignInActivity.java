@@ -99,7 +99,7 @@ public class SignInActivity extends Activity {
                     if (role != null && role.equals("admin")){
                         Intent i = new Intent(SignInActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                        //finish();
+                        finish();
                     }
                 }
 
@@ -148,7 +148,7 @@ public class SignInActivity extends Activity {
                         alertDialog.dismiss();
                         Intent i = new Intent(SignInActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                       // finish();
+                        finish();
                     }
                 }
 
@@ -267,6 +267,7 @@ public class SignInActivity extends Activity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    alertDialog.dismiss();
                     moveActivityDependOnLackingDataAccount();
                 } else {
                     // If sign in fails, display a message to the user.
