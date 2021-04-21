@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -100,7 +101,25 @@ public class SignInActivity extends Activity {
                         startActivity(i);
                         return;
                     }
-                    else
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+
+            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String banned = snapshot.getValue(String.class);
+                    if (banned != null && banned.equals("True")){
+                        new AlertDialog.Builder(SignInActivity.this)
+                                .setIcon(R.drawable.ic_report)
+                                .setTitle("Your account has been banned")
+                                .setMessage("Your TinMate profile has been banned for activity that violates our Term of Use.")
+                                .setPositiveButton("Yes", null)
+                                .show();
+                    } else
                         moveActivity(SignInActivity.this, MainActivity.class);
                 }
 
@@ -109,6 +128,8 @@ public class SignInActivity extends Activity {
 
                 }
             });
+//            moveActivity(SignInActivity.this, MainActivity.class);
+
         }
     }
 
@@ -147,7 +168,32 @@ public class SignInActivity extends Activity {
                         } else if (task.getResult().child("userName") == null) {
                             moveActivity(SignInActivity.this, SignUpProcessPersonalActivity.class);
                         } else {
-                            moveActivity(SignInActivity.this, MainActivity.class);
+                            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String banned = snapshot.getValue(String.class);
+                                    if (banned != null && banned.equals("True")){
+                                        new AlertDialog.Builder(SignInActivity.this)
+                                                .setIcon(R.drawable.ic_report)
+                                                .setTitle("Your account has been banned")
+                                                .setMessage("Your TinMate profile has been banned for activity that violates our Term of Use.")
+                                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                    }
+                                                })
+                                                .show();
+                                    } else
+                                        moveActivity(SignInActivity.this, MainActivity.class);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+//                            moveActivity(SignInActivity.this, MainActivity.class);
                         }
                     }
                 }
@@ -309,7 +355,7 @@ public class SignInActivity extends Activity {
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
-
+                            //if (Ref.child("banned"))
                             moveActivity(SignInActivity.this, MainActivity.class);
                         } else {
                             // If sign in fails, display a message to the user.

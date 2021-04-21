@@ -27,9 +27,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="BAN"
+                android:visibility="invisible"
                 android:textColor="@color/white"
                 android:background="@drawable/ban_button"
                 android:layout_below="@+id/item_user_ava"/>
+            <Button
+                android:id="@+id/admin_unban_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="UNBAN"
+                android:visibility="invisible"
+                android:textColor="@color/white"
+                android:background="@drawable/unban_button"
+                android:layout_below="@+id/item_user_ava"/>
+
         </RelativeLayout>
 
         <RelativeLayout

@@ -59,20 +59,29 @@ public class AdminUserFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        list = new ArrayList<>();
-        adapter = new ManageUserAdapter(getContext(), list);
-        recyclerView.setAdapter(adapter);
+//        list = new ArrayList<>();
+//        adapter = new ManageUserAdapter(getContext(), list);
+//        recyclerView.setAdapter(adapter);
 
+//        I dont know why but if you leave this block of code here, it cause 2 bugs
+//          1. The user list is duplicated after each data update to firebase.
+//            2. Flashy button: When you click on BAN/UNBAN button, it flash
+//                (idk how to describe it, but just enable this block and see it yourself)
         //Load data from Firebase
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list = new ArrayList<>();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
                     list.add(user);
                 }
 
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged(); -> old way
+                //I guess the new way below mean each time when data change, you create a whole new view\
+                //The new way is ok but still 1 problem, when data change, it scroll back to the top of list
+                adapter = new ManageUserAdapter(getContext(), list);
+                recyclerView.setAdapter(adapter);
             }
 
             @Override

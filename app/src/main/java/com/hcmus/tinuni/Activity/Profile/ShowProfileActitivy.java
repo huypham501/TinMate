@@ -34,8 +34,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class ShowProfileActitivy extends Activity {
 
     private TextView tvName, tvFullname, tvEmail, tvPhone, tvGender, tvSchool, tvMajor, tvBeginYear;
-    private ImageView ivAvatar, btnGoBack, btnReport;
-    private Button btnAddFriend;
+    private ImageView ivAvatar, btnGoBack;
+    private Button btnAddFriend, btnReport;
     private String id;
 
     private DatabaseReference mRef;
