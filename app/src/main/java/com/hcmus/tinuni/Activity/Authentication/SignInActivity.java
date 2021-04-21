@@ -99,7 +99,7 @@ public class SignInActivity extends Activity {
                     if (role != null && role.equals("admin")){
                         Intent i = new Intent(SignInActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                        return;
+                        //finish();
                     }
                 }
 
@@ -108,7 +108,9 @@ public class SignInActivity extends Activity {
                 }
             });
 
-            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+            //Gia su tai khoan nay da dc dang nhap tren app truoc do, thi ham nay se auto link toi Main Activity luon
+            //Nhung neu tai khoan da bi ban, thi khong cho no link qua MainActivity, chi hien AlertDialog thoi.
+            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String banned = snapshot.getValue(String.class);
@@ -146,7 +148,7 @@ public class SignInActivity extends Activity {
                         alertDialog.dismiss();
                         Intent i = new Intent(SignInActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                        return;
+                       // finish();
                     }
                 }
 
@@ -168,21 +170,18 @@ public class SignInActivity extends Activity {
                         } else if (task.getResult().child("userName") == null) {
                             moveActivity(SignInActivity.this, SignUpProcessPersonalActivity.class);
                         } else {
-                            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addValueEventListener(new ValueEventListener() {
+                            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     String banned = snapshot.getValue(String.class);
                                     if (banned != null && banned.equals("True")){
+                                        //Tat cai Please wait! This may take a moment di
+                                        alertDialog.dismiss();
                                         new AlertDialog.Builder(SignInActivity.this)
                                                 .setIcon(R.drawable.ic_report)
                                                 .setTitle("Your account has been banned")
                                                 .setMessage("Your TinMate profile has been banned for activity that violates our Term of Use.")
-                                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-
-                                                    }
-                                                })
+                                                .setPositiveButton("Yes", null)
                                                 .show();
                                     } else
                                         moveActivity(SignInActivity.this, MainActivity.class);
@@ -297,6 +296,7 @@ public class SignInActivity extends Activity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                alertDialog.dismiss();
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 signInWithGoogle(account.getIdToken());
@@ -322,7 +322,9 @@ public class SignInActivity extends Activity {
                             DatabaseReference Ref = FirebaseDatabase.getInstance()
                                     .getReference("Users")
                                     .child(firebaseUser.getUid());
+                            //---------------------------------------------------------------------------
 
+                            //---------------------------------------------------------------------------
                             Ref.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -355,8 +357,30 @@ public class SignInActivity extends Activity {
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
                             });
-                            //if (Ref.child("banned"))
-                            moveActivity(SignInActivity.this, MainActivity.class);
+
+                            FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).child("banned").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String banned = snapshot.getValue(String.class);
+                                    if (banned != null && banned.equals("True")){
+                                        //Tat cai Please wait! This may take a moment di
+                                        new AlertDialog.Builder(SignInActivity.this)
+                                                .setIcon(R.drawable.ic_report)
+                                                .setTitle("Your account has been banned")
+                                                .setMessage("Your TinMate profile has been banned for activity that violates our Term of Use.")
+                                                .setPositiveButton("Yes", null)
+                                                .show();
+                                    } else
+                                        moveActivity(SignInActivity.this, MainActivity.class);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+//                            moveActivity(SignInActivity.this, MainActivity.class);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignInActivity.this, task.getException().toString(),
