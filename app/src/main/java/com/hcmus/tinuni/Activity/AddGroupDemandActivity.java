@@ -261,14 +261,14 @@ public class AddGroupDemandActivity extends Activity {
             return false;
         }
 
-        if (strEditTextGroupName.length() < 2 || strEditTextGroupName.length() > 50) {
-            editTextGroupName.setError("Group name should be from 2 - 50 characters");
-        } else if (strEditTextSubject.length() < 2 || strEditTextSubject.length() > 50) {
-            autoCompleteTextViewSubject.setError("Subject name should be from 2 - 50 characters");
-        } else if (strEditTextMajor.length() < 2 || strEditTextMajor.length() > 50) {
-            autoCompleteTextViewMajor.setError("Major name should be from 2 - 50 characters");
-        } else if (strEditTextSchool.length() < 2 || strEditTextSchool.length() > 50) {
-            autoCompleteTextViewSchool.setError("School name should be from 2 - 50 characters");
+        if (strEditTextGroupName.length() < 2 || strEditTextGroupName.length() > 150) {
+            editTextGroupName.setError("Group name should be from 2 - 150 characters");
+        } else if (strEditTextSubject.length() < 2 || strEditTextSubject.length() > 150) {
+            autoCompleteTextViewSubject.setError("Subject name should be from 2 - 150 characters");
+        } else if (strEditTextMajor.length() < 2 || strEditTextMajor.length() > 150) {
+            autoCompleteTextViewMajor.setError("Major name should be from 2 - 150 characters");
+        } else if (strEditTextSchool.length() < 2 || strEditTextSchool.length() > 150) {
+            autoCompleteTextViewSchool.setError("School name should be from 2 - 150 characters");
         } else {
             return true;
         }
