@@ -97,9 +97,12 @@ public class AddUserAdapter extends RecyclerView.Adapter<AddUserAdapter.ViewHold
                                     map.put("role", "member");
                                     mRef.child(groupId).child("Participants").child(user.getId()).setValue(map);
 
+                                    //Add to chatlist of the person
+                                    DatabaseReference chatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(user.getId()).child(groupId);
+                                    chatListRef.child("id").setValue(groupId);
                                     sDialog
-                                            .setTitleText("Created!")
-                                            .setContentText("Created successfully")
+                                            .setTitleText("Added!")
+                                            .setContentText("Added successfully")
                                             .setConfirmText("OK")
                                             .setConfirmClickListener(null)
                                             .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
