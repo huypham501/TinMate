@@ -136,7 +136,6 @@ public class AddDemandActivity extends Activity {
                     }
                     AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddDemandActivity.this, arrayListSuggestMajor);
                     autoCompleteTextViewMajor.setAdapter(adapter);
-                    System.out.println("DONE MAJOR");
                 }
             }
 
@@ -158,7 +157,6 @@ public class AddDemandActivity extends Activity {
                     }
                     AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddDemandActivity.this, arrayListSuggestSubject);
                     autoCompleteTextViewSubject.setAdapter(adapter);
-                    System.out.println("DONE SUBJECT");
                 }
             }
 
@@ -180,7 +178,6 @@ public class AddDemandActivity extends Activity {
                     }
                     AutoCompleteAdapter adapter = new AutoCompleteAdapter(AddDemandActivity.this, arrayListSuggestSchool);
                     autoCompleteTextViewSchool.setAdapter(adapter);
-                    System.out.println("DONE SCHOOL");
                 }
             }
 

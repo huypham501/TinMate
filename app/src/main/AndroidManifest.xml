@@ -3,6 +3,8 @@
     package="com.hcmus.tinuni">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -39,13 +41,12 @@
         <activity android:name=".Activity.Profile.UserProfileActitivy" />
         <activity android:name=".Activity.Profile.ShowProfileActitivy"></activity>
         <activity android:name=".Activity.Authentication.LoadingStartActivity">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
 
-
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.MessageActivity"
@@ -63,11 +64,11 @@
         </activity>
         <activity android:name=".Activity.Authentication.SignUpActivity" />
         <activity android:name=".Activity.Authentication.SignInActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".Activity.Admin.AdminInitialActivity">
 

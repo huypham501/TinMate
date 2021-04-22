@@ -49,142 +49,149 @@
             app:civ_border_color="#2F80ED"
             app:civ_border_width="5dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="Group Name"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
-
-                <EditText
-                    android:id="@+id/editTextGroupName"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="10dp" />
-            </LinearLayout>
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="Subject"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_black"
+                            android:text="Group Name"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextViewSubject"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="10dp" />
-            </LinearLayout>
+                        <EditText
+                            android:id="@+id/editTextGroupName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:background="@drawable/rounded_edittext"
+                            android:padding="10dp" />
+                    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="Major"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_black"
+                            android:text="Subject"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextViewMajor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="10dp" />
-            </LinearLayout>
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTextViewSubject"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:background="@drawable/rounded_edittext"
+                            android:padding="10dp" />
+                    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_black"
-                    android:text="School"
-                    android:textColor="@color/black"
-                    android:textSize="14dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_black"
+                            android:text="Major"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextViewSchool"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:padding="10dp" />
-            </LinearLayout>
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTextViewMajor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:background="@drawable/rounded_edittext"
+                            android:padding="10dp" />
+                    </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textViewDuplicateGroupNameWarning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="This group name is already exist!"
-                    android:textColor="@color/red"
-                    android:textSize="18dp"
-                    android:visibility="invisible" />
-            </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_black"
+                            android:text="School"
+                            android:textColor="@color/black"
+                            android:textSize="14dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTextViewSchool"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:background="@drawable/rounded_edittext"
+                            android:padding="10dp" />
+                    </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_sign_in"
-                    android:drawableLeft="@drawable/ic_check_circle"
-                    android:fontFamily="@font/montserrat_black"
-                    android:paddingLeft="120dp"
-                    android:paddingRight="140dp"
-                    android:text="Save"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp">
 
-            </LinearLayout>
-        </LinearLayout>
+                        <TextView
+                            android:id="@+id/textViewDuplicateGroupNameWarning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="This group name is already exist!"
+                            android:textColor="@color/red"
+                            android:textSize="18dp"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btnSave"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_sign_in"
+                            android:drawableLeft="@drawable/ic_check_circle"
+                            android:fontFamily="@font/montserrat_black"
+                            android:paddingLeft="120dp"
+                            android:paddingRight="140dp"
+                            android:text="Save"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </ScrollView>
     </LinearLayout>
 </LinearLayout>

@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentMatching"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_sign_in"
-    android:id="@+id/fragmentMatching"
     tools:context=".Fragment.MatchingFragment">
 
 
-    <!-- TODO: Update blank fragment layout -->
-
-        <LinearLayout
-            android:id="@+id/linearLayoutMatching"
+    <LinearLayout
+        android:id="@+id/linearLayoutWarningEmptyMatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:text="Create a demand now "
+            android:textSize="16dp"
+            android:gravity="center_vertical"/>
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPagerMatching"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageViewArrowIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:rotation="-30"
+            android:alpha="0.6"
+            android:src="@drawable/ic_baseline_arrow_right_alt" />
 
-            </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
 
-        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutMatching"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPagerMatching"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.viewpager.widget.ViewPager>
+
+    </LinearLayout>
 </RelativeLayout>

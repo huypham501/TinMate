@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.MessageActivity;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
@@ -107,7 +109,16 @@ class MatchingAdapter extends PagerAdapter {
                                                 if (!task.isSuccessful()) {
 
                                                 } else {
-                                                    System.out.println("Join success");
+                                                    DatabaseReference databaseReferenceChatList = FirebaseDatabase.getInstance().getReference("ChatList").child(userId);
+                                                    databaseReferenceChatList.child(groupId).child("id").setValue(groupId).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            //MOVE TO GROUP
+                                                            Intent intent = new Intent(context, MessageActivity.class);
+                                                            intent.putExtra("groupId", groupId);
+                                                            context.startActivity(intent);
+                                                        }
+                                                    });
                                                 }
                                             }
                                         });
@@ -146,11 +157,11 @@ class MatchingAdapter extends PagerAdapter {
     }
 }
 
-
 public class MatchingFragment extends Fragment {
 
     private ViewPager viewPager;
     private MatchingAdapter matchingAdapter;
+    private LinearLayout linearLayoutWarningEmptyMatch;
 
     private int currentPagePosition;
     private String userId;
@@ -169,6 +180,9 @@ public class MatchingFragment extends Fragment {
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         viewPager = view.findViewById(R.id.viewPagerMatching);
+
+        linearLayoutWarningEmptyMatch = view.findViewById(R.id.linearLayoutWarningEmptyMatch);
+        linearLayoutWarningEmptyMatch.setVisibility(View.GONE);
 
         return view;
     }
@@ -189,65 +203,67 @@ public class MatchingFragment extends Fragment {
                 if (!snapshotDemands.exists()) {
                     //matchingAdapter = new MatchingAdapter(getContext(), null);
                     viewPager.setAdapter(null);
-                }
-                for (DataSnapshot dataSnapshot : snapshotDemands.getChildren()) {
-                    Demand demand = dataSnapshot.getValue(Demand.class);
+                    linearLayoutWarningEmptyMatch.setVisibility(View.VISIBLE);
+                } else {
+                    linearLayoutWarningEmptyMatch.setVisibility(View.GONE);
+                    for (DataSnapshot dataSnapshot : snapshotDemands.getChildren()) {
+                        Demand demand = dataSnapshot.getValue(Demand.class);
 
-                    Query queryGroupId = FirebaseDatabase.getInstance().getReference("Groups").orderByChild("subject").equalTo(demand.getSubject());
-                    queryGroupId.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshotGroups) {
-                            for (DataSnapshot dataSnapshot1 : snapshotGroups.getChildren()) {
-                                arrayListGroupId.add(dataSnapshot1.getKey());
-                            }
-                            //REMOVE DUPLICATE
-                            Set<String> set = new HashSet<>(arrayListGroupId);
-                            arrayListGroupId.clear();
-                            arrayListGroupId.addAll(set);
-                            //END REMOVE DUPLICATE
+                        Query queryGroupId = FirebaseDatabase.getInstance().getReference("Groups").orderByChild("subject").equalTo(demand.getSubject());
+                        queryGroupId.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshotGroups) {
+                                for (DataSnapshot dataSnapshot1 : snapshotGroups.getChildren()) {
+                                    arrayListGroupId.add(dataSnapshot1.getKey());
+                                }
+                                //REMOVE DUPLICATE
+                                Set<String> set = new HashSet<>(arrayListGroupId);
+                                arrayListGroupId.clear();
+                                arrayListGroupId.addAll(set);
+                                //END REMOVE DUPLICATE
 
-                            ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
+                                ArrayList<HashMap<String, Object>> arrayListGroup = new ArrayList<>();
 
-                            matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
-                            viewPager.setAdapter(matchingAdapter);
+                                matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+                                viewPager.setAdapter(matchingAdapter);
 
-                            for (String strGroupId : arrayListGroupId) {
-                                DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
+                                for (String strGroupId : arrayListGroupId) {
+                                    DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(strGroupId);
 
-                                databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
-                                        if (!groupSnapshot.exists()) {
+                                    databaseReferenceGroups.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot groupSnapshot) {
+                                            if (!groupSnapshot.exists()) {
 
-                                        } else {
-                                            Group group = groupSnapshot.getValue(Group.class);
-                                            HashMap<String, Object> hashMapGroup = Group.toHashMap(group);
+                                            } else {
+                                                Group group = groupSnapshot.getValue(Group.class);
+                                                HashMap<String, Object> hashMapGroup = Group.toHashMap(group);
 
-                                            long numberMembers = groupSnapshot.child("Participants").getChildrenCount();
-                                            hashMapGroup.put("numberMembers", numberMembers);
+                                                long numberMembers = groupSnapshot.child("Participants").getChildrenCount();
+                                                hashMapGroup.put("numberMembers", numberMembers);
 
-                                            arrayListGroup.add(hashMapGroup);
-                                            matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
-                                            viewPager.setAdapter(matchingAdapter);
+                                                arrayListGroup.add(hashMapGroup);
+                                                matchingAdapter = new MatchingAdapter(getContext(), arrayListGroup);
+                                                viewPager.setAdapter(matchingAdapter);
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }
+
                             }
 
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
-
             }
 
             @Override

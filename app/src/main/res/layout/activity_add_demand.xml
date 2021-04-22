@@ -138,7 +138,7 @@
                     android:text="This demand is already exist!"
                     android:textColor="@color/red"
                     android:textSize="18dp"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
             </RelativeLayout>
         </LinearLayout>
 
