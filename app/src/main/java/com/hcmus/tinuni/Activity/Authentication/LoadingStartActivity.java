@@ -56,14 +56,16 @@ public class LoadingStartActivity extends Activity {
         @Override
         public void run() {
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Service.CONNECTIVITY_SERVICE);
+            System.out.println("FIRSTTTTT");
             if (connectivityManager != null) {
                 NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                if (networkInfo != null) {
+                System.out.println("NETWORK INFOOOOO");
+                if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+                    System.out.println("FIREBASE USERRRR");
                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
                     if (firebaseUser != null) {
                         String userId = firebaseUser.getUid();
-                        System.out.println(userId);
-                        System.out.println("HEREEE");
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
                         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -84,13 +86,15 @@ public class LoadingStartActivity extends Activity {
                         moveActivity(LoadingStartActivity.this, SignInActivity.class);
                     }
                 } else {
+                    System.out.println("DIALOGGGGGG");
                     new AlertDialog.Builder(context)
                             .setTitle("DISCONNECTED")
                             .setMessage("You are not connect to the internet")
                             .setPositiveButton("OK", null);
                 }
             } else {
-                Toast.makeText(context, "Error CONNECTIVITY SERVICE", Toast.LENGTH_SHORT).show();
+                System.out.println("TOASTTTT");
+                Toast.makeText(context, "Error CONNECTIVITY SERVICE", Toast.LENGTH_LONG).show();
             }
         }
     }

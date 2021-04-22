@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Admin.UserReportActivity;
 import com.hcmus.tinuni.Activity.Authentication.ChangePasswordActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Model.User;
@@ -216,7 +217,9 @@ public class ShowProfileActitivy extends Activity {
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent_report = new Intent(ShowProfileActitivy.this, UserReportActivity.class);
+                intent_report.putExtra("target", (String)tvEmail.getText());
+                startActivity(intent_report);
             }
         });
     }
