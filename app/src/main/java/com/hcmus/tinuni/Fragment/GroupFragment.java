@@ -34,7 +34,7 @@ public class GroupFragment extends Fragment {
 
     private FirebaseUser mUser;
     private DatabaseReference mRef;
-
+    private ValueEventListener valueEventListener;
     private RecyclerView recyclerView;
 
     public GroupFragment() {
@@ -83,18 +83,7 @@ public class GroupFragment extends Fragment {
             }
         });
 
-        return view;
-    }
-
-    private void getChatList() {
-        // Getting all chats
-        mItems = new ArrayList<>();
-
-        mRef = FirebaseDatabase
-                .getInstance()
-                .getReference("Groups");
-
-        mRef.addValueEventListener(new ValueEventListener() {
+        valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
@@ -119,6 +108,33 @@ public class GroupFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        };
+
+
+        return view;
+    }
+
+    private void getChatList() {
+        // Getting all chats
+        mItems = new ArrayList<>();
+
+        mRef = FirebaseDatabase
+                .getInstance()
+                .getReference("Groups");
+
+        mRef.addValueEventListener(valueEventListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mRef.removeEventListener(valueEventListener);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mRef.addValueEventListener(valueEventListener);
+
     }
 }
