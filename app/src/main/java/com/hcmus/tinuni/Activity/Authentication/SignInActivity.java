@@ -99,7 +99,32 @@ public class SignInActivity extends Activity {
                     if (role != null && role.equals("admin")){
                         Intent i = new Intent(SignInActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                        finish();
+                        //finish(); //Do da co flag
+                    } else {
+                        //Gia su tai khoan nay da dc dang nhap tren app truoc do, thi ham nay se auto link toi Main Activity luon
+                        //Nhung neu tai khoan da bi ban, thi khong cho no link qua MainActivity, chi hien AlertDialog thoi.
+
+                        FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String banned = snapshot.getValue(String.class);
+                                if (banned != null && banned.equals("True")){
+                                    new AlertDialog.Builder(SignInActivity.this)
+                                            .setIcon(R.drawable.ic_report)
+                                            .setTitle("Your account has been banned")
+                                            .setMessage("Your TinMate profile has been banned for activity that violates our Term of Use.")
+                                            .setPositiveButton("Yes", null)
+                                            .show();
+                                } else
+                                    moveActivity(SignInActivity.this, MainActivity.class);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
                 }
 
@@ -108,29 +133,6 @@ public class SignInActivity extends Activity {
                 }
             });
 
-            //Gia su tai khoan nay da dc dang nhap tren app truoc do, thi ham nay se auto link toi Main Activity luon
-            //Nhung neu tai khoan da bi ban, thi khong cho no link qua MainActivity, chi hien AlertDialog thoi.
-
-            FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid()).child("banned").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String banned = snapshot.getValue(String.class);
-                    if (banned != null && banned.equals("True")){
-                        new AlertDialog.Builder(SignInActivity.this)
-                                .setIcon(R.drawable.ic_report)
-                                .setTitle("Your account has been banned")
-                                .setMessage("Your TinMate profile has been banned for activity that violates our Term of Use.")
-                                .setPositiveButton("Yes", null)
-                                .show();
-                    } else
-                        moveActivity(SignInActivity.this, MainActivity.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
 
         }
     }
@@ -148,7 +150,7 @@ public class SignInActivity extends Activity {
                         alertDialog.dismiss();
                         Intent i = new Intent(SignInActivity.this, AdminInitialActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                        finish();
+                        //finish(); //Da co flag nen k can
                     }
                 }
 

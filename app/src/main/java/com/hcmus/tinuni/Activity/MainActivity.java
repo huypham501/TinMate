@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity {
 
         imageView = (ImageView) toolbar.getChildAt(0);
 
-        mRef.addValueEventListener(new ValueEventListener() {
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);

@@ -10,12 +10,16 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.R;
@@ -58,11 +62,24 @@ public class LoadingStartActivity extends Activity {
                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                     if (firebaseUser != null) {
                         String userId = firebaseUser.getUid();
-                        if (FirebaseDatabase.getInstance().getReference("Users").child(userId) != null) {
-                            moveActivity(LoadingStartActivity.this, MainActivity.class);
-                        } else {
-                            moveActivity(LoadingStartActivity.this, AdminInitialActivity.class);
-                        }
+                        System.out.println(userId);
+                        System.out.println("HEREEE");
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.getValue() != null) {
+                                    moveActivity(LoadingStartActivity.this, MainActivity.class);
+                                } else {
+                                    moveActivity(LoadingStartActivity.this, AdminInitialActivity.class);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     } else {
                         moveActivity(LoadingStartActivity.this, SignInActivity.class);
                     }
