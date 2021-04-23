@@ -3,6 +3,8 @@
     package="com.hcmus.tinuni">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TinUni">
-        <activity android:name=".Activity.ShowGroupMemberActivity"/>
+        <activity android:name=".Activity.Admin.UserReportActivity"></activity>
+        <activity android:name=".Activity.ShowGroupMemberActivity" />
         <activity android:name=".Activity.AddFriendActivity" />
         <activity android:name=".Activity.DemandManageActivity" />
         <activity android:name=".Activity.AddGroupDemandActivity" />
@@ -26,23 +29,24 @@
         <activity android:name=".Activity.Authentication.SignUpProcessLevelActivity" />
         <activity android:name=".Activity.Authentication.SignUpProcessEducationActivity" />
         <activity android:name=".Activity.Authentication.SignUpProcessPersonalActivity">
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Activity.Profile.EditProfileActivity" />
         <activity android:name=".Activity.Profile.UserProfileActitivy" />
-        <activity android:name=".Activity.Profile.ShowProfileActitivy" >
-        </activity>
-        <activity android:name=".Activity.Authentication.LoadingStartActivity" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".Activity.Profile.ShowProfileActitivy"></activity>
+        <activity android:name=".Activity.Authentication.LoadingStartActivity">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.MessageActivity"
@@ -50,29 +54,30 @@
         <activity android:name=".Activity.Authentication.ResetPasswordActivity" />
         <activity android:name=".Activity.AddDemandActivity" />
         <activity android:name=".Activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Activity.Authentication.SignUpActivity" />
         <activity android:name=".Activity.Authentication.SignInActivity">
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".Activity.Admin.AdminInitialActivity">
 
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
     </application>

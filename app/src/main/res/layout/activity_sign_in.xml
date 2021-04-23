@@ -180,7 +180,8 @@
             android:paddingLeft="70dp"
             android:paddingRight="70dp"
             android:fontFamily="@font/montserrat_black"
-            android:drawableLeft="@drawable/google">
+            android:drawableStart="@drawable/google">
+
         </Button>
 
     </LinearLayout>
