@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +31,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class AddGroupActivity extends Activity {
     ImageView btnGoBack;
     EditText edtGroupName;
-    Button btnSave;
+    TextView btnSave;
 
     FirebaseUser mUser;
     DatabaseReference mRef;

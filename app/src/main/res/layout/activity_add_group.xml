@@ -82,26 +82,53 @@
             </LinearLayout>
 
 
-            <LinearLayout
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/btnSave"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/button_sign_in"-->
+<!--                    android:drawableLeft="@drawable/ic_check_circle"-->
+<!--                    android:fontFamily="@font/montserrat_black"-->
+<!--                    android:paddingLeft="120dp"-->
+<!--                    android:paddingRight="140dp"-->
+<!--                    android:text="Save"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--            </LinearLayout>-->
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:paddingVertical="10dp"
+                android:background="@drawable/button_sign_in">
 
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/ic_check"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_sign_in"
-                    android:drawableLeft="@drawable/ic_check_circle"
-                    android:fontFamily="@font/montserrat_black"
-                    android:paddingLeft="120dp"
-                    android:paddingRight="140dp"
-                    android:text="Save"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:src="@drawable/ic_check_circle"
+                    android:layout_toStartOf="@+id/btnSave"
+                    android:layout_centerVertical="true"/>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SAVE"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
