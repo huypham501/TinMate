@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,59 +30,69 @@ import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
+import java.util.logging.LoggingPermission;
 
 public class LoadingStartActivity extends Activity {
+    private Handler handler;
+    private Runnable runnableLoading = new Runnable() {
+        @Override
+        public void run() {
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) LoadingStartActivity.this.getSystemService(Service.CONNECTIVITY_SERVICE);
+
+            if (connectivityManager != null) {
+                if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
+
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                    if (firebaseUser != null) {
+                        String userId = firebaseUser.getUid();
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.getValue() != null) {
+                                    moveActivity(LoadingStartActivity.this, MainActivity.class);
+                                } else {
+                                    moveActivity(LoadingStartActivity.this, AdminInitialActivity.class);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    } else {
+                        moveActivity(LoadingStartActivity.this, SignInActivity.class);
+                    }
+                } else {
+                    new AlertDialog.Builder(LoadingStartActivity.this)
+                            .setTitle("DISCONNECTED")
+                            .setMessage("You are not connect to the internet")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    handler.post(runnableLoading);
+                                }
+                            })
+                            .show();
+                }
+            } else {
+                Toast.makeText(LoadingStartActivity.this, "Error CONNECTIVITY SERVICE", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_start);
 
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                ConnectivityManager connectivityManager = (ConnectivityManager) LoadingStartActivity.this.getSystemService(Service.CONNECTIVITY_SERVICE);
-                System.out.println("FIRSTTTTT");
-                if (connectivityManager != null) {
-                    if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
-                        System.out.println("FIREBASE USERRRR");
-                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        handler = new Handler();
 
-                        if (firebaseUser != null) {
-                            String userId = firebaseUser.getUid();
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.getValue() != null) {
-                                        moveActivity(LoadingStartActivity.this, MainActivity.class);
-                                    } else {
-                                        moveActivity(LoadingStartActivity.this, AdminInitialActivity.class);
-                                    }
-                                }
+        handler.post(runnableLoading);
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                        } else {
-                            moveActivity(LoadingStartActivity.this, SignInActivity.class);
-                        }
-                    } else {
-                        System.out.println("DIALOGGGGGG");
-                    new AlertDialog.Builder(LoadingStartActivity.this)
-                            .setTitle("DISCONNECTED")
-                            .setMessage("You are not connect to the internet")
-                            .setPositiveButton("OK", null)
-                            .show();
-                    }
-                } else {
-                    System.out.println("TOASTTTT");
-                    Toast.makeText(LoadingStartActivity.this, "Error CONNECTIVITY SERVICE", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
     }
 
     private void moveActivity(Context from, Class<?> to) {

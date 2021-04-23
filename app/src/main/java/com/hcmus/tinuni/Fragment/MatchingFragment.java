@@ -89,44 +89,35 @@ class MatchingAdapter extends PagerAdapter {
                 String groupId = hashMapGroup.get("id").toString();
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                DatabaseReference databaseReferenceSuggest = FirebaseDatabase.getInstance().getReference("Suggests").child(userId);
-                databaseReferenceSuggest.child(groupId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("Participants");
+                databaseReferenceGroups.child(userId).child("id").setValue(userId).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (!task.isSuccessful()) {
 
                         } else {
-                            DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("Participants");
-                            databaseReferenceGroups.child(userId).child("id").setValue(userId).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            databaseReferenceGroups.child(userId).child("role").setValue("member").addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (!task.isSuccessful()) {
 
                                     } else {
-                                        databaseReferenceGroups.child(userId).child("role").setValue("member").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        DatabaseReference databaseReferenceChatList = FirebaseDatabase.getInstance().getReference("ChatList").child(userId);
+                                        databaseReferenceChatList.child(groupId).child("id").setValue(groupId).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                if (!task.isSuccessful()) {
-
-                                                } else {
-                                                    DatabaseReference databaseReferenceChatList = FirebaseDatabase.getInstance().getReference("ChatList").child(userId);
-                                                    databaseReferenceChatList.child(groupId).child("id").setValue(groupId).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            //MOVE TO GROUP
-                                                            Intent intent = new Intent(context, MessageActivity.class);
-                                                            intent.putExtra("groupId", groupId);
-                                                            context.startActivity(intent);
-                                                        }
-                                                    });
-                                                }
+                                                //MOVE TO GROUP
+                                                Intent intent = new Intent(context, MessageActivity.class);
+                                                intent.putExtra("groupId", groupId);
+                                                context.startActivity(intent);
                                             }
                                         });
                                     }
-
                                 }
                             });
                         }
+
                     }
                 });
             }
@@ -214,7 +205,9 @@ public class MatchingFragment extends Fragment {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshotGroups) {
                                 for (DataSnapshot dataSnapshot1 : snapshotGroups.getChildren()) {
-                                    arrayListGroupId.add(dataSnapshot1.getKey());
+                                    if (dataSnapshot1.child("Participants").child(userId).getValue() == null) {
+                                        arrayListGroupId.add(dataSnapshot1.getKey());
+                                    }
                                 }
                                 //REMOVE DUPLICATE
                                 Set<String> set = new HashSet<>(arrayListGroupId);

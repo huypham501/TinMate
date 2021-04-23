@@ -12,22 +12,30 @@
         android:id="@+id/linearLayoutWarningEmptyMatch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal">
+
         <TextView
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:text="Create a demand now "
-            android:textSize="16dp"
-            android:gravity="center_vertical"/>
+            android:textSize="16dp" />
 
-        <ImageView
-            android:id="@+id/imageViewArrowIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:rotation="-30"
-            android:alpha="0.6"
-            android:src="@drawable/ic_baseline_arrow_right_alt" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/imageViewArrowIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:alpha="0.6"
+                android:rotation="-40"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_baseline_arrow_right_alt" />
+        </RelativeLayout>
     </LinearLayout>
 
 
