@@ -109,7 +109,7 @@ class MatchingAdapter extends PagerAdapter {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 //MOVE TO GROUP
                                                 Intent intent = new Intent(context, MessageActivity.class);
-                                                intent.putExtra("userId", userId);
+                                                intent.putExtra("userId", "");
                                                 intent.putExtra("groupId", groupId);
                                                 context.startActivity(intent);
                                             }
