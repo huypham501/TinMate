@@ -190,7 +190,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 result =  strHour + ":" + strMin;
             } else
                 if (gapHour < 168 && lastTimeDayOfWeek < currentDayOfWeek) { //1 tuan co 168 tieng
-                        result = "Th " + String.valueOf(lastTimeDayOfWeek);
+                        String dayOfWeek = String.valueOf(lastTimeDayOfWeek);
+                        if (dayOfWeek.equals("1"))
+                            result = "CN";
+                        else
+                            result = "Th " + dayOfWeek;
                 } else {
                     result = String.valueOf(lastTimeDayOfMonth) + " thg " + String.valueOf(lastTimeMonth);
                     if (lastTimeYear < currentYear){
