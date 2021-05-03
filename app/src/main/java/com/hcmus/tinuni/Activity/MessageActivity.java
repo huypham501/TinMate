@@ -107,6 +107,11 @@ public class MessageActivity extends Activity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        mItems = new ArrayList<>();
+        imgURLs = new ArrayList<>();
+        messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
+        recyclerView.setAdapter(messageAdapter);
+
         // Receiver
         Intent i = getIntent();
         userId = i.getStringExtra("userId");
@@ -384,9 +389,6 @@ public class MessageActivity extends Activity {
     }
 
     private void readMessagesFromUser(String imgURL) {
-        mItems = new ArrayList<>();
-
-        imgURLs = new ArrayList<>();
         imgURLs.add(imgURL);
 
         mRef = FirebaseDatabase.getInstance().getReference("Chats");
@@ -394,18 +396,17 @@ public class MessageActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
-
+                imgURLs.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
                     if ((chat.getReceiver().equals(mUser.getUid()) && chat.getSender().equals(userId)) ||
                             (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
                         mItems.add(chat);
+                        messageAdapter.notifyDataSetChanged();
                     }
 
                 }
-                messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
-                recyclerView.setAdapter(messageAdapter);
             }
 
             @Override
@@ -416,7 +417,6 @@ public class MessageActivity extends Activity {
     }
 
     private void readMessagesFromGroup() {
-        mItems = new ArrayList<>();
 
         mRef = FirebaseDatabase.getInstance()
                 .getReference("Groups")
@@ -426,13 +426,29 @@ public class MessageActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
+                imgURLs.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
-
                     mItems.add(chatGroup);
+
+                    FirebaseDatabase.getInstance().getReference("Users")
+                            .child(chatGroup.getSender())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User user = snapshot.getValue(User.class);
+                                    imgURLs.add(user.getImageURL());
+                                    messageAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                 }
-                getImgURLs();
+//                getImgURLs();
 
             }
 
