@@ -38,16 +38,24 @@ import java.util.TimerTask;
 class ImageAdapter extends PagerAdapter {
 
     private Context mContext;
-    public int[] mImageIds = { R.drawable.work_alone, R.drawable.brainstorming, R.drawable.finding_group,
-            R.drawable.create_room} ;
+    public int[] mImageIds = {R.drawable.work_alone, R.drawable.brainstorming, R.drawable.finding_group,
+            R.drawable.create_room};
 
-    public String[] shortTextSliders = {"Learning by yourself?","Learning in group", "Don't know which group to join yet?"
-    ,"Not interested in existed rooms?"};
+    public String[] shortTextSliders = {
+            "Learning by yourself?",
+            "Learning in group",
+            "Don't know which group to join yet?",
+            "Not interested in existed rooms?"
+    };
 
-    public String[] longTextSliders = {"Try learning together, more effectively.",
-            "Helping each other, solve problem faster, more talking","Scroll down to explore some rooms now","Create your own room now"};
+    public String[] longTextSliders = {
+            "Try learning together, more effectively.",
+            "Helping each other, solve problem faster, more talking",
+            "Scroll down to explore some rooms now",
+            "Create your own room now"
+    };
 
-    public ImageAdapter(Context context){
+    public ImageAdapter(Context context) {
         mContext = context;
     }
 
@@ -56,7 +64,7 @@ class ImageAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mImageIds.length ;
+        return mImageIds.length;
     }
 
     @Override
@@ -68,7 +76,7 @@ class ImageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.slide_layout_home_page,container,false);
+        View view = layoutInflater.inflate(R.layout.slide_layout_home_page, container, false);
 
         ImageView slideImageView = view.findViewById(R.id.iconSlider);
         TextView slideShortText = view.findViewById(R.id.shotTextSlider);
@@ -85,7 +93,7 @@ class ImageAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((RelativeLayout)object);
+        container.removeView((RelativeLayout) object);
     }
 }
 
@@ -165,14 +173,14 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
 
-                        viewPagerHome.setCurrentItem((viewPagerHome.getCurrentItem()+1)%adapter.mImageIds.length);
+                        viewPagerHome.setCurrentItem((viewPagerHome.getCurrentItem() + 1) % adapter.mImageIds.length);
                     }
                 });
             }
         };
 
         timer = new Timer();
-        timer.schedule(timerTask,8000,8000);
+        timer.schedule(timerTask, 8000, 8000);
         addDotsIndicator(0);
 
         viewPagerHome.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -196,19 +204,19 @@ public class HomeFragment extends Fragment {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft_add = fm.beginTransaction();
-        ft_add.add(R.id.frameLayoutMajorRooms,new MajorRoomSlider());
+        ft_add.add(R.id.frameLayoutMajorRooms, new MajorRoomSlider());
 
-        ft_add.add(R.id.frameLayoutGeneralRooms,new GeneralRoomSlider());
+        ft_add.add(R.id.frameLayoutGeneralRooms, new GeneralRoomSlider());
         ft_add.commit();
 
 
         return view;
     }
 
-    public void addDotsIndicator(int position){
+    public void addDotsIndicator(int position) {
         mDots = new TextView[adapter.mImageIds.length];
         mDotLayout.removeAllViews();
-        for(int i=0;i<mDots.length;i++){
+        for (int i = 0; i < mDots.length; i++) {
             mDots[i] = new TextView(getContext());
             mDots[i].setText(Html.fromHtml("&#8226;"));
             mDots[i].setTextSize(50);
@@ -217,7 +225,7 @@ public class HomeFragment extends Fragment {
             mDotLayout.addView(mDots[i]);
         }
 
-        if(mDots.length>0){
+        if (mDots.length > 0) {
             mDots[position].setTextColor(getResources().getColor(R.color.white));
         }
     }

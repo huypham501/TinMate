@@ -389,7 +389,6 @@ public class MessageActivity extends Activity {
     }
 
     private void readMessagesFromUser(String imgURL) {
-        imgURLs.add(imgURL);
 
         mRef = FirebaseDatabase.getInstance().getReference("Chats");
         mRef.addValueEventListener(new ValueEventListener() {
@@ -397,6 +396,8 @@ public class MessageActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
                 imgURLs.clear();
+
+                imgURLs.add(imgURL);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
@@ -430,7 +431,6 @@ public class MessageActivity extends Activity {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
-                    mItems.add(chatGroup);
 
                     FirebaseDatabase.getInstance().getReference("Users")
                             .child(chatGroup.getSender())
@@ -439,6 +439,8 @@ public class MessageActivity extends Activity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     User user = snapshot.getValue(User.class);
                                     imgURLs.add(user.getImageURL());
+                                    mItems.add(chatGroup);
+
                                     messageAdapter.notifyDataSetChanged();
                                 }
 
