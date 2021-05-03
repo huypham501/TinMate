@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
+import com.hcmus.tinuni.Activity.Profile.ShowProfileActitivy;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Activity.ShowMediaActivity;
 import com.hcmus.tinuni.Activity.ShowZoomImage;
@@ -118,8 +119,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.profile_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_profile = new Intent(context, UserProfileActitivy.class);
-                    intent_profile.putExtra("id", chat.getSender());
+                    Intent intent_profile = new Intent(context, ShowProfileActitivy.class);
+                    intent_profile.putExtra("userId", chat.getSender());
                     context.startActivity(intent_profile);
                 }
             });
@@ -174,8 +175,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.profile_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_profile = new Intent(context, UserProfileActitivy.class);
-                    intent_profile.putExtra("id", groupChat.getSender());
+                    Intent intent_profile = new Intent(context, ShowProfileActitivy.class);
+                    intent_profile.putExtra("userId", groupChat.getSender());
                     context.startActivity(intent_profile);
                 }
             });
