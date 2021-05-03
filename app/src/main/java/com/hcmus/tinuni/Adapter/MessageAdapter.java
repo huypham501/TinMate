@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hcmus.tinuni.Activity.MainActivity;
 import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
 import com.hcmus.tinuni.Activity.ShowMediaActivity;
@@ -113,6 +114,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                         .load(imgURLs.get(0))
                         .into(holder.profile_image);
             }
+
+            holder.profile_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_profile = new Intent(context, UserProfileActitivy.class);
+                    intent_profile.putExtra("id", chat.getSender());
+                    context.startActivity(intent_profile);
+                }
+            });
+
         } else {
             ChatGroup groupChat = (ChatGroup) item;
 
@@ -159,6 +170,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                         .load(imgURLs.get(position))
                         .into(holder.profile_image);
             }
+
+            holder.profile_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_profile = new Intent(context, UserProfileActitivy.class);
+                    intent_profile.putExtra("id", groupChat.getSender());
+                    context.startActivity(intent_profile);
+                }
+            });
         }
     }
 

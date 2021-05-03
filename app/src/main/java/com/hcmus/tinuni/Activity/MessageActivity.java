@@ -109,8 +109,6 @@ public class MessageActivity extends Activity {
 
         mItems = new ArrayList<>();
         imgURLs = new ArrayList<>();
-        messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
-        recyclerView.setAdapter(messageAdapter);
 
         // Receiver
         Intent i = getIntent();
@@ -389,25 +387,25 @@ public class MessageActivity extends Activity {
     }
 
     private void readMessagesFromUser(String imgURL) {
+        imgURLs.add(imgURL);
 
         mRef = FirebaseDatabase.getInstance().getReference("Chats");
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mItems.clear();
-                imgURLs.clear();
-
-                imgURLs.add(imgURL);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
 
                     if ((chat.getReceiver().equals(mUser.getUid()) && chat.getSender().equals(userId)) ||
                             (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
                         mItems.add(chat);
-                        messageAdapter.notifyDataSetChanged();
                     }
 
                 }
+
+                messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
+                recyclerView.setAdapter(messageAdapter);
             }
 
             @Override
@@ -431,26 +429,10 @@ public class MessageActivity extends Activity {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
+                    mItems.add(chatGroup);
 
-                    FirebaseDatabase.getInstance().getReference("Users")
-                            .child(chatGroup.getSender())
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    User user = snapshot.getValue(User.class);
-                                    imgURLs.add(user.getImageURL());
-                                    mItems.add(chatGroup);
-
-                                    messageAdapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
                 }
-//                getImgURLs();
+                getImgURLs();
 
             }
 
@@ -465,9 +447,6 @@ public class MessageActivity extends Activity {
 
 
     private void getImgURLs() {
-        imgURLs = new ArrayList<>();
-
-
         mRef = FirebaseDatabase
                 .getInstance()
                 .getReference("Users");
