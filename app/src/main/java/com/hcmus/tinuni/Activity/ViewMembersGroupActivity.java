@@ -112,7 +112,7 @@ public class ViewMembersGroupActivity extends Activity {
                     }
                 }
 
-                userAdapter = new UserAdapter( ViewMembersGroupActivity.this, mUsers, false);
+                userAdapter = new UserAdapter( ViewMembersGroupActivity.this, mUsers, false, null);
                 recyclerView.setAdapter(userAdapter);
             }
 
