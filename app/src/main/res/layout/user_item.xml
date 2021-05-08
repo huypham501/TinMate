@@ -62,6 +62,16 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:src="@drawable/arrow" />
-
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/img_new"
+        app:civ_border_width="10dp"
+        app:civ_border_color="#4334eb"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/imageView2"
+        android:layout_marginRight="20dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

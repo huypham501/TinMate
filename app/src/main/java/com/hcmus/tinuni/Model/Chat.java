@@ -5,7 +5,7 @@ public class Chat {
     private String receiver;
     private String message;
     private String time;
-
+    private Boolean seen;
     // text/image/file
     private String type;
 
@@ -13,12 +13,21 @@ public class Chat {
 
     }
 
-    public Chat(String sender, String receiver, String message, String time, String type) {
+    public Chat(String sender, String receiver, String message, String time, Boolean seen, String type) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.time = time;
+        this.seen = seen;
         this.type = type;
+    }
+
+    public Boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(Boolean seen) {
+        this.seen = seen;
     }
 
     public String getSender() {

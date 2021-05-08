@@ -93,7 +93,7 @@ public class FriendsFragment extends Fragment {
                         mFriends.add(user);
                     }
                 }
-                userAdapter = new UserAdapter(getContext(), mFriends, false);
+                userAdapter = new UserAdapter(getContext(), mFriends, false,null);
                 recyclerView.setAdapter(userAdapter);
             }
             @Override

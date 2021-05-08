@@ -22,8 +22,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +46,7 @@ import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MessageActivity extends Activity {
@@ -299,7 +302,7 @@ public class MessageActivity extends Activity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
         // Create chat
-        Chat chat = new Chat(mUser.getUid(), userId, msg, time, type);
+        Chat chat = new Chat(mUser.getUid(), userId, msg, time, false, type);
 
         reference.push().setValue(chat);
 
@@ -385,34 +388,39 @@ public class MessageActivity extends Activity {
         });
 
     }
+    ValueEventListener readMessagesListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            mItems.clear();
+            DataSnapshot lastMsg = null;
+            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                Chat chat = dataSnapshot.getValue(Chat.class);
 
+                if ((chat.getReceiver().equals(mUser.getUid()) && chat.getSender().equals(userId)) ||
+                        (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
+                    mItems.add(chat);
+                    if (chat.getSender().equals(userId))
+                        lastMsg = dataSnapshot;
+                }
+
+            }
+            if (lastMsg != null){
+                lastMsg.getRef().child("seen").setValue(true);
+            }
+            messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
+            recyclerView.setAdapter(messageAdapter);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
     private void readMessagesFromUser(String imgURL) {
         imgURLs.add(imgURL);
 
         mRef = FirebaseDatabase.getInstance().getReference("Chats");
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mItems.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Chat chat = dataSnapshot.getValue(Chat.class);
-
-                    if ((chat.getReceiver().equals(mUser.getUid()) && chat.getSender().equals(userId)) ||
-                            (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
-                        mItems.add(chat);
-                    }
-
-                }
-
-                messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
-                recyclerView.setAdapter(messageAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        mRef.addValueEventListener(readMessagesListener);
     }
 
     private void readMessagesFromGroup() {
@@ -492,5 +500,11 @@ public class MessageActivity extends Activity {
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(mUri));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mRef.removeEventListener(readMessagesListener);
     }
 }

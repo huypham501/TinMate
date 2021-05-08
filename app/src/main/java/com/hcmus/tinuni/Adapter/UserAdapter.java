@@ -1,7 +1,10 @@
 package com.hcmus.tinuni.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,19 +31,24 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context context;
     private List<User> mItems;
     private boolean isChat;
+    private List<Boolean> mIsSeen;
 
     String lastMessage = "";
     String time = "";
 
 
-    public UserAdapter(Context context, List<User> mUsers, boolean isChat) {
+    public UserAdapter(Context context, List<User> mUsers, boolean isChat, List<Boolean> mIsSeen) {
         this.context = context;
         this.mItems = mUsers;
         this.isChat = isChat;
+        this.mIsSeen = mIsSeen;
+
     }
 
     @NonNull
@@ -57,7 +65,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
         User user = mItems.get(position);
-
         holder.username.setText(user.getUserName());
         if (user.getImageURL().equals("default")) {
             holder.imageView.setImageResource(R.drawable.profile_image);
@@ -69,7 +76,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         // Kiểm tra có chat hay không
         if (isChat) {
-            getLastMessageFromUser(user.getId(), holder);
+            getLastMessageFromUser(user.getId(), holder, mIsSeen.get(position));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -83,10 +90,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         });
     }
 
-    private void getLastMessageFromUser(String id, ViewHolder holder) {
+    private void getLastMessageFromUser(String id, ViewHolder holder, Boolean isSeen) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -104,8 +112,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     }
                 }
 
-                if (!lastMessage.isEmpty())
+                if (!lastMessage.isEmpty()){
                     holder.lastMessage.setText(lastMessage);
+                    if (!isSeen){
+                        holder.lastMessage.setTextColor(Color.WHITE);
+                        holder.img_new.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        holder.img_new.setVisibility(View.GONE);
+                        holder.lastMessage.setTextColor(R.color.lighterBlack);
+                    }
+
+                }
+
                 if (!time.isEmpty())
                     holder.time.setText(holder.convertTime(time));
 
@@ -139,6 +158,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private ImageView imageView;
         private TextView lastMessage;
         private TextView time;
+        private CircleImageView img_new;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -147,6 +167,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             time = itemView.findViewById(R.id.time);
+            img_new = itemView.findViewById(R.id.img_new);
         }
 
         //Trong 24h trở về trước hiện hh:mm
