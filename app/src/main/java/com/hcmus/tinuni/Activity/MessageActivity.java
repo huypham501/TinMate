@@ -389,7 +389,7 @@ public class MessageActivity extends Activity {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             mItems.clear();
-            DataSnapshot lastMsg = null;
+
             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                 Chat chat = dataSnapshot.getValue(Chat.class);
 
@@ -397,13 +397,11 @@ public class MessageActivity extends Activity {
                         (chat.getReceiver().equals(userId) && chat.getSender().equals(mUser.getUid()))) {
                     mItems.add(chat);
                     if (chat.getSender().equals(userId))
-                        lastMsg = dataSnapshot;
+                        dataSnapshot.getRef().child("seen").setValue(true);
                 }
 
             }
-            if (lastMsg != null){
-                lastMsg.getRef().child("seen").setValue(true);
-            }
+
             messageAdapter = new MessageAdapter(MessageActivity.this, mItems, imgURLs);
             recyclerView.setAdapter(messageAdapter);
         }
@@ -503,5 +501,11 @@ public class MessageActivity extends Activity {
     protected void onPause() {
         super.onPause();
         mRef.removeEventListener(readMessagesListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseDatabase.getInstance().getReference("Chats").addValueEventListener(readMessagesListener);
     }
 }

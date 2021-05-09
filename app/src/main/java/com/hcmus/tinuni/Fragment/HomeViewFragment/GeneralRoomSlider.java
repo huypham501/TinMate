@@ -31,29 +31,29 @@ public class GeneralRoomSlider extends Fragment {
 
         View view = inflater.inflate(R.layout.major_rooms, container, false);
         majorRoomRecyclerView = view.findViewById(R.id.recyclerViewMajorRooms);
-
-        Integer[] studyRoom = {R.drawable.triethoc, R.drawable.kinh_te_chinh_tri, R.drawable.chu_nghia_xa_hoi,
-                R.drawable.lich_su_dang, R.drawable.phap_luat_dai_cuong, R.drawable.xac_suat_thong_ke};
-
-        String[] roomName = {"Triet hoc", "Kinh te chinh tri","Chu nghia xa hoi khoa hoc",
-                "Lich su Dang", "Phap luat dai cuong","Xac suat thong ke"};
-
-        String[] amount = {"60","60","60","60","60","60"};
-        mainModels = new ArrayList<>();
-        for(int i=0;i<studyRoom.length;i++){
-            MainModel model = new MainModel(studyRoom[i],roomName[i],amount[i]);
-            mainModels.add(model);
-        }
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false);
-        majorRoomRecyclerView.setLayoutManager(layoutManager);
-        majorRoomRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mainAdapter = new MainAdapter(mainModels, getContext());
-        majorRoomRecyclerView.setAdapter(mainAdapter);
-        textViewListRoom = view.findViewById(R.id.textViewMajorRoomsName);
-        textViewListRoom.setText("General Subjects");
+//
+//        Integer[] studyRoom = {R.drawable.triethoc, R.drawable.kinh_te_chinh_tri, R.drawable.chu_nghia_xa_hoi,
+//                R.drawable.lich_su_dang, R.drawable.phap_luat_dai_cuong, R.drawable.xac_suat_thong_ke};
+//
+//        String[] roomName = {"Triet hoc", "Kinh te chinh tri","Chu nghia xa hoi khoa hoc",
+//                "Lich su Dang", "Phap luat dai cuong","Xac suat thong ke"};
+//
+//        String[] amount = {"60","60","60","60","60","60"};
+//        mainModels = new ArrayList<>();
+//        for(int i=0;i<studyRoom.length;i++){
+//            MainModel model = new MainModel(studyRoom[i],roomName[i],amount[i]);
+//            mainModels.add(model);
+//        }
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
+//                LinearLayoutManager.HORIZONTAL,
+//                false);
+//        majorRoomRecyclerView.setLayoutManager(layoutManager);
+//        majorRoomRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        mainAdapter = new MainAdapter(mainModels, getContext());
+//        majorRoomRecyclerView.setAdapter(mainAdapter);
+//        textViewListRoom = view.findViewById(R.id.textViewMajorRoomsName);
+//        textViewListRoom.setText("General Subjects");
        
 
         return view;

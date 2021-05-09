@@ -180,6 +180,7 @@ public class ChatFragment extends Fragment {
                 mItems.remove(i);
                 mRecentTimes.remove(i);
                 mIsSeen.remove(i);
+                break;
             }
         }
         for (int i=0;i<mItems.size();i++){

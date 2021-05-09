@@ -1,18 +1,24 @@
 package com.hcmus.tinuni.Fragment.HomeViewFragment;
 
 public class MainModel {
-    Integer roomAvatar;
+    String id;
+    String roomAvatar;
     String roomName;
-    String roomAmount;
+    Long roomAmount;
 
 
-    public MainModel(Integer roomAvatar, String roomName, String roomAmount) {
+    public MainModel(String id, String roomAvatar, String roomName, Long roomAmount) {
         this.roomAvatar = roomAvatar;
         this.roomName = roomName;
         this.roomAmount = roomAmount;
+        this.id = id;
     }
 
-    public Integer getRoomAvatar() {
+    public String getId() {
+        return id;
+    }
+
+    public String getRoomAvatar() {
         return roomAvatar;
     }
 
@@ -20,7 +26,7 @@ public class MainModel {
         return roomName;
     }
 
-    public String getRoomAmount() {
+    public Long getRoomAmount() {
         return roomAmount;
     }
 }

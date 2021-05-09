@@ -18,7 +18,8 @@
         app:srcCompat="@drawable/room_1"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/textViewRoomName"

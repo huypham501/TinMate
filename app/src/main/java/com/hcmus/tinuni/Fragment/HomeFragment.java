@@ -206,7 +206,7 @@ public class HomeFragment extends Fragment {
         FragmentTransaction ft_add = fm.beginTransaction();
         ft_add.add(R.id.frameLayoutMajorRooms, new MajorRoomSlider());
 
-        ft_add.add(R.id.frameLayoutGeneralRooms, new GeneralRoomSlider());
+        //ft_add.add(R.id.frameLayoutGeneralRooms, new GeneralRoomSlider());
         ft_add.commit();
 
 

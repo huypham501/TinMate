@@ -12,7 +12,7 @@
         android:id="@+id/textViewMajorRoomsName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Information Technology"
+        android:text="Available groups"
         android:fontFamily="@font/montserrat_black"
         android:textStyle="bold"
         android:textAllCaps="true"
