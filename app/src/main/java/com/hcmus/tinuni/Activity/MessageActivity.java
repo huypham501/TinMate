@@ -500,12 +500,14 @@ public class MessageActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        mRef.removeEventListener(readMessagesListener);
+        if (!userId.isEmpty())
+            mRef.removeEventListener(readMessagesListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        FirebaseDatabase.getInstance().getReference("Chats").addValueEventListener(readMessagesListener);
+        if (!userId.isEmpty())
+            FirebaseDatabase.getInstance().getReference("Chats").addValueEventListener(readMessagesListener);
     }
 }
