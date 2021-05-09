@@ -66,7 +66,7 @@ public class SettingGroupActivity extends Activity {
         btnGoBack = findViewById(R.id.btnGoBack);
         txtName = findViewById(R.id.name);
 
-        layoutMembers = findViewById(R.id.layoutMembers);
+        layoutMembers = findViewById(R.id.relativeLayoutViewMembers);
         layoutChangeName = findViewById(R.id.layoutChangeName);
         layoutLeave = findViewById(R.id.layoutLeave);
         layoutChangeAvatar = findViewById(R.id.layoutChangeAvatar);
@@ -123,6 +123,7 @@ public class SettingGroupActivity extends Activity {
             public void onClick(View v) {
                 Intent viewMembers = new Intent(SettingGroupActivity.this, ViewMembersGroupActivity.class);
                 viewMembers.putExtra("groupId", groupId);
+                viewMembers.putExtra("userId", mUser.getUid());
                 startActivity(viewMembers);
             }
         });

@@ -17,7 +17,7 @@
         android:theme="@style/Theme.TinUni">
         <activity android:name=".Activity.Profile.GroupProfileActivity"></activity>
         <activity android:name=".Activity.Admin.UserReportActivity" />
-        <activity android:name=".Activity.ShowGroupMemberActivity" />
+        <activity android:name=".Activity.ViewMembersGroupActivity" />
         <activity android:name=".Activity.AddFriendActivity" />
         <activity android:name=".Activity.DemandManageActivity" />
         <activity android:name=".Activity.AddGroupDemandActivity" />
@@ -38,7 +38,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Activity.ViewMembersGroupActivity" />
+        <activity android:name=".Activity.ViewMembersGroupActivity1" />
         <activity android:name=".Activity.Profile.EditProfileActivity" />
         <activity android:name=".Activity.Profile.UserProfileActivity" />
         <activity android:name=".Activity.Profile.ShowProfileActivity"/>
@@ -54,7 +54,7 @@
             android:name=".Activity.MessageActivity"
             android:label="@string/title_activity_message" />
         <activity android:name=".Activity.Authentication.ResetPasswordActivity" />
-        <activity android:name=".Activity.AddDemandActivity" />
+        <activity android:name=".Activity.Demand.AddDemandActivity" />
         <activity android:name=".Activity.MainActivity">
 
             <!-- <intent-filter> -->

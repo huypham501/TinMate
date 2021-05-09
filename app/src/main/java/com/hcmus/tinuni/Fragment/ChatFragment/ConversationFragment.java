@@ -1,4 +1,4 @@
-package com.hcmus.tinuni.Fragment;
+package com.hcmus.tinuni.Fragment.ChatFragment;
 
 import android.os.Bundle;
 
@@ -8,7 +8,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,7 +51,6 @@ public class ConversationFragment extends Fragment {
                 RelativeLayout.LayoutParams indicatorParams = (RelativeLayout.LayoutParams) indicator.getLayoutParams();
                 indicatorParams.width = indicatorWidth;
                 indicator.setLayoutParams(indicatorParams);
-
             }
         });
 

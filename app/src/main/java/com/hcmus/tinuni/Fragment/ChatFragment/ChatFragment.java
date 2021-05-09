@@ -1,4 +1,4 @@
-package com.hcmus.tinuni.Fragment;
+package com.hcmus.tinuni.Fragment.ChatFragment;
 
 import android.os.Bundle;
 

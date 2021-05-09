@@ -1,4 +1,4 @@
-package com.hcmus.tinuni.Activity;
+package com.hcmus.tinuni.Activity.Demand;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 

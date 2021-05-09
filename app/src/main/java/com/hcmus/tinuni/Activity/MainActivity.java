@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
 import com.hcmus.tinuni.Activity.Profile.UserProfileActivity;
-import com.hcmus.tinuni.Fragment.ConversationFragment;
+import com.hcmus.tinuni.Fragment.ChatFragment.ConversationFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.MatchingFragment;
 import com.hcmus.tinuni.Fragment.FriendsFragment;

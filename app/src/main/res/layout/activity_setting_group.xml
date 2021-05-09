@@ -74,7 +74,7 @@
                 android:textSize="25sp"/>
 
             <RelativeLayout
-                android:id="@+id/layoutMembers"
+                android:id="@+id/relativeLayoutViewMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtInfo"
@@ -106,7 +106,7 @@
             </RelativeLayout>
 
             <View
-                android:layout_below="@+id/layoutMembers"
+                android:layout_below="@+id/relativeLayoutViewMembers"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="50dp"
@@ -116,7 +116,7 @@
                 android:id="@+id/layoutChangeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/layoutMembers"
+                android:layout_below="@+id/relativeLayoutViewMembers"
                 android:background="@color/circleBorder"
                 android:padding="10dp">
 

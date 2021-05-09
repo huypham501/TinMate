@@ -385,6 +385,7 @@ public class MessageActivity extends Activity {
         });
 
     }
+
     ValueEventListener readMessagesListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -411,6 +412,7 @@ public class MessageActivity extends Activity {
 
         }
     };
+
     private void readMessagesFromUser(String imgURL) {
         imgURLs.add(imgURL);
 
@@ -444,10 +446,7 @@ public class MessageActivity extends Activity {
 
             }
         });
-
-
     }
-
 
     private void getImgURLs() {
         mRef = FirebaseDatabase
@@ -490,7 +489,6 @@ public class MessageActivity extends Activity {
 
     }
 
-
     private String getFileExtension(Uri mUri) {
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -510,4 +508,5 @@ public class MessageActivity extends Activity {
         if (!userId.isEmpty())
             FirebaseDatabase.getInstance().getReference("Chats").addValueEventListener(readMessagesListener);
     }
+
 }

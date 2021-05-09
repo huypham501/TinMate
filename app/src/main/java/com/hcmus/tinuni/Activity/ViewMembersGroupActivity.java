@@ -1,24 +1,28 @@
 package com.hcmus.tinuni.Activity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-
-import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.tinuni.Adapter.AddUserAdapter;
 import com.hcmus.tinuni.Adapter.UserAdapter;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
@@ -26,101 +30,240 @@ import com.hcmus.tinuni.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewMembersGroupActivity extends Activity {
+public class ViewMembersGroupActivity extends FragmentActivity {
 
-    private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
-    private ImageView btnGoBack;
-    private String groupId;
-    private FirebaseUser mUser;
-    private List<User> mUsers;
-    private List<String> usersOfGroup;
-    private List<String> friendsOfUser;
+    private ImageView imageViewBack;
+    private TextView textViewAdd;
+    private ViewPager viewPager;
+    private ViewMemberPagerAdapter viewMemberPagerAdapter;
+    private TabLayout tabLayout;
+    ValueEventListener valueEventListenerAllMember, valueEventListenerAdminMember;
+
+    private String groupId, userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_to_group);
+        setContentView(R.layout.activity_view_member_group);
 
-        btnGoBack = findViewById(R.id.btnGoBack);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ViewMembersGroupActivity.this));
+        //GET GROUP ID AND USER ID IN INTENT
+        Intent intent = getIntent();
+        groupId = intent.getStringExtra("groupId");
+        userId = intent.getStringExtra("userId");
 
-        mUser = FirebaseAuth.getInstance()
-                .getCurrentUser();
+        //SETUP ID WIDGET
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
 
-        Intent i = getIntent();
-        groupId = i.getStringExtra("groupId");
+        // CREATE ARRAY FRAGMENT
+        ViewMemberFragment viewMemberFragmentAllMember = new ViewMemberFragment("All", groupId, userId);
+        ViewMemberFragment viewMemberFragmentAdminMember = new ViewMemberFragment("Admin", groupId, userId);
 
+        ArrayList<ViewMemberFragment> viewMemberFragmentArrayList = new ArrayList<>();
+        viewMemberFragmentArrayList.add(viewMemberFragmentAllMember);
+        viewMemberFragmentArrayList.add(viewMemberFragmentAdminMember);
 
-        usersOfGroup = new ArrayList<>();
-        mUsers = new ArrayList<>();
-        friendsOfUser = new ArrayList<>();
+        // SET ARRAY FRAGMENT TO ADAPTER
+        viewMemberPagerAdapter = new ViewMemberPagerAdapter(getSupportFragmentManager(), viewMemberFragmentArrayList);
+        viewPager.setAdapter(viewMemberPagerAdapter);
 
-        getUsersOfGroup();
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setSelectedTabIndicator(R.drawable.indicator_shape_activated);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        //GO BACK
-        btnGoBack.setOnClickListener(new View.OnClickListener() {
+        //SETUP TEXT VIEW ADD
+        textViewAdd = findViewById(R.id.textViewAdd);
+        textViewAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewMembersGroupActivity.super.onBackPressed();
-                finish();
+                Intent intent1 = new Intent(ViewMembersGroupActivity.this, AddToGroupActivity.class);
+                intent1.putExtra("groupId", groupId);
+                startActivity(intent1);
+            }
+        });
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        //SET UP IMAGE VIEW BACK
+        imageViewBack = findViewById(R.id.imageViewBack);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }
 
+    public static class ViewMemberFragment extends Fragment {
+        private ValueEventListener valueEventListener;
+        private DatabaseReference databaseReference;
 
-    private void getUsersOfGroup() {
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("Groups")
-                .child(groupId)
-                .child("Participants");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                usersOfGroup.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String userId = dataSnapshot.getKey();
-                    Log.e("user id in group: ", userId);
-                    usersOfGroup.add(userId);
-                }
-                getUsers();
-            }
+        private String title, groupId, userId;
+        private RecyclerView recyclerView;
+        private UserAdapterCustom userAdapter;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        public ViewMemberFragment() {
 
-            }
-        });
-    }
+        }
 
-    private void getUsers() {
-        DatabaseReference usersRef = FirebaseDatabase
-                .getInstance()
-                .getReference("Users");
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
+        public ViewMemberFragment(String title, String groupId, String userId) {
+            this.title = title;
+            this.groupId = groupId;
+            this.userId = userId;
+        }
 
-                    if (!user.getId().equals(mUser.getUid()) &&
-                            usersOfGroup.contains(user.getId())) {
-                        mUsers.add(user);
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.recyclerview, container, false);
+
+            recyclerView = view.findViewById(R.id.recyclerView);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            // SETUP DATABASE REFERENCE
+            databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("Participants");
+
+            // SETUP LISTENER
+            if (title.equals("All")) {
+                valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            ArrayList<User> userArrayList = new ArrayList<>();
+
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                DatabaseReference databaseReferenceTemp = FirebaseDatabase.getInstance().getReference("Users").child(dataSnapshot.getKey());
+                                databaseReferenceTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshotUser) {
+                                        if (snapshotUser.exists()) {
+                                            User user = snapshotUser.getValue(User.class);
+                                            userArrayList.add(user);
+                                        }
+
+                                        userAdapter = new UserAdapterCustom(getContext(), userArrayList, false, null);
+                                        recyclerView.setAdapter(userAdapter);
+
+                                        for (User user : userArrayList) {
+                                            System.out.println(user.toString());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError errorUser) {
+
+                                    }
+                                });
+                            }
+                        }
                     }
-                }
 
-                userAdapter = new UserAdapter( ViewMembersGroupActivity.this, mUsers, false, null);
-                recyclerView.setAdapter(userAdapter);
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+
+                    }
+                };
+            } else {
+                valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            ArrayList<User> userArrayList = new ArrayList<>();
+
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                if (!dataSnapshot.child("role").getValue().toString().equals("member")) {
+                                    DatabaseReference databaseReferenceTemp = FirebaseDatabase.getInstance().getReference("Users").child(dataSnapshot.getKey());
+                                    databaseReferenceTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot snapshotUser) {
+                                            if (snapshotUser.exists()) {
+                                                User user = snapshotUser.getValue(User.class);
+                                                userArrayList.add(user);
+                                            }
+
+                                            userAdapter = new UserAdapterCustom(getContext(), userArrayList, false, null);
+                                            recyclerView.setAdapter(userAdapter);
+
+                                            for (User user : userArrayList) {
+                                                System.out.println(user.toString());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError errorUser) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+
+                    }
+                };
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            return view;
+        }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            databaseReference.addListenerForSingleValueEvent(valueEventListener);
+        }
+    }
+}
+
+class UserAdapterCustom extends UserAdapter {
+    public UserAdapterCustom(Context context, List<User> mUsers, boolean isChat, List<Boolean> mIsSeen) {
+        super(context, mUsers, isChat, mIsSeen);
+    }
+
+    @Override
+    public void onBindViewHolder(UserAdapter.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("hé hé hé hé");
             }
         });
+    }
+}
 
+class ViewMemberPagerAdapter extends FragmentStatePagerAdapter {
+
+    ArrayList<ViewMembersGroupActivity.ViewMemberFragment> fragmentArrayList;
+
+    public ViewMemberPagerAdapter(FragmentManager fm) {
+        super(fm);
+        fragmentArrayList = new ArrayList<>();
+    }
+
+    public ViewMemberPagerAdapter(FragmentManager fm, ArrayList<ViewMembersGroupActivity.ViewMemberFragment> fragmentArrayList) {
+        super(fm);
+        this.fragmentArrayList = fragmentArrayList;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return fragmentArrayList.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return fragmentArrayList.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return fragmentArrayList.get(position).getTitle();
     }
 }
