@@ -9,7 +9,6 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,17 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.hcmus.tinuni.Activity.MainActivity;
-import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
-import com.hcmus.tinuni.Activity.Profile.ShowProfileActitivy;
-import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
+import com.hcmus.tinuni.Activity.Profile.ShowProfileActivity;
 import com.hcmus.tinuni.Activity.ShowMediaActivity;
 import com.hcmus.tinuni.Activity.ShowZoomImage;
 import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.ChatGroup;
-import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
 
 import java.util.List;
@@ -119,7 +112,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.profile_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_profile = new Intent(context, ShowProfileActitivy.class);
+                    Intent intent_profile = new Intent(context, ShowProfileActivity.class);
                     intent_profile.putExtra("userId", chat.getSender());
                     context.startActivity(intent_profile);
                 }
@@ -175,7 +168,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.profile_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_profile = new Intent(context, ShowProfileActitivy.class);
+                    Intent intent_profile = new Intent(context, ShowProfileActivity.class);
                     intent_profile.putExtra("userId", groupChat.getSender());
                     context.startActivity(intent_profile);
                 }

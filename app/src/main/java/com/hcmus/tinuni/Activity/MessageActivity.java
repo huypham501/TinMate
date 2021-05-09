@@ -22,10 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.hcmus.tinuni.Activity.Profile.ShowProfileActitivy;
+import com.hcmus.tinuni.Activity.Profile.ShowProfileActivity;
 import com.hcmus.tinuni.Adapter.MessageAdapter;
 import com.hcmus.tinuni.Model.Chat;
 import com.hcmus.tinuni.Model.ChatGroup;
@@ -46,7 +44,6 @@ import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MessageActivity extends Activity {
@@ -219,7 +216,7 @@ public class MessageActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(groupId.equals("")) {
-                    Intent intent = new Intent(MessageActivity.this, ShowProfileActitivy.class);
+                    Intent intent = new Intent(MessageActivity.this, ShowProfileActivity.class);
                     intent.putExtra("userId", userId);
                     startActivity(intent);
 

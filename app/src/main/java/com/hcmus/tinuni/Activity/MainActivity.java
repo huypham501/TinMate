@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
-import com.hcmus.tinuni.Activity.Profile.UserProfileActitivy;
+import com.hcmus.tinuni.Activity.Profile.UserProfileActivity;
 import com.hcmus.tinuni.Fragment.ConversationFragment;
 import com.hcmus.tinuni.Fragment.HomeFragment;
 import com.hcmus.tinuni.Fragment.MatchingFragment;
@@ -129,7 +129,7 @@ public class MainActivity extends FragmentActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_profile = new Intent(MainActivity.this, UserProfileActitivy.class);
+                Intent intent_profile = new Intent(MainActivity.this, UserProfileActivity.class);
                 intent_profile.putExtra("id", mUser.getUid());
                 startActivity(intent_profile);
             }

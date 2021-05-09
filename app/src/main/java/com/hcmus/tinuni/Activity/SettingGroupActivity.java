@@ -32,8 +32,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.hcmus.tinuni.Activity.Profile.EditProfileActivity;
-import com.hcmus.tinuni.Activity.Profile.ShowProfileActitivy;
 import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
 

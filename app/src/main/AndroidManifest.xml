@@ -39,8 +39,8 @@
         </activity>
         <activity android:name=".Activity.ViewMembersGroupActivity"/>
         <activity android:name=".Activity.Profile.EditProfileActivity" />
-        <activity android:name=".Activity.Profile.UserProfileActitivy" />
-        <activity android:name=".Activity.Profile.ShowProfileActitivy"/>
+        <activity android:name=".Activity.Profile.UserProfileActivity" />
+        <activity android:name=".Activity.Profile.ShowProfileActivity"/>
         <activity android:name=".Activity.ChangeGroupNameActivity"/>
         <activity android:name=".Activity.Authentication.LoadingStartActivity">
              <intent-filter>

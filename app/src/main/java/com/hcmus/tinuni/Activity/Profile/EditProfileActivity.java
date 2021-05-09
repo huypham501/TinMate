@@ -188,7 +188,7 @@ public class EditProfileActivity extends Activity {
                     User new_user = new User(id, username, email, img_link, phone, gender, school, major, beginYear, "False");
                     mRef.setValue(new_user);
                     Toast.makeText(EditProfileActivity.this, "Save successfully !", Toast.LENGTH_SHORT).show();
-                    Intent go_back = new Intent(EditProfileActivity.this, UserProfileActitivy.class);
+                    Intent go_back = new Intent(EditProfileActivity.this, UserProfileActivity.class);
                     go_back.putExtra("id", id);
                     startActivity(go_back);
                 }
@@ -199,7 +199,7 @@ public class EditProfileActivity extends Activity {
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent go_back = new Intent(EditProfileActivity.this, UserProfileActitivy.class);
+                Intent go_back = new Intent(EditProfileActivity.this, UserProfileActivity.class);
                 go_back.putExtra("id", id);
                 startActivity(go_back);
                 finish();
