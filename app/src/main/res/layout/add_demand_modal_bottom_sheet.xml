@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_black"
-        android:text="Choose"
-        android:gravity="center_horizontal"
-        android:textColor="@color/black" />
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="5dp"
+        android:background="@drawable/blank_bar_bottom_sheet"/>
 
     <LinearLayout
         android:id="@+id/linearLayoutCreateGroup"

@@ -1,5 +1,6 @@
 package com.hcmus.tinuni.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -102,6 +104,9 @@ public class ViewMembersGroupActivity extends FragmentActivity {
         private RecyclerView recyclerView;
         private UserAdapterCustom userAdapter;
 
+        private View viewSheet;
+        private BottomSheetDialog bottomSheetDialog;
+
         public ViewMemberFragment() {
 
         }
@@ -145,12 +150,8 @@ public class ViewMembersGroupActivity extends FragmentActivity {
                                             userArrayList.add(user);
                                         }
 
-                                        userAdapter = new UserAdapterCustom(getContext(), userArrayList, false, null);
+                                        userAdapter = new UserAdapterCustom(view.getContext(), userArrayList, false, null);
                                         recyclerView.setAdapter(userAdapter);
-
-                                        for (User user : userArrayList) {
-                                            System.out.println(user.toString());
-                                        }
                                     }
 
                                     @Override
@@ -185,12 +186,9 @@ public class ViewMembersGroupActivity extends FragmentActivity {
                                                 userArrayList.add(user);
                                             }
 
-                                            userAdapter = new UserAdapterCustom(getContext(), userArrayList, false, null);
+                                            userAdapter = new UserAdapterCustom(view.getContext(), userArrayList, false, null);
                                             recyclerView.setAdapter(userAdapter);
 
-                                            for (User user : userArrayList) {
-                                                System.out.println(user.toString());
-                                            }
                                         }
 
                                         @Override
@@ -222,17 +220,33 @@ public class ViewMembersGroupActivity extends FragmentActivity {
 }
 
 class UserAdapterCustom extends UserAdapter {
+    private View viewSheet;
+    private BottomSheetDialog bottomSheetDialog;
+    private Context context;
+
     public UserAdapterCustom(Context context, List<User> mUsers, boolean isChat, List<Boolean> mIsSeen) {
         super(context, mUsers, isChat, mIsSeen);
+        this.context = context;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        viewSheet = LayoutInflater.from(context).inflate(R.layout.view_user_modal_bottom_sheet, null);
+
+        bottomSheetDialog = new BottomSheetDialog(context);
+        bottomSheetDialog.setContentView(viewSheet);
+
+        return super.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(UserAdapter.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("hé hé hé hé");
+                bottomSheetDialog.show();
             }
         });
     }
