@@ -185,8 +185,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                     strMin = "0" + strMin;
 
                 result = strHour + ":" + strMin;
-            } else if (gapHour < 168 && lastTimeDayOfWeek < currentDayOfWeek) { //1 tuan co 168 tieng
-                result = "Th" + String.valueOf(lastTimeDayOfWeek);
+            } else
+                if (gapHour < 168 && lastTimeDayOfWeek < currentDayOfWeek) { //1 tuan co 168 tieng
+                    String dayOfWeek = String.valueOf(lastTimeDayOfWeek);
+                    if (dayOfWeek.equals("1"))
+                        result = "CN";
+                    else
+                        result = "Th " + dayOfWeek;
             } else {
                 result = String.valueOf(lastTimeDayOfMonth) + " th " + String.valueOf(lastTimeMonth);
                 if (lastTimeYear < currentYear) {
