@@ -1,7 +1,9 @@
 package com.hcmus.tinuni.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,19 +33,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     private Context context;
     private List<Group> mItems;
     private boolean isChat;
+    private List<Boolean> mIsSeen;
 
     String lastMessage = "";
     String time = "";
 
 
-    public GroupAdapter(Context context, List<Group> mGroups, boolean isChat) {
+    public GroupAdapter(Context context, List<Group> mGroups, boolean isChat, List<Boolean> mIsSeen) {
         this.context = context;
         this.mItems = mGroups;
         this.isChat = isChat;
+        this.mIsSeen = mIsSeen;
     }
 
     @NonNull
@@ -68,7 +74,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 .load(group.getImageURL())
                 .into(holder.imageView);
 
-        getLastMessageFromGroup(group.getId(), holder);
+        getLastMessageFromGroup(group.getId(), holder,mIsSeen.get(position));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,12 +91,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
 
-    private void getLastMessageFromGroup(String groupId, GroupAdapter.ViewHolder holder) {
+    private void getLastMessageFromGroup(String groupId, GroupAdapter.ViewHolder holder, Boolean isSeen) {
         final DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Groups")
                 .child(groupId)
                 .child("Messages");
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -106,8 +113,18 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
                 }
 
-                if (!lastMessage.isEmpty())
+                if (!lastMessage.isEmpty()){
                     holder.lastMessage.setText(lastMessage);
+                    if (!isSeen){
+                        holder.lastMessage.setTextColor(Color.WHITE);
+                        holder.img_new.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        holder.img_new.setVisibility(View.GONE);
+                        holder.lastMessage.setTextColor(R.color.lighterBlack);
+                    }
+
+                }
                 if (!time.isEmpty())
                     holder.time.setText(holder.convertTime(time));
 
@@ -141,6 +158,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         private ImageView imageView;
         private TextView lastMessage;
         private TextView time;
+        private CircleImageView img_new;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -149,6 +167,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             imageView = itemView.findViewById(R.id.imageView);
             lastMessage = itemView.findViewById(R.id.lastMessage);
             time = itemView.findViewById(R.id.time);
+            img_new = itemView.findViewById(R.id.img_new);
         }
 
         // => Cần hour gap + last mess là thứ mấy + hôm nay là thứ mấy.
