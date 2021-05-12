@@ -28,7 +28,7 @@
             android:gravity="center_horizontal"
             android:paddingVertical="10dp"
             android:text="View Profile"
-            android:textSize="18dp" />
+            android:textSize="17dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,7 +44,7 @@
             android:gravity="center_horizontal"
             android:paddingVertical="10dp"
             android:text="Message"
-            android:textSize="18dp" />
+            android:textSize="17dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:gravity="center_horizontal"
             android:paddingVertical="10dp"
             android:text="Remove Admin"
-            android:textSize="18dp" />
+            android:textSize="17dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +76,7 @@
             android:gravity="center_horizontal"
             android:paddingVertical="10dp"
             android:text="Make Admin"
-            android:textSize="18dp" />
+            android:textSize="17dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,7 +93,7 @@
             android:paddingVertical="10dp"
             android:text="Remove From Group"
             android:textColor="@color/red"
-            android:textSize="18dp" />
+            android:textSize="17dp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -61,7 +61,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
                 public void onClick(View view) {
                     new AlertDialog.Builder(context)
                             .setTitle("Delete demand")
-                            .setMessage("Are you sure")
+                            .setMessage("Are you sure ?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

@@ -9,15 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -104,7 +109,6 @@ public class ViewMembersGroupActivity extends FragmentActivity {
         private RecyclerView recyclerView;
         private UserAdapterCustom userAdapter;
 
-        private View viewSheet;
         private BottomSheetDialog bottomSheetDialog;
 
         public ViewMemberFragment() {
@@ -129,6 +133,9 @@ public class ViewMembersGroupActivity extends FragmentActivity {
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+            // CREATE BOTTOMSHEETDIALOG
+            bottomSheetDialog = new BottomSheetDialog(getContext());
+
             // SETUP DATABASE REFERENCE
             databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("Participants");
 
@@ -150,7 +157,7 @@ public class ViewMembersGroupActivity extends FragmentActivity {
                                             userArrayList.add(user);
                                         }
 
-                                        userAdapter = new UserAdapterCustom(view.getContext(), userArrayList, false, null);
+                                        userAdapter = new UserAdapterCustom(view.getContext(), userArrayList, false, null, groupId, userId, bottomSheetDialog);
                                         recyclerView.setAdapter(userAdapter);
                                     }
 
@@ -174,7 +181,6 @@ public class ViewMembersGroupActivity extends FragmentActivity {
                     public void onDataChange(DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             ArrayList<User> userArrayList = new ArrayList<>();
-
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 if (!dataSnapshot.child("role").getValue().toString().equals("member")) {
                                     DatabaseReference databaseReferenceTemp = FirebaseDatabase.getInstance().getReference("Users").child(dataSnapshot.getKey());
@@ -186,9 +192,8 @@ public class ViewMembersGroupActivity extends FragmentActivity {
                                                 userArrayList.add(user);
                                             }
 
-                                            userAdapter = new UserAdapterCustom(view.getContext(), userArrayList, false, null);
+                                            userAdapter = new UserAdapterCustom(view.getContext(), userArrayList, false, null, groupId, userId, bottomSheetDialog);
                                             recyclerView.setAdapter(userAdapter);
-
                                         }
 
                                         @Override
@@ -208,13 +213,21 @@ public class ViewMembersGroupActivity extends FragmentActivity {
                 };
             }
 
+            databaseReference.addValueEventListener(valueEventListener);
+
             return view;
         }
 
         @Override
-        public void onResume() {
-            super.onResume();
-            databaseReference.addListenerForSingleValueEvent(valueEventListener);
+        public void onPause() {
+            super.onPause();
+            bottomSheetDialog.dismiss();
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            databaseReference.removeEventListener(valueEventListener);
         }
     }
 }
@@ -222,19 +235,48 @@ public class ViewMembersGroupActivity extends FragmentActivity {
 class UserAdapterCustom extends UserAdapter {
     private View viewSheet;
     private BottomSheetDialog bottomSheetDialog;
-    private Context context;
+
+    private String groupId;
+    private String currUserId;
+    private boolean currUserRole;
 
     public UserAdapterCustom(Context context, List<User> mUsers, boolean isChat, List<Boolean> mIsSeen) {
         super(context, mUsers, isChat, mIsSeen);
-        this.context = context;
+    }
+
+    public UserAdapterCustom(Context context, List<User> mUsers, boolean isChat, List<Boolean> mIsSeen, String groupId, String currUserId, BottomSheetDialog bottomSheetDialog) {
+        super(context, mUsers, isChat, mIsSeen);
+        this.groupId = groupId;
+        this.currUserId = currUserId;
+        this.bottomSheetDialog = bottomSheetDialog;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        viewSheet = LayoutInflater.from(context).inflate(R.layout.view_user_modal_bottom_sheet, null);
+        viewSheet = LayoutInflater.from(getContext()).inflate(R.layout.view_user_modal_bottom_sheet, null);
 
-        bottomSheetDialog = new BottomSheetDialog(context);
-        bottomSheetDialog.setContentView(viewSheet);
+        // GET CURR USER ROLE
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId)
+                .child("Participants").child(currUserId)
+                .child("role");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (snapshot.getValue().equals("member")) {
+                        currUserRole = false;
+                    } else {
+                        currUserRole = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
 
         return super.onCreateViewHolder(parent, viewType);
     }
@@ -243,9 +285,163 @@ class UserAdapterCustom extends UserAdapter {
     public void onBindViewHolder(UserAdapter.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
+        User watchedUser = getmItems().get(position);
+
+        // ROLE FALSE == member | ROLE TRUE = admin - owner
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // SETUP BOTTOM SHEET
+                // SET NAME SHEET
+                TextView textView = viewSheet.findViewById(R.id.textViewUserName);
+                textView.setText(watchedUser.getUserName());
+
+                // SET MESS MOVE INTENT
+                viewSheet.findViewById(R.id.linearLayoutMessage).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), MessageActivity.class);
+                        intent.putExtra("userId", watchedUser.getId());
+                        intent.putExtra("groupId", "");
+                        getContext().startActivity(intent);
+                    }
+                });
+
+                viewSheet.findViewById(R.id.linearLayoutViewProfile).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+                // GET WATCHED USER ROLE
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId)
+                        .child("Participants").child(watchedUser.getId())
+                        .child("role");
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            boolean watchedUserRole = false;
+                            if (!snapshot.getValue().equals("member")) {
+                                watchedUserRole = true;
+                            }
+
+                            // SETUP REMOVE USER FROM GROUP
+                            LinearLayout linearLayoutRemoveFromGroup = viewSheet.findViewById(R.id.linearLayoutRemoveFromGroup);
+                            linearLayoutRemoveFromGroup.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    new AlertDialog.Builder(getContext())
+                                            .setTitle("Remove " + watchedUser.getUserName() + " from group")
+                                            .setMessage("Are you sure ?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId);
+                                                    databaseReference.child("Participants").child(watchedUser.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(Task<Void> task) {
+                                                            // COMPLETE REMOVE USER BEHAVIOR
+                                                        }
+                                                    });
+                                                }
+                                            })
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    bottomSheetDialog.dismiss();
+                                                }
+                                            }).show();
+                                }
+                            });
+
+                            if (currUserRole) {
+                                linearLayoutRemoveFromGroup.setVisibility(View.VISIBLE);
+                            } else {
+                                linearLayoutRemoveFromGroup.setVisibility(View.GONE);
+                            }
+
+                            // SETUP REMOVE ADMIN
+                            LinearLayout linearLayoutRemoveAdmin = viewSheet.findViewById(R.id.linearLayoutRemoveAdmin);
+                            linearLayoutRemoveAdmin.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    new AlertDialog.Builder(getContext())
+                                            .setTitle("Remove admin" + watchedUser.getUserName())
+                                            .setMessage("Are you sure ?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId);
+                                                    databaseReference.child("Participants").child(watchedUser.getId()).child("role").setValue("member").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(Task<Void> task) {
+                                                            // COMPLETE REMOVE ADMIN BEHAVIOR
+                                                        }
+                                                    });
+                                                }
+                                            })
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    bottomSheetDialog.dismiss();
+                                                }
+                                            }).show();
+                                }
+                            });
+
+                            if (currUserRole && watchedUserRole) {
+                                linearLayoutRemoveAdmin.setVisibility(View.VISIBLE);
+                            } else {
+                                linearLayoutRemoveAdmin.setVisibility(View.GONE);
+                            }
+
+                            //REMOVE MAKE ADMIN
+                            LinearLayout linearLayoutMakeAdmin = viewSheet.findViewById(R.id.linearLayoutMakeAdmin);
+                            linearLayoutMakeAdmin.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    new AlertDialog.Builder(getContext())
+                                            .setTitle("Make " + watchedUser.getUserName() + " admin")
+                                            .setMessage("Are you sure ?")
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId);
+                                                    databaseReference.child("Participants").child(watchedUser.getId()).child("role").setValue("admin").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(Task<Void> task) {
+                                                            // COMPLETE MAKE ADMIN BEHAVIOR
+                                                        }
+                                                    });
+                                                }
+                                            })
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    bottomSheetDialog.dismiss();
+                                                }
+                                            }).show();
+                                }
+                            });
+
+                            if (currUserRole && !watchedUserRole) {
+                                linearLayoutMakeAdmin.setVisibility(View.VISIBLE);
+                            } else {
+                                linearLayoutMakeAdmin.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+
+                    }
+                });
+
+                bottomSheetDialog.setContentView(viewSheet);
                 bottomSheetDialog.show();
             }
         });

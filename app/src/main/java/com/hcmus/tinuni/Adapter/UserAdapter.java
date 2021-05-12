@@ -48,7 +48,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         this.mItems = mUsers;
         this.isChat = isChat;
         this.mIsSeen = mIsSeen;
+    }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public List<User> getmItems() {
+        return mItems;
     }
 
     @NonNull
