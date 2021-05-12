@@ -100,9 +100,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             @SuppressLint("ResourceAsColor")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                ChatGroup chat = null;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ChatGroup chat = dataSnapshot.getValue(ChatGroup.class);
+                    chat = dataSnapshot.getValue(ChatGroup.class);
 
                     if (chat.getType().equals("text")) {
                         lastMessage = chat.getMessage();
@@ -115,7 +115,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
                 if (!lastMessage.isEmpty()){
                     holder.lastMessage.setText(lastMessage);
-                    if (!isSeen){
+                    if (!isSeen && !chat.getSender().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) ){
                         holder.lastMessage.setTextColor(Color.WHITE);
                         holder.img_new.setVisibility(View.VISIBLE);
                     }
