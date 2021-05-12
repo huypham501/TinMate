@@ -385,7 +385,7 @@ public class MessageActivity extends Activity {
         });
 
     }
-
+    // Read message listener from personal chat
     ValueEventListener readMessagesListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -413,6 +413,29 @@ public class MessageActivity extends Activity {
         }
     };
 
+    // Read message listener from group chat
+    ValueEventListener readGroupMessagesListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            mItems.clear();
+            imgURLs.clear();
+
+            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
+                dataSnapshot.getRef().child("seen").child(mUser.getUid()).setValue(true);
+                mItems.add(chatGroup);
+
+            }
+            getImgURLs();
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
+    // Read messages function
     private void readMessagesFromUser(String imgURL) {
         imgURLs.add(imgURL);
 
@@ -426,26 +449,7 @@ public class MessageActivity extends Activity {
                 .getReference("Groups")
                 .child(groupId)
                 .child("Messages");
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mItems.clear();
-                imgURLs.clear();
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    ChatGroup chatGroup = dataSnapshot.getValue(ChatGroup.class);
-                    mItems.add(chatGroup);
-
-                }
-                getImgURLs();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        mRef.addValueEventListener(readGroupMessagesListener);
     }
 
     private void getImgURLs() {
@@ -500,6 +504,7 @@ public class MessageActivity extends Activity {
         super.onPause();
         if (!userId.isEmpty())
             mRef.removeEventListener(readMessagesListener);
+        else mRef.removeEventListener(readGroupMessagesListener);
     }
 
     @Override
@@ -507,6 +512,10 @@ public class MessageActivity extends Activity {
         super.onResume();
         if (!userId.isEmpty())
             FirebaseDatabase.getInstance().getReference("Chats").addValueEventListener(readMessagesListener);
+        else FirebaseDatabase.getInstance()
+                .getReference("Groups")
+                .child(groupId)
+                .child("Messages").addValueEventListener(readGroupMessagesListener);
     }
 
 }
