@@ -16,7 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TinUni">
         <activity android:name=".Activity.Profile.GroupProfileActivity"></activity>
-        <activity android:name=".Activity.Admin.UserReportActivity" />
+        <activity android:name=".Activity.Admin.UserReportActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
         <activity android:name=".Activity.ViewMembersGroupActivity" />
         <activity android:name=".Activity.AddFriendActivity" />
         <activity android:name=".Activity.DemandManageActivity" />

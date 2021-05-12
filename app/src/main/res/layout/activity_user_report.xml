@@ -4,12 +4,138 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".Activity.Admin.UserReportActivity">
 
-    <TextView
-        android:id="@+id/target_email"
-        android:layout_width="wrap_content"
+<!--    <TextView-->
+<!--        android:id="@+id/target_email"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:textSize="30dp"/>-->
+    <LinearLayout
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="30dp"/>
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/user_report_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X"
+                android:textSize="30dp"
+                android:layout_marginRight="40dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What's wrong?"
+                android:textStyle="bold"
+                android:textSize="30dp"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Let us know what's going on"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="We use your feedback to help us learn when something isn't right."/>
+
+        <RadioGroup
+            android:id="@+id/crime_tag_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_selector"
+                android:textColor="@drawable/radio_text_selector"
+                android:padding="10dp"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="Hate speech"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_selector"
+                android:textColor="@drawable/radio_text_selector"
+                android:padding="10dp"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="Sharing inappropriate things"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_selector"
+                android:textColor="@drawable/radio_text_selector"
+                android:padding="10dp"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="Unauthorised sales"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_selector"
+                android:textColor="@drawable/radio_text_selector"
+                android:padding="10dp"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="Pretending to be someone"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@android:color/transparent"
+                android:background="@drawable/radio_selector"
+                android:textColor="@drawable/radio_text_selector"
+                android:padding="10dp"
+                android:textSize="15dp"
+                android:text="Other"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The more detailed you describe, the faster we will process it"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_above="@+id/crime_description"/>
+    <EditText
+        android:id="@+id/crime_description"
+        android:layout_width="match_parent"
+        android:background="@drawable/user_crime_description"
+        android:layout_height="200dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:hint="● When did they do that?
+            \n● They did that in personal chat or group chat?
+            \n● If it was in group chat, what was the name of it?
+            \n"
+        android:gravity="top|left"
+        android:layout_above="@+id/send_feedback"/>
+    <Button
+        android:id="@+id/send_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/send_feedback_btn"
+        android:text="SEND FEEDBACK"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

@@ -8,8 +8,16 @@ public class ReportMessage {
     private String crimeTag;
     private String description;
 
-    public ReportMessage(String id, String time, String ownerEmail, String targetEmail, String crimeTag, String description) {
-        this.id = id;
+//    public ReportMessage(String id, String time, String ownerEmail, String targetEmail, String crimeTag, String description) {
+//        this.id = id;
+//        this.time = time;
+//        this.ownerEmail = ownerEmail;
+//        this.targetEmail = targetEmail;
+//        this.crimeTag = crimeTag;
+//        this.description = description;
+//    }
+
+    public ReportMessage(String time, String ownerEmail, String targetEmail, String crimeTag, String description) {
         this.time = time;
         this.ownerEmail = ownerEmail;
         this.targetEmail = targetEmail;
