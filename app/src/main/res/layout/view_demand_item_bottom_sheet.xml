@@ -14,7 +14,7 @@
         android:background="@drawable/blank_bar_bottom_sheet" />
 
     <LinearLayout
-        android:id="@+id/linearLayoutCreateGroup"
+        android:id="@+id/linearLayoutEditDemand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -33,10 +33,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="2dp"
                 android:padding="10dp"
-                android:src="@drawable/ic_baseline_group_add" />
+                android:src="@drawable/ic_edit_black_35" />
 
         </RelativeLayout>
 
@@ -51,20 +51,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_black"
-                android:text="Create group"
+                android:text="Edit demand"
                 android:textColor="@color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create public group to match with everyone." />
         </LinearLayout>
 
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayoutAddDemand"
+        android:id="@+id/linearLayoutDeleteDemand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -86,7 +81,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="3dp"
                 android:padding="10dp"
-                android:src="@drawable/ic_baseline_post_add" />
+                android:src="@drawable/ic_baseline_delete" />
 
         </RelativeLayout>
 
@@ -101,13 +96,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_black"
-                android:text="Add demand"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add demand to join other groups." />
+                android:text="Delete demand"
+                android:textColor="@color/red" />
         </LinearLayout>
     </LinearLayout>
 

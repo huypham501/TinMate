@@ -1,7 +1,6 @@
 package com.hcmus.tinuni.Activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,12 +34,15 @@ public class DemandManageActivity extends Activity {
     private RecyclerView recyclerView;
     private DemandAdapter demandAdapter;
 
-    private ImageButton imageButtonEdit, imageButtonSave;
     private ImageView imageViewButtonAdd;
     private TextView textViewDoNotHaveDemandManage;
     private ImageView imageViewBack;
 
     private BottomSheetDialog bottomSheetDialog;
+    private BottomSheetDialog bottomSheetDialogDemandItem;
+
+    private Query querySetupDemandList;
+    private ValueEventListener valueEventListenerSetupDemandList;
 
     public DemandManageActivity() {
 
@@ -60,6 +62,8 @@ public class DemandManageActivity extends Activity {
 
         //BOTTOM SHEET SETUP
         bottomSheetDialog = new BottomSheetDialog(DemandManageActivity.this);
+        bottomSheetDialogDemandItem = new BottomSheetDialog(DemandManageActivity.this);
+
 
         View viewSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.add_demand_modal_bottom_sheet, (ViewGroup)findViewById(R.id.linearLayoutBottomSheet));
 
@@ -88,37 +92,6 @@ public class DemandManageActivity extends Activity {
             }
         });
 
-        imageButtonEdit = findViewById(R.id.imageButtonEdit);
-        imageButtonEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                setVisibleAllButton(false);
-
-                imageButtonSave.setVisibility(View.VISIBLE);
-
-                setVisibleAdapterItem(true);
-            }
-        });
-
-        imageButtonSave = findViewById(R.id.imageButtonSave);
-        imageButtonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(DemandManageActivity.this).setCancelable(false).setView(R.layout.layout_loading_dialog).create();
-
-                demandAdapter.deleteCommit();
-
-                setVisibleAllButton(true);
-
-                imageButtonSave.setVisibility(View.INVISIBLE);
-
-                setVisibleAdapterItem(false);
-
-                alertDialog.dismiss();
-            }
-        });
-
         imageViewBack = findViewById(R.id.imageViewBack);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,48 +100,39 @@ public class DemandManageActivity extends Activity {
             }
         });
 
-        setDemand();
+        setupDemandList();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        bottomSheetDialog.dismiss();
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
+        querySetupDemandList.addValueEventListener(valueEventListenerSetupDemandList);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         bottomSheetDialog.dismiss();
+        bottomSheetDialogDemandItem.dismiss();
     }
 
-    private void setVisibleAdapterItem(boolean value) {
-        demandAdapter.updateVisibility(value);
-        demandAdapter.notifyDataSetChanged();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("ON STOPPPPPPPPPPP");
+        querySetupDemandList.removeEventListener(valueEventListenerSetupDemandList);
     }
 
-    private void setVisibleAllButton(boolean value) {
-        int value_int;
-        if (value) {
-            value_int = 0; // VISIBLE
-        } else {
-            value_int = 4; // INVISIBLE
-        }
-        imageViewButtonAdd.setVisibility(value_int);
-        imageButtonEdit.setVisibility(value_int);
-    }
-
-    private void setDemand() {
+    private void setupDemandList() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        Query query = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
+        querySetupDemandList = FirebaseDatabase.getInstance().getReference("Demands").orderByChild("userId").equalTo(userId);
 
-        ArrayList<Demand> demandArrayList = new ArrayList<>();
-
-        query.addValueEventListener(new ValueEventListener() {
+        valueEventListenerSetupDemandList = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                demandArrayList.clear();
+                ArrayList<Demand> demandArrayList = new ArrayList<>();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Demand demand = dataSnapshot.getValue(Demand.class);
@@ -177,15 +141,13 @@ public class DemandManageActivity extends Activity {
 
                 if (demandArrayList.isEmpty()) {
                     textViewDoNotHaveDemandManage.setVisibility(View.VISIBLE);
-                    imageButtonEdit.setVisibility(View.INVISIBLE);
 
                     recyclerView.setAdapter(null);
                 } else {
-                    demandAdapter = new DemandAdapter(DemandManageActivity.this, demandArrayList);
+                    demandAdapter = new DemandAdapter(DemandManageActivity.this, demandArrayList, userId, bottomSheetDialogDemandItem);
                     recyclerView.setAdapter(demandAdapter);
 
                     textViewDoNotHaveDemandManage.setVisibility(View.INVISIBLE);
-                    imageButtonEdit.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -193,7 +155,7 @@ public class DemandManageActivity extends Activity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        };
     }
 
     private void moveActivity(Context from, Class<?> to) {

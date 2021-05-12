@@ -213,9 +213,13 @@ public class ViewMembersGroupActivity extends FragmentActivity {
                 };
             }
 
-            databaseReference.addValueEventListener(valueEventListener);
-
             return view;
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            databaseReference.addValueEventListener(valueEventListener);
         }
 
         @Override

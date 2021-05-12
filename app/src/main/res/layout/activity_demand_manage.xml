@@ -8,63 +8,31 @@
     android:orientation="vertical"
     tools:context=".Activity.DemandManageActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Demand"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:fontFamily="@font/montserrat_black"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/float_transparent">
+        android:paddingVertical="5dp">
 
         <ImageView
             android:id="@+id/imageViewBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/ic_back" />
 
-        <RelativeLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:gravity="right">
+            android:fontFamily="@font/montserrat_black"
+            android:gravity="center_horizontal"
+            android:text="Demand"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
 
-            <ImageButton
-                android:id="@+id/imageButtonEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/purple_500"
-                android:padding="10dp"
-                android:src="@drawable/ic_edit" />
-
-            <ImageButton
-                android:id="@+id/imageButtonSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="@color/dark_green"
-                android:padding="10dp"
-                android:src="@drawable/ic_check_circle"
-                android:visibility="invisible" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -97,6 +65,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <ImageButton
                         android:id="@+id/imageViewButtonAdd"
                         android:layout_width="wrap_content"

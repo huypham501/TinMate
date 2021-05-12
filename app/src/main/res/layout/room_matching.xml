@@ -44,7 +44,7 @@
                         android:id="@+id/imageViewGroupName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_groups" />
+                        android:src="@drawable/ic_baseline_groups_45" />
 
                     <TextView
                         android:id="@+id/textViewGroupName"
