@@ -69,7 +69,7 @@ public class ReportMessage {
 
     @Override
     public String toString() {
-        return "ReportMessage{" +
+        return "Report {" +
                 "id='" + id + '\'' +
                 ", time='" + time + '\'' +
                 ", ownerEmail='" + ownerEmail + '\'' +

@@ -1,23 +1,27 @@
 package com.hcmus.tinuni.Model;
 
 public class AdminAction {
-    private String id;
+//    private String id;
     private String time;
     private String action;
+    private String detail;
 
-    public AdminAction(String id, String time, String action) {
-        this.id = id;
+    public AdminAction() {
+    }
+
+    public AdminAction(String time, String action, String detail) {
         this.time = time;
         this.action = action;
+        this.detail = detail;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
     public String getTime() {
         return time;
@@ -35,12 +39,12 @@ public class AdminAction {
         this.action = action;
     }
 
-    @Override
-    public String toString() {
-        return "AdminAction{" +
-                "id='" + id + '\'' +
-                ", time='" + time + '\'' +
-                ", action='" + action + '\'' +
-                '}';
+    public String getDetail() {
+        return detail;
     }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
 }
