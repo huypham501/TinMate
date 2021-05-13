@@ -116,6 +116,7 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
         roomFrag = new AdminRoomFragment();
         userFrag = new AdminUserFragment();
         diaryFrag = new AdminDiaryFragment();
+        reportFrag = new AdminUserReportFragment();
 
         //Stick AdminHomeFragment to screen
         getSupportFragmentManager().beginTransaction().replace(R.id.admin_fragment_container, homeFrag).commit();
@@ -141,7 +142,7 @@ public class AdminInitialActivity extends FragmentActivity implements AdminHomeF
             navItemIndex = 3;
         }
         if (message.equals("USER REPORT")){
-            selectedFrag = diaryFrag;
+            selectedFrag = reportFrag;
             navItemIndex = 4;
         }
 
