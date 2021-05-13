@@ -3,6 +3,7 @@ package com.hcmus.tinuni.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Demand.EditDemandActivity;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
@@ -92,7 +94,8 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
                 viewSheet.findViewById(R.id.linearLayoutEditDemand).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent = new Intent(context, EditDemandActivity.class);
+                        context.startActivity(intent);
                     }
                 });
 

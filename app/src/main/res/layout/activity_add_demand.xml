@@ -7,32 +7,38 @@
     android:orientation="vertical"
     tools:context=".Activity.Demand.AddDemandActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp">
 
         <ImageView
             android:id="@+id/btnGoBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
             android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/logoName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
             android:fontFamily="@font/montserrat_black"
             android:text="Add Demand"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="25dp" />
-    </androidx.appcompat.widget.Toolbar>
+    </RelativeLayout>
+
+    <!--    <androidx.appcompat.widget.Toolbar-->
+    <!--        android:id="@+id/toolbar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+
+    <!--        -->
+    <!--    </androidx.appcompat.widget.Toolbar>-->
 
     <LinearLayout
         android:layout_width="match_parent"
