@@ -1,5 +1,8 @@
 package com.hcmus.tinuni.Model;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class ReportMessage {
     private String id;
     private String time;
@@ -69,13 +72,28 @@ public class ReportMessage {
 
     @Override
     public String toString() {
-        return "Report {" +
-                "id='" + id + '\'' +
-                ", time='" + time + '\'' +
-                ", ownerEmail='" + ownerEmail + '\'' +
-                ", targetEmail='" + targetEmail + '\'' +
-                ", crimeTag='" + crimeTag + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        Calendar calendar = Calendar.getInstance();
+        long reportTime = Long.parseLong(time);
+        calendar.setTime(new Date(reportTime));
+
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR);
+
+        String dd = String.valueOf(day);
+        String mm = String.valueOf(month);
+        String yyyy = String.valueOf(year);
+
+        if (day < 10)
+            dd = "0" + dd;
+        if (month < 10)
+            mm = "0" + mm;
+
+        String time = dd + "-" + mm + "-" + yyyy;
+        String result = "Report" + "\n\n" +
+                "On " + time + ", " + ownerEmail + " reported " + targetEmail + " for " + crimeTag + ".\n\n" +
+                "Description: \n" + description;
+
+        return result;
     }
 }

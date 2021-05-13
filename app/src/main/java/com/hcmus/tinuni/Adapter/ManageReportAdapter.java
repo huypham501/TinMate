@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
+import com.hcmus.tinuni.Model.AdminAction;
 import com.hcmus.tinuni.Model.ReportMessage;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
@@ -105,6 +106,10 @@ public class ManageReportAdapter extends RecyclerView.Adapter<ManageReportAdapte
                             public void onClick(DialogInterface dialog, int which) {
                                 root.child(reportMessage.getId()).removeValue();
                                 Toast.makeText(v.getContext(), "Report deleted", Toast.LENGTH_SHORT).show();
+
+                                String currentMillis = String.valueOf(System.currentTimeMillis());
+                                AdminAction adminAction = new AdminAction(currentMillis, "Delete report", "Delete " + reportMessage.toString());
+                                db.getReference().child("AdminActions").push().setValue(adminAction);
                             }
                         })
                         .setNegativeButton("No", null)
