@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hcmus.tinuni.Model.AdminAction;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
@@ -74,6 +75,10 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
                 holder.unban_btn.setVisibility(View.VISIBLE);
                 holder.ban_btn.setVisibility(View.INVISIBLE);
                 root.child(user.getId()).child("banned").setValue("True");
+
+                String currentMillis = String.valueOf(System.currentTimeMillis());
+                AdminAction adminAction = new AdminAction(currentMillis, "Ban user", "Ban " + user.getEmail());
+                db.getReference().child("AdminActions").push().setValue(adminAction);
             }
         });
         holder.unban_btn.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +87,10 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
                 holder.ban_btn.setVisibility(View.VISIBLE);
                 holder.unban_btn.setVisibility(View.INVISIBLE);
                 root.child(user.getId()).child("banned").setValue("False");
+
+                String currentMillis = String.valueOf(System.currentTimeMillis());
+                AdminAction adminAction = new AdminAction(currentMillis, "Unban user", "Unban " + user.getEmail());
+                db.getReference().child("AdminActions").push().setValue(adminAction);
             }
         });
     }

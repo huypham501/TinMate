@@ -66,22 +66,35 @@ public class ViewAdminDiaryAdapter extends RecyclerView.Adapter<ViewAdminDiaryAd
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
 
         String dd = String.valueOf(day);
         String mm = String.valueOf(month);
         String yyyy = String.valueOf(year);
+        String hh = String.valueOf(hour);
+        String minmin = String.valueOf(minute);
+        String ss = String.valueOf(second);
 
         if (day < 10)
             dd = "0" + dd;
         if (month < 10)
             mm = "0" + mm;
+        if (hour < 10)
+            hh = "0" + hh;
+        if (minute < 10)
+            minmin = "0" + minmin;
+        if (second < 10)
+            ss = "0" + ss;
 
         String time = dd + "-" + mm + "-" + yyyy;
+        String detailTime = hh + ":" + minmin + ":" + ss;
 
         holder.admin_action.setText(adminAction.getAction());
         holder.action_time.setText(time);
         holder.diary_detail.setText(adminAction.getDetail());
-
+        holder.detail_time.setText(detailTime);
 
     }
 
@@ -92,7 +105,7 @@ public class ViewAdminDiaryAdapter extends RecyclerView.Adapter<ViewAdminDiaryAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView admin_action, action_time, diary_detail;
+        TextView admin_action, action_time, diary_detail, detail_time;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -100,6 +113,7 @@ public class ViewAdminDiaryAdapter extends RecyclerView.Adapter<ViewAdminDiaryAd
             admin_action = itemView.findViewById(R.id.admin_action);
             action_time = itemView.findViewById(R.id.action_time);
             diary_detail = itemView.findViewById(R.id.diary_detail);
+            detail_time = itemView.findViewById(R.id.detail_time);
         }
     }
 

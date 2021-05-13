@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
     android:layout_marginBottom="2dp"
-    android:background="#ffdf91">
+    android:background="#ffdf91"
+    android:paddingStart="20dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="5dp">
 
     <RelativeLayout
         android:id="@+id/action_title"
@@ -20,7 +20,8 @@
             android:id="@+id/admin_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+
+
             android:text="Ban user"
             android:textColor="@color/black"
             android:textSize="20dp"
@@ -31,40 +32,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:padding="5dp"
+
+
             android:text="13/05/2021"
             android:textColor="@color/black"
             android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/action_time"
+            android:layout_alignParentRight="true"
+
+            android:text="22:34:30"
+            android:textColor="@color/black"
+            android:textSize="12dp" />
     </RelativeLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/diary_detail"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/action_title"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:padding="5dp"
+        android:text="Ban user tanhaonguyen2015@gmail.com"
+        android:textColor="@color/black"
+        android:textSize="15dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="Detail:    "
-                android:textColor="@color/black"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/diary_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="Ban user tanhaonguyen2015@gmail.com"
-                android:textColor="@color/black"
-                android:textSize="15dp" />
-
-    </LinearLayout>
 
 </RelativeLayout>
 
