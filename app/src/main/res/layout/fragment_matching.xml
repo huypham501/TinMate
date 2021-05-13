@@ -8,36 +8,36 @@
     tools:context=".Fragment.MatchingFragment">
 
 
-    <LinearLayout
-        android:id="@+id/linearLayoutWarningEmptyMatch"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutWarningEmptyMatch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:layout_height="wrap_content">
         <TextView
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
             android:text="Create a demand now "
             android:textSize="16dp" />
 
-        <RelativeLayout
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="NOT AVAILABLE MATCH OR EMPTY DEMAND"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
 
-            <ImageView
-                android:id="@+id/imageViewArrowIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:alpha="0.6"
-                android:rotation="-40"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_baseline_arrow_right_alt" />
-        </RelativeLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/imageViewArrowIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:alpha="0.6"
+            android:rotation="-40"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_arrow_right_alt" />
 
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutMatching"

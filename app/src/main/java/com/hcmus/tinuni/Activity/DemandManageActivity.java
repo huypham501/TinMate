@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -120,7 +119,6 @@ public class DemandManageActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("ON STOPPPPPPPPPPP");
         querySetupDemandList.removeEventListener(valueEventListenerSetupDemandList);
     }
 
