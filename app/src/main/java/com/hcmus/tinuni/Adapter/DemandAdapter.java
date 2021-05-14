@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.tinuni.Activity.Demand.EditDemandActivity;
+import com.hcmus.tinuni.Activity.Demand.ViewDemandInfoActivity;
 import com.hcmus.tinuni.Model.Demand;
 import com.hcmus.tinuni.R;
 
@@ -61,7 +63,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
         holder.textViewSubject.setText(demand.getSubject());
         holder.textViewMajor.setText(demand.getMajor());
 
-        // SETUP CLICK ON ITEM DEMAND
+        // SETUP CLICK ON MORE ITEM DEMAND
         holder.imageViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +109,19 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
             }
         });
 
+        // SETUP CLICK ON INFO ITEM DEMAND
+        holder.linearLayoutInfoDemandItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ViewDemandInfoActivity.class);
+                intent.putExtra("demandId", demand.getId());
+                intent.putExtra("demandSubject", demand.getSubject());
+                intent.putExtra("demandMajor", demand.getMajor());
+                intent.putExtra("demandSchool", demand.getSchool());
+                intent.putExtra("userId", userId);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void deleteDemand(String userId, String demandId) {
@@ -151,6 +166,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewSubject, textViewMajor;
         private ImageView imageViewMore;
+        private LinearLayout linearLayoutInfoDemandItem;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -158,6 +174,7 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
             textViewSubject = itemView.findViewById(R.id.textViewSubject);
             textViewMajor = itemView.findViewById(R.id.textViewMajor);
             imageViewMore = itemView.findViewById(R.id.imageViewMore);
+            linearLayoutInfoDemandItem = itemView.findViewById(R.id.linearLayoutInfoDemandItem);
         }
     }
 }
