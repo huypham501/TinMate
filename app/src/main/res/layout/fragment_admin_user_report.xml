@@ -7,10 +7,17 @@
     android:background="@drawable/admin_gradient_bg_animation"
     tools:context=".Fragment.Admin.AdminUserFragment">
 
+    <SearchView
+        android:id="@+id/admin_search_violating_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/admin_search_border"
+        android:layout_marginBottom="2dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_manage_report_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-         />
+        android:layout_below="@+id/admin_search_violating_user" />
 
 </RelativeLayout>

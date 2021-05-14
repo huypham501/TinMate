@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -22,11 +24,14 @@ import com.hcmus.tinuni.R;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.ViewHolder> {
+public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.ViewHolder> implements Filterable {
     //---------------------------------------------------------------------
     ArrayList<User> mList;
+    ArrayList<User> mListAll;
     Context context;
     String ban_unban;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -34,6 +39,7 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
     //---------------------------------------------------------------------
     public ManageUserAdapter(Context context, ArrayList<User> mList){
         this.mList = mList;
+        this.mListAll = new ArrayList<>(mList);
         this.context = context;
     }
 
@@ -100,7 +106,45 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
         return mList.size();
     }
 
-   public static class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    //Filter searchh result, this one will be used by Search View
+    public Filter getFilter() {
+        return filter;
+    }
+    //Make a filter
+    Filter filter = new Filter() {
+        //Run on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            ArrayList<User> filteredList = new ArrayList<>();
+
+            if (constraint.toString().isEmpty()) {
+                filteredList.addAll(mListAll);
+            } else {
+                for (User user: mListAll) {
+                    if (user.getEmail().toLowerCase().contains(constraint.toString().toLowerCase().trim())){
+                        filteredList.add(user);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+        //Run on UI thread
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mList.clear();
+            mList.addAll((ArrayList<User>) results.values);
+            //mList = mListAll;
+            notifyDataSetChanged();
+        }
+    };
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView avatar;
         Button ban_btn, unban_btn;

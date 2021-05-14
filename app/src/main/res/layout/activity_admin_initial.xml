@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/admin_toolbar"
-        layout="@layout/admin_toolbar"/>
+        layout="@layout/admin_toolbar" />
 
     <FrameLayout
         android:id="@+id/admin_fragment_container"
@@ -18,11 +18,12 @@
         android:layout_below="@id/admin_toolbar">
 
     </FrameLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/admin_bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/admin_menu"/>
+        app:menu="@menu/admin_menu" />
 
 </RelativeLayout>
