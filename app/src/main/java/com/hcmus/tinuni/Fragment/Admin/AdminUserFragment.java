@@ -39,9 +39,10 @@ public class AdminUserFragment extends Fragment {
     private DatabaseReference root = db.getReference().child("Users");
     private ManageUserAdapter adapter;
     private ArrayList<User> list;
+    private ArrayList<User> listAll;
     private SearchView searchView;
 
-    boolean searching = false;
+    String searchingText = "";
 
     //-----------------------------------------------------
     public AdminUserFragment() {
@@ -70,34 +71,31 @@ public class AdminUserFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         list = new ArrayList<>();
-        adapter = new ManageUserAdapter(getContext(), list);
+        listAll = new ArrayList<>();
+        adapter = new ManageUserAdapter(getContext(), list, listAll);
         recyclerView.setAdapter(adapter);
-
-//        I dont know why but if you leave this block of code here, it cause 2 bugs
-//          1. The user list is duplicated after each data update to firebase.
-//            2. Flashy button: When you click on BAN/UNBAN button, it flash
-//                (idk how to describe it, but just enable this block and see it yourself)
 
         //Load data from Firebase
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!searching) {
-                    list.clear();
-//              list = new ArrayList<>();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        User user = dataSnapshot.getValue(User.class);
-                        list.add(user);
-                    }
 
-                    adapter.notifyDataSetChanged(); //-> old way
-                    //I guess the new way below mean each time when data change, you create a whole new view\
-                    //The new way is ok but still 1 problem, when data change, it scroll back to the top of list
-//                adapter = new ManageUserAdapter(getContext(), list);
-//                recyclerView.setAdapter(adapter);
+                list.clear();
+                listAll.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    list.add(user);
+                    listAll.add(user);
+                    //An said if there are 1000 users, admin must wait for too long until the whole list is fully loaded.
+                    //So, should leave the adapter.notifyDataSetChanged() here
                 }
 
-
+                //The list is always being filtered, in normal state, it's filter by NULL - which means by nothing
+                //-> Then the adapter will load full list.
+                //In order cases, just get the searching text then filter by it.
+                adapter.getFilter().filter(searchingText);
+                //the called method above contains notifyDatasetChange() in publishResults() of Filter
+                //So, we don't need to call it in the "for loop" above, if we do, when click BAN/UNBAN, list flickers.
             }
 
             @Override
@@ -109,36 +107,15 @@ public class AdminUserFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searching = false;
                 searchView.clearFocus();
+
                 return true;
             }
 
             @Override
-            //Search directly on Firebase realtime database.
             public boolean onQueryTextChange(String newText) {
-                System.out.println("*******************************");
-                searching = true;
-
-                root.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        list.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            User user = dataSnapshot.getValue(User.class);
-                            list.add(user);
-                        }
-
-                        adapter = new ManageUserAdapter(getContext(), list);
-                        adapter.getFilter().filter(newText);
-                        recyclerView.setAdapter(adapter);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                searchingText = newText;
+                adapter.getFilter().filter(newText);
 
                 return false;
             }
@@ -154,7 +131,4 @@ public class AdminUserFragment extends Fragment {
     //And, i think when user click Submit button on keyboard when the SearchView is empty
     //It should trigger onQueryTextSubmit, but doing that require customizing SearchView
     //And I dont have time, here is the way https://stackoverflow.com/questions/13576283/android-searchview-onquerytextlistener-onquerytextsubmit-not-fired-on-empty-quer
-
-    //Finally, when searchView lost focus, only search results are left
-    //But when new data is fetched, the results will renew as a whole new list of all users.
 }

@@ -35,11 +35,12 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
     Context context;
     String ban_unban;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private DatabaseReference root =  db.getReference().child("Users");
+    private DatabaseReference root = db.getReference().child("Users");
+
     //---------------------------------------------------------------------
-    public ManageUserAdapter(Context context, ArrayList<User> mList){
+    public ManageUserAdapter(Context context, ArrayList<User> mList, ArrayList<User> mListAll) {
         this.mList = mList;
-        this.mListAll = new ArrayList<>(mList);
+        this.mListAll = mListAll;
         this.context = context;
     }
 
@@ -65,11 +66,11 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
         holder.gender.setText(user.getGender());
 
         ban_unban = user.getBanned();
-        if (ban_unban.equals("True")){
+        if (ban_unban.equals("True")) {
             //Dang bi ban -> set nut la UNBAN
             holder.unban_btn.setVisibility(View.VISIBLE);
             holder.ban_btn.setVisibility(View.INVISIBLE);
-        } else{
+        } else {
             //Khong bi ban -> set nut la BAN
             holder.ban_btn.setVisibility(View.VISIBLE);
             holder.unban_btn.setVisibility(View.INVISIBLE);
@@ -111,6 +112,7 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
     public Filter getFilter() {
         return filter;
     }
+
     //Make a filter
     Filter filter = new Filter() {
         //Run on background thread
@@ -122,8 +124,8 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
             if (constraint.toString().isEmpty()) {
                 filteredList.addAll(mListAll);
             } else {
-                for (User user: mListAll) {
-                    if (user.getEmail().toLowerCase().contains(constraint.toString().toLowerCase().trim())){
+                for (User user : mListAll) {
+                    if (user.toString().toLowerCase().contains(constraint.toString().toLowerCase().trim())) {
                         filteredList.add(user);
                     }
                 }
@@ -134,22 +136,23 @@ public class ManageUserAdapter extends RecyclerView.Adapter<ManageUserAdapter.Vi
 
             return filterResults;
         }
+
         //Run on UI thread
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mList.clear();
             mList.addAll((ArrayList<User>) results.values);
-            //mList = mListAll;
             notifyDataSetChanged();
         }
     };
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView avatar;
         Button ban_btn, unban_btn;
         TextView email, name, gender;
-        public ViewHolder(@NonNull View itemView){
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             avatar = itemView.findViewById(R.id.item_user_ava);

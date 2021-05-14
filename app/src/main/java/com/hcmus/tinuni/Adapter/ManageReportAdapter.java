@@ -83,16 +83,16 @@ public class ManageReportAdapter extends RecyclerView.Adapter<ManageReportAdapte
         holder.owner_email.setText(reportMessage.getOwnerEmail());
         holder.target_email.setText(reportMessage.getTargetEmail());
 
-        holder.btn_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(v.getContext())
-                        .setIcon(R.drawable.info)
-                        .setTitle("Desciption")
-                        .setMessage(reportMessage.getDescription())
-                        .show();
-            }
-        });
+//        holder.btn_more.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new AlertDialog.Builder(v.getContext())
+//                        .setIcon(R.drawable.info)
+//                        .setTitle("Desciption")
+//                        .setMessage(reportMessage.getDescription())
+//                        .show();
+//            }
+//        });
 
         holder.delete_report_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +113,17 @@ public class ManageReportAdapter extends RecyclerView.Adapter<ManageReportAdapte
                             }
                         })
                         .setNegativeButton("No", null)
+                        .show();
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(v.getContext())
+                        .setIcon(R.drawable.info)
+                        .setTitle("Desciption")
+                        .setMessage(reportMessage.getDescription())
                         .show();
             }
         });

@@ -140,4 +140,9 @@ public class User {
     }
 
     public String getBanned() { return this.banned;}
+
+    @Override
+    public String toString() {
+        return email + " " + userName + " " + gender;
+    }
 }
