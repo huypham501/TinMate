@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +36,11 @@ public class AdminDiaryFragment extends Fragment {
     private DatabaseReference root =  db.getReference().child("AdminActions");
     private ViewAdminDiaryAdapter adapter;
     private ArrayList<AdminAction> list;
+    private ArrayList<AdminAction> listAll;
+    private SearchView searchView;
+
+    String searchingText = "";
+
     //-----------------------------------------------------
     public AdminDiaryFragment() {
         // Required empty public constructor
@@ -53,13 +59,17 @@ public class AdminDiaryFragment extends Fragment {
         animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
 
+        //Set up Search View
+        searchView = (SearchView) view.findViewById(R.id.admin_search_for_diary);
+
         //Set up recycler view
         recyclerView = view.findViewById(R.id.recyclerView_view_diary);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         list = new ArrayList<>();
-        adapter = new ViewAdminDiaryAdapter(getContext(), list);
+        listAll = new ArrayList<>();
+        adapter = new ViewAdminDiaryAdapter(getContext(), list, listAll);
         recyclerView.setAdapter(adapter);
 
         //Load data from Firebase
@@ -67,18 +77,37 @@ public class AdminDiaryFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
+                listAll.clear();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     AdminAction adminAction = dataSnapshot.getValue(AdminAction.class);
 
                     list.add(adminAction);
+                    listAll.add(adminAction);
                 }
 
-                adapter.notifyDataSetChanged();
+                adapter.getFilter().filter(searchingText);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        //------------------------------Search View------------------------------------
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchingText = newText;
+                adapter.getFilter().filter(newText);
+
+                return false;
             }
         });
 

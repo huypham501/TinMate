@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,16 +37,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ViewAdminDiaryAdapter extends RecyclerView.Adapter<ViewAdminDiaryAdapter.ViewHolder> {
+public class ViewAdminDiaryAdapter extends RecyclerView.Adapter<ViewAdminDiaryAdapter.ViewHolder> implements Filterable {
     //---------------------------------------------------------------------
     ArrayList<AdminAction> mList;
+    ArrayList<AdminAction> mListAll;
     Context context;
-    String ban_unban;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private DatabaseReference root =  db.getReference().child("AdminActions");
+    private DatabaseReference root = db.getReference().child("AdminActions");
+
     //---------------------------------------------------------------------
-    public ViewAdminDiaryAdapter(Context context, ArrayList<AdminAction> mList){
+    public ViewAdminDiaryAdapter(Context context, ArrayList<AdminAction> mList, ArrayList<AdminAction> mListAll) {
         this.mList = mList;
+        this.mListAll = mListAll;
         this.context = context;
     }
 
@@ -103,11 +107,51 @@ public class ViewAdminDiaryAdapter extends RecyclerView.Adapter<ViewAdminDiaryAd
         return mList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    //Filter searchh result, this one will be used by Search View
+    public Filter getFilter() {
+        return filter;
+    }
+
+    //Make a filter
+    Filter filter = new Filter() {
+        //Run on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            ArrayList<AdminAction> filteredList = new ArrayList<>();
+
+            if (constraint.toString().isEmpty()) {
+                filteredList.addAll(mListAll);
+            } else {
+                for (AdminAction adminAction : mListAll) {
+                    if (adminAction.toString().toLowerCase().contains(constraint.toString().toLowerCase().trim())) {
+                        filteredList.add(adminAction);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        //Run on UI thread
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mList.clear();
+            mList.addAll((ArrayList<AdminAction>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView admin_action, action_time, diary_detail, detail_time;
 
-        public ViewHolder(@NonNull View itemView){
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             admin_action = itemView.findViewById(R.id.admin_action);

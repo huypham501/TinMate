@@ -63,7 +63,7 @@ public class AdminUserFragment extends Fragment {
         animationDrawable.start();
 
         //Set up Search View
-        searchView = (SearchView) view.findViewById(R.id.admin_search_user);
+        searchView = (SearchView) view.findViewById(R.id.admin_search_for_user);
 
         //Set up recycler view
         recyclerView = view.findViewById(R.id.recyclerView_manage_user_list);
@@ -84,6 +84,7 @@ public class AdminUserFragment extends Fragment {
                 listAll.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
+
                     list.add(user);
                     listAll.add(user);
                     //An said if there are 1000 users, admin must wait for too long until the whole list is fully loaded.
