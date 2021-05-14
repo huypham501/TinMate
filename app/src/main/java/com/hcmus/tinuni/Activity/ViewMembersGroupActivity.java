@@ -306,7 +306,8 @@ class UserAdapterCustom extends UserAdapter {
                 textView.setText(watchedUser.getUserName());
 
                 // SET MESS MOVE INTENT
-                viewSheet.findViewById(R.id.linearLayoutMessage).setOnClickListener(new View.OnClickListener() {
+                LinearLayout linearLayoutMessage = viewSheet.findViewById(R.id.linearLayoutMessage);
+                linearLayoutMessage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getContext(), MessageActivity.class);
@@ -316,6 +317,12 @@ class UserAdapterCustom extends UserAdapter {
                     }
                 });
 
+                if (watchedUser.getId().equals(currUserId)) {
+                        linearLayoutMessage.setVisibility(View.GONE);
+                } else {
+                    linearLayoutMessage.setVisibility(View.VISIBLE);
+                }
+
                 viewSheet.findViewById(R.id.linearLayoutViewProfile).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -324,6 +331,8 @@ class UserAdapterCustom extends UserAdapter {
                         getContext().startActivity(intent);
                     }
                 });
+
+
 
                 // GET WATCHED USER ROLE
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId)
@@ -366,7 +375,7 @@ class UserAdapterCustom extends UserAdapter {
                                                                                 Intent i = new Intent(getContext(), MainActivity.class);
                                                                                 i.putExtra("tabPosition", 2);
                                                                                 getContext().startActivity(i);
-                                                                                ((Activity)getContext()).finish();
+                                                                                ((Activity) getContext()).finish();
                                                                             } else {
                                                                                 bottomSheetDialog.dismiss();
                                                                             }
