@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,12 +31,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.Profile.ShowProfileActivity;
 import com.hcmus.tinuni.Adapter.UserAdapter;
 import com.hcmus.tinuni.Model.User;
 import com.hcmus.tinuni.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ViewMembersGroupActivity extends FragmentActivity {
 
@@ -315,7 +319,9 @@ class UserAdapterCustom extends UserAdapter {
                 viewSheet.findViewById(R.id.linearLayoutViewProfile).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent = new Intent(getContext(), ShowProfileActivity.class);
+                        intent.putExtra("userId", watchedUser.getId());
+                        getContext().startActivity(intent);
                     }
                 });
 
@@ -343,11 +349,35 @@ class UserAdapterCustom extends UserAdapter {
                                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId);
-                                                    databaseReference.child("Participants").child(watchedUser.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    DatabaseReference databaseReferenceParticipants = FirebaseDatabase.getInstance().getReference("Groups").child(groupId);
+                                                    databaseReferenceParticipants.child("Participants").child(watchedUser.getId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(Task<Void> task) {
                                                             // COMPLETE REMOVE USER BEHAVIOR
+                                                            if (task.isSuccessful()) {
+                                                                DatabaseReference databaseReferenceChatList = FirebaseDatabase.getInstance().getReference("ChatList")
+                                                                        .child(watchedUser.getId()).child(groupId);
+                                                                databaseReferenceChatList.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(Task<Void> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            // IF USER REMOVE IS MAIN USER MOVE TO CHAT
+                                                                            if (watchedUser.getId().equals(currUserId)) {
+                                                                                Intent i = new Intent(getContext(), MainActivity.class);
+                                                                                i.putExtra("tabPosition", 2);
+                                                                                getContext().startActivity(i);
+                                                                                ((Activity)getContext()).finish();
+                                                                            } else {
+                                                                                bottomSheetDialog.dismiss();
+                                                                            }
+                                                                        } else {
+                                                                            // NOT SUCCESSFUL CODE
+                                                                        }
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                // NOT SUCCESSFUL CODE
+                                                            }
                                                         }
                                                     });
                                                 }
@@ -383,6 +413,7 @@ class UserAdapterCustom extends UserAdapter {
                                                         @Override
                                                         public void onComplete(Task<Void> task) {
                                                             // COMPLETE REMOVE ADMIN BEHAVIOR
+                                                            bottomSheetDialog.dismiss();
                                                         }
                                                     });
                                                 }
@@ -418,6 +449,7 @@ class UserAdapterCustom extends UserAdapter {
                                                         @Override
                                                         public void onComplete(Task<Void> task) {
                                                             // COMPLETE MAKE ADMIN BEHAVIOR
+                                                            bottomSheetDialog.dismiss();
                                                         }
                                                     });
                                                 }

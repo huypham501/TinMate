@@ -43,9 +43,9 @@ public class MainActivity extends FragmentActivity {
     private FirebaseUser mUser;
     private DatabaseReference mRef;
 
-    TabLayout tabLayout;
-    CustomViewPager viewPager;
-    TextView tabName;
+    private TabLayout tabLayout;
+    private CustomViewPager viewPager;
+    private TextView tabName;
 
     ImageView imageViewManageDemand, addGroup, addFriend, imageView;
     private final int[] tabIcons = {
@@ -196,6 +196,17 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+
+        // MOVE TO TABLAYOUT
+        Intent intent = getIntent();
+        int pos = intent.getIntExtra("tabPosition", 0);
+        moveToSelectTab(pos);
+    }
+
+    private void moveToSelectTab(int position) {
+        if (tabLayout != null && tabLayout.getSelectedTabPosition() != position) {
+            tabLayout.selectTab(tabLayout.getTabAt(2));
+        }
     }
 
     private void setTabIcons() {

@@ -19,8 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -162,18 +164,41 @@ public class SettingGroupActivity extends Activity {
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
-                                DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("Participants").child(mUser.getUid());
-                                groupRef.removeValue();
+                                DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("Groups")
+                                        .child(groupId).child("Participants")
+                                        .child(mUser.getUid());
+                                groupRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ChatList")
+                                                    .child(mUser.getUid()).child(groupId);
+                                            databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        sDialog
+                                                                .setTitleText("Group left !")
+                                                                .setContentText("Group left !")
+                                                                .setConfirmText("OK")
+                                                                .setConfirmClickListener(null)
+                                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
-                                sDialog
-                                        .setTitleText("Group left !")
-                                        .setContentText("Group left !")
-                                        .setConfirmText("OK")
-                                        .setConfirmClickListener(null)
-                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                                        Intent i = new Intent(SettingGroupActivity.this, MainActivity.class);
+                                                        i.putExtra("tabPosition", 2);
+                                                        startActivity(i);
+                                                    } else {
+                                                        // NOT SUCCESSFUL CODE
+                                                    }
+                                                }
+                                            });
 
-                                Intent i = new Intent(SettingGroupActivity.this, MainActivity.class);
-                                startActivity(i);
+
+                                        } else {
+                                            // NOT SUCCESSFUL CODE
+                                        }
+                                    }
+                                });
                             }
                         })
                         .show();
