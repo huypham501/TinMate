@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_user_animated_gradient_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Admin.AdminRoomFragment">
+    android:background="@drawable/admin_gradient_bg_animation"
+    tools:context=".Fragment.Admin.AdminUserFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <SearchView
+        android:id="@+id/admin_search_for_group_chat"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ROOM"
-        android:textSize="30dp"
-        android:layout_centerInParent="true"/>
+        android:background="@drawable/admin_search_border"
 
+        android:queryHint="Filter by keyword" />
+    <!--    android:iconifiedByDefault="false"-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_manage_group_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/admin_search_for_group_chat" />
 </RelativeLayout>

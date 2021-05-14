@@ -79,14 +79,13 @@ public class Group {
 
     @Override
     public String toString() {
-        return "Group{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", imageURL='" + imageURL + '\'' +
-                ", subject='" + subject + '\'' +
-                ", major='" + major + '\'' +
-                ", school='" + school + '\'' +
-                '}';
+        String result = "Group Chat" + "\n\n" +
+                "Name: " + name + "\n" +
+                "Subject: " + subject + "\n" +
+                "Major: " + major + "\n" +
+                "School: " + school + "\n";
+
+        return result;
     }
 
     public static HashMap<String, Object> toHashMap(Object group) {

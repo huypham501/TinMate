@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#3edbf0"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp">
+<!--    56CCF2-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/admin_group_chat_ava"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/profile_image"
+        app:civ_border_width="1dp" />
+
+    <TextView
+        android:id="@+id/admin_group_chat_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/admin_group_chat_ava"
+        android:text="Android development"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/group_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/admin_group_chat_name"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/admin_group_chat_ava"
+        android:ellipsize="end"
+        android:maxWidth="140dp"
+        android:maxLines="1"
+        android:text="7 members"
+        android:textColor="@color/lighterBlack" />
+
+
+    <ImageButton
+        android:id="@+id/delete_group_chat_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/v_button"
+        android:src="@drawable/ic_delete"
+        android:textColor="@color/black"
+        android:textSize="15dp" />
+
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/img_new"-->
+<!--        android:layout_width="15dp"-->
+<!--        android:layout_height="15dp"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_toLeftOf="@id/imageView2"-->
+<!--        android:src="@mipmap/ic_launcher"-->
+<!--        android:visibility="gone"-->
+<!--        app:civ_border_color="#4334eb"-->
+<!--        app:civ_border_width="10dp" />-->
+</RelativeLayout>
