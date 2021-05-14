@@ -11,14 +11,14 @@
         android:id="@+id/admin_search_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search by email"
-        android:iconifiedByDefault="false"
+        android:queryHint="Filter by keyword"
+
         android:background="@drawable/admin_search_border"/>
+    <!--    android:iconifiedByDefault="false"-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_manage_user_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/admin_search_user"/>
-    <!--    android:layout_below="@+id/admin_search_user"-->
 </RelativeLayout>

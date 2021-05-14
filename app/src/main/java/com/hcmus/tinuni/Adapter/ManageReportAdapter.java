@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,16 +37,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ManageReportAdapter extends RecyclerView.Adapter<ManageReportAdapter.ViewHolder> {
+public class ManageReportAdapter extends RecyclerView.Adapter<ManageReportAdapter.ViewHolder> implements Filterable {
     //---------------------------------------------------------------------
     ArrayList<ReportMessage> mList;
+    ArrayList<ReportMessage> mListAll;
     Context context;
-    String ban_unban;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference root =  db.getReference().child("ReportMessages");
+
     //---------------------------------------------------------------------
-    public ManageReportAdapter(Context context, ArrayList<ReportMessage> mList){
+    public ManageReportAdapter(Context context, ArrayList<ReportMessage> mList, ArrayList<ReportMessage> mListAll){
         this.mList = mList;
+        this.mListAll = mListAll;
         this.context = context;
     }
 
@@ -133,6 +137,45 @@ public class ManageReportAdapter extends RecyclerView.Adapter<ManageReportAdapte
     public int getItemCount() {
         return mList.size();
     }
+
+    @Override
+    //Filter searchh result, this one will be used by Search View
+    public Filter getFilter() {
+        return filter;
+    }
+
+    //Make a filter
+    Filter filter = new Filter() {
+        //Run on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            ArrayList<ReportMessage> filteredList = new ArrayList<>();
+
+            if (constraint.toString().isEmpty()) {
+                filteredList.addAll(mListAll);
+            } else {
+                for (ReportMessage reportMessage : mListAll) {
+                    if (reportMessage.toString().toLowerCase().contains(constraint.toString().toLowerCase().trim())) {
+                        filteredList.add(reportMessage);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        //Run on UI thread
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mList.clear();
+            mList.addAll((ArrayList<ReportMessage>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
