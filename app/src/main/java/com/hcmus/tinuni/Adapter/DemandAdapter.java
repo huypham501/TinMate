@@ -61,8 +61,6 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
         holder.textViewSubject.setText(demand.getSubject());
         holder.textViewMajor.setText(demand.getMajor());
 
-
-
         // SETUP CLICK ON ITEM DEMAND
         holder.imageViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +93,11 @@ public class DemandAdapter extends RecyclerView.Adapter<DemandAdapter.ViewHolder
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, EditDemandActivity.class);
+                        intent.putExtra("demandId", demand.getId());
+                        intent.putExtra("demandSubject", demand.getSubject());
+                        intent.putExtra("demandMajor", demand.getMajor());
+                        intent.putExtra("demandSchool", demand.getSchool());
+                        intent.putExtra("userId", userId);
                         context.startActivity(intent);
                     }
                 });

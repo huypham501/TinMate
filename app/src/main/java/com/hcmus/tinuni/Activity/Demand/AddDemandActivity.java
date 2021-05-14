@@ -31,18 +31,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddDemandActivity extends Activity {
-    private AutoCompleteTextView autoCompleteTextViewMajor, autoCompleteTextViewSchool, autoCompleteTextViewSubject;
+    protected AutoCompleteTextView autoCompleteTextViewMajor, autoCompleteTextViewSchool, autoCompleteTextViewSubject;
 
-    private Button buttonSave;
-    private TextView textViewDuplicateDemandWarning;
+    protected Button buttonSave;
+    protected TextView textViewDuplicateDemandWarning;
     private ImageView btnGoBack;
-    private AlertDialog alertDialog;
+    protected AlertDialog alertDialog;
 
-    private String strEditTextSubject;
-    private String strEditTextMajor;
-    private String strEditTextSchool;
+    protected String strEditTextSubject, strEditTextMajor, strEditTextSchool;
 
-    private String userId;
+    protected String userId;
 
     List<String> arrayListSuggestMajor = new ArrayList<>();
     List<String> arrayListSuggestSubject = new ArrayList<>();
@@ -64,13 +62,14 @@ public class AddDemandActivity extends Activity {
         builder.setView(R.layout.layout_loading_dialog);
         alertDialog = builder.create();
 
+        // INIT ID USER
+        initIdUser();
+
         buttonSave = findViewById(R.id.btnSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialog.show();
-
-                initIdUser();
 
                 if (isValidForm()) {
                     Demand demand = new Demand(strEditTextSubject, strEditTextMajor, strEditTextSchool);
@@ -186,7 +185,7 @@ public class AddDemandActivity extends Activity {
         });
     }
 
-    private void pushData(Demand demand) {
+    protected void pushData(Demand demand) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Demands");
 
         String demandKey = databaseReference.push().getKey();
@@ -231,7 +230,7 @@ public class AddDemandActivity extends Activity {
         userId = firebaseUser.getUid();
     }
 
-    private boolean isValidForm() {
+    protected boolean isValidForm() {
         strEditTextSubject = autoCompleteTextViewSubject.getText().toString();
         if (strEditTextSubject.isEmpty()) {
             autoCompleteTextViewSubject.setError("Please fill in subject");

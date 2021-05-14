@@ -1,5 +1,10 @@
 package com.hcmus.tinuni.Model;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Demand {
 
     private String subject;
@@ -27,7 +32,17 @@ public class Demand {
     }
 
     public boolean isEqual(Demand demand) {
-        return subject.equals(demand.getSubject()) && major.equals(demand.getMajor()) && school.equals(demand.getSchool());
+        return subject.equals(demand.getSubject()) &&
+                major.equals(demand.getMajor()) &&
+                school.equals(demand.getSchool());
+    }
+
+    public boolean isEqual(Demand demand, boolean mode) {
+        return subject.equals(demand.getSubject()) &&
+                major.equals(demand.getMajor()) &&
+                school.equals(demand.getSchool()) &&
+                id.equals(demand.getId()) &&
+                userId.equals(demand.getUserId());
     }
 
     public String getSubject() {
@@ -68,6 +83,16 @@ public class Demand {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("subject", subject);
+        result.put("major", major);
+        result.put("school", school);
+        result.put("id", id);
+        result.put("userId", userId);
+        return result;
     }
 
     @Override
