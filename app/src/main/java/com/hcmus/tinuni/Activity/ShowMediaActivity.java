@@ -70,7 +70,7 @@ public class ShowMediaActivity extends Activity {
                 System.out.println("********* download");
                 new AlertDialog.Builder(ShowMediaActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Sign Out")
+                        .setTitle("Download file")
                         .setMessage("Are you sure you want to download ?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener()
                         {
