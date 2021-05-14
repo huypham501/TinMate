@@ -8,10 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,10 +34,11 @@ public class FriendsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
+
     private List<User> mFriends;
+    private List<User> mSearchFriends;
 
     private FirebaseUser mUser;
-    private DatabaseReference mRef;
     private ArrayList<String> listFriendsId;
 
     public FriendsFragment() {
@@ -59,6 +63,8 @@ public class FriendsFragment extends Fragment {
         DatabaseReference mFriendRef = FirebaseDatabase.getInstance().getReference("Friends").child(mUser.getUid());
 
         listFriendsId = new ArrayList<>();
+        mFriends = new ArrayList<>();
+        mSearchFriends = new ArrayList<>();
 
         mFriendRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,11 +82,43 @@ public class FriendsFragment extends Fragment {
             }
         });
 
+        final EditText edtSearch = view.findViewById(R.id.edtSearch);
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (edtSearch.hasFocus()) {
+                    if (s.toString().isEmpty()) {
+                        setAdapter(mFriends);
+                    } else {
+                        mSearchFriends.clear();
+                        for (User x : mFriends) {
+                            if (x.getUserName().toLowerCase().contains(s.toString().toLowerCase())) {
+                                mSearchFriends.add(x);
+                            }
+                        }
+                        setAdapter(mSearchFriends);
+
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
+    private void setAdapter(List<User> list) {
+        userAdapter = new UserAdapter(getContext(), list, false,null);
+        recyclerView.setAdapter(userAdapter);
+    }
+
     private void getFriends() {
-        mFriends = new ArrayList<>();
         DatabaseReference friendRef = FirebaseDatabase.getInstance().getReference("Users");
         friendRef.addValueEventListener(new ValueEventListener() {
             @Override
