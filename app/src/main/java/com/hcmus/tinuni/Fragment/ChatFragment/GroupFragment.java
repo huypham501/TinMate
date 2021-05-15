@@ -99,8 +99,8 @@ public class GroupFragment extends Fragment {
 
                     for (ChatList chatList : mChatLists) {
                         if (group.getId().equals(chatList.getId())) {
-                            mItems.add(group);
-//                            getLastMessageFromGroup(group);
+                            //mItems.add(group);
+                            getLastMessageFromGroup(group);
                         }
                     }
                 }
@@ -163,6 +163,11 @@ public class GroupFragment extends Fragment {
                         }
                     });
 
+                }else {
+                    mItems.add(group);
+                    mRecentTimes.add((long) 1);
+                    mIsSeen.add(true);
+                    groupAdapter.notifyDataSetChanged();
                 }
 
             }
