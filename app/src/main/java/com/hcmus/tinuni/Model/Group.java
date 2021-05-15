@@ -79,12 +79,12 @@ public class Group {
 
     @Override
     public String toString() {
+
         String result = "Group Chat" + "\n\n" +
                 "Name: " + name + "\n" +
                 "Subject: " + subject + "\n" +
                 "Major: " + major + "\n" +
                 "School: " + school + "\n";
-
         return result;
     }
 

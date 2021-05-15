@@ -37,6 +37,7 @@ public class AdminUserFragment extends Fragment {
     private RecyclerView recyclerView;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference root = db.getReference().child("Users");
+    private ValueEventListener valueEventListener;
     private ManageUserAdapter adapter;
     private ArrayList<User> list;
     private ArrayList<User> listAll;
@@ -76,7 +77,7 @@ public class AdminUserFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //Load data from Firebase
-        root.addValueEventListener(new ValueEventListener() {
+        root.addValueEventListener(valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -123,6 +124,12 @@ public class AdminUserFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        root.removeEventListener(valueEventListener);
     }
 
     //There is 1 small lack of logic, whose solution require Activity - Fragment communication.

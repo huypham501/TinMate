@@ -34,6 +34,7 @@ public class AdminDiaryFragment extends Fragment {
     private RecyclerView recyclerView;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference root =  db.getReference().child("AdminActions");
+    private ValueEventListener valueEventListener;
     private ViewAdminDiaryAdapter adapter;
     private ArrayList<AdminAction> list;
     private ArrayList<AdminAction> listAll;
@@ -73,7 +74,7 @@ public class AdminDiaryFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //Load data from Firebase
-        root.addValueEventListener(new ValueEventListener() {
+        root.addValueEventListener(valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
@@ -114,5 +115,9 @@ public class AdminDiaryFragment extends Fragment {
         return view;
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        root.removeEventListener(valueEventListener);
+    }
 }

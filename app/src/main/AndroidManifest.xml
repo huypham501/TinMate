@@ -15,21 +15,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TinUni">
-        <activity android:name=".Activity.Profile.GroupProfileActivity"></activity>
+        <activity android:name=".Activity.Admin.AdminSettingGroupActivity"></activity>
+        <activity android:name=".Activity.Profile.GroupProfileActivity" />
         <activity android:name=".Activity.Admin.UserReportActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Activity.ViewMembersGroupActivity" />
         <activity android:name=".Activity.AddFriendActivity" />
         <activity android:name=".Activity.DemandManageActivity" />
         <activity android:name=".Activity.AddGroupDemandActivity" />
         <activity android:name=".Activity.AddToGroupActivity" />
-        <activity android:name=".Activity.Demand.EditDemandActivity"/>
-        <activity android:name=".Activity.Demand.ViewDemandInfoActivity"/>
+        <activity android:name=".Activity.Demand.EditDemandActivity" />
+        <activity android:name=".Activity.Demand.ViewDemandInfoActivity" />
         <activity android:name=".Activity.SettingGroupActivity" />
         <activity android:name=".Activity.ShowZoomImage" />
         <activity android:name=".Activity.ShowMediaActivity" />
@@ -46,16 +49,18 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Activity.ChangeGroupNameActivity"/>
+        <activity android:name=".Activity.ChangeGroupNameActivity" />
         <activity android:name=".Activity.Profile.EditProfileActivity" />
         <activity android:name=".Activity.Profile.UserProfileActivity" />
-        <activity android:name=".Activity.Profile.ShowProfileActivity"/>
+        <activity android:name=".Activity.Profile.ShowProfileActivity" />
         <activity android:name=".Activity.Authentication.LoadingStartActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.MessageActivity"
@@ -82,14 +87,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".Activity.Admin.AdminInitialActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
-
-
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
-
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

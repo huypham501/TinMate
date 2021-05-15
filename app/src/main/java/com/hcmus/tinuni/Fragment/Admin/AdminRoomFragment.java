@@ -36,6 +36,7 @@ public class AdminRoomFragment extends Fragment {
     private RecyclerView recyclerView;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference root =  db.getReference().child("Groups");
+    private  ValueEventListener valueEventListener;
     private ManageGroupChatAdapter adapter;
     private ArrayList<Group> list;
     private ArrayList<Group> listAll;
@@ -75,7 +76,7 @@ public class AdminRoomFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //Load data from Firebase
-        root.addValueEventListener(new ValueEventListener() {
+        root.addValueEventListener(valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
@@ -114,4 +115,11 @@ public class AdminRoomFragment extends Fragment {
         });
         return view;
     }
+
+//    onD
+//    @Override
+//    public void onDestroy() {
+//        super.onPause();
+//        root.removeEventListener(valueEventListener);
+//    }
 }

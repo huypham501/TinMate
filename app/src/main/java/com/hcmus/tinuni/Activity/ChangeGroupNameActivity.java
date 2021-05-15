@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Model.AdminAction;
 import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
 
@@ -32,6 +33,8 @@ public class ChangeGroupNameActivity extends Activity {
     ImageView btnGoBack, ivAvatar;
     EditText edtGroupName;
     TextView btnSave;
+
+    Group group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class ChangeGroupNameActivity extends Activity {
         String groupId = i.getStringExtra("groupId");
         String groupName = i.getStringExtra("groupName");
         String img_link = i.getStringExtra("imageURL");
+        String signal = i.getStringExtra("signal");
 
         System.out.println("name: " + groupName);
         System.out.println("url: " + img_link);
@@ -74,15 +78,44 @@ public class ChangeGroupNameActivity extends Activity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
 
-                                    DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("name");
-                                    groupRef.setValue(new_groupName);
+                                    if (signal.equals("admin")) {
 
-                                    sDialog
-                                            .setTitleText("Saved!")
-                                            .setContentText("Change group name successfully")
-                                            .setConfirmText("OK")
-                                            .setConfirmClickListener(null)
-                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        //Write it down to admin diary.
+
+                                        FirebaseDatabase db = FirebaseDatabase.getInstance();
+                                        DatabaseReference root = db.getReference().child("Groups").child(groupId);
+
+                                        root.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                group = snapshot.getValue(Group.class);
+
+                                                String currentMillis = String.valueOf(System.currentTimeMillis());
+                                                AdminAction adminAction = new AdminAction(currentMillis,
+                                                        "Change name of group chat",
+                                                        "Change Name Of " + group.toString() + "New name: " + new_groupName + "\n");
+                                                db.getReference().child("AdminActions").push().setValue(adminAction);
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+
+                                        DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("Groups").child(groupId).child("name");
+                                        groupRef.setValue(new_groupName);
+
+                                        sDialog
+                                                .setTitleText("Saved!")
+                                                .setContentText("Change group name successfully")
+                                                .setConfirmText("OK")
+                                                .setConfirmClickListener(null)
+                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+
+
+                                    }
+
                                     ChangeGroupNameActivity.this.onBackPressed();
                                 }
                             })

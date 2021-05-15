@@ -27,8 +27,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.tinuni.Activity.AddGroupActivity;
 import com.hcmus.tinuni.Activity.Admin.AdminInitialActivity;
+import com.hcmus.tinuni.Activity.Admin.AdminSettingGroupActivity;
+import com.hcmus.tinuni.Activity.Authentication.ChangePasswordActivity;
 import com.hcmus.tinuni.Activity.Authentication.SignInActivity;
+import com.hcmus.tinuni.Activity.Profile.UserProfileActivity;
+import com.hcmus.tinuni.Activity.SettingGroupActivity;
 import com.hcmus.tinuni.Model.AdminAction;
 import com.hcmus.tinuni.Model.Group;
 import com.hcmus.tinuni.R;
@@ -68,9 +73,11 @@ public class ManageGroupChatAdapter extends RecyclerView.Adapter<ManageGroupChat
         Group group = mList.get(position);
 
         holder.admin_group_chat_name.setText(group.getName());
+
         Glide.with(context)
                 .load(group.getImageURL())
                 .into(holder.admin_group_chat_ava);
+
         root.child(group.getId()).child("Participants").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -83,6 +90,7 @@ public class ManageGroupChatAdapter extends RecyclerView.Adapter<ManageGroupChat
             }
         });
 
+        holder.delete_group_chat_btn.setVisibility(View.INVISIBLE);
         holder.delete_group_chat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,31 +102,32 @@ public class ManageGroupChatAdapter extends RecyclerView.Adapter<ManageGroupChat
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                //Remove all ChatList data of users that relate to this group chat.
-                                db.getReference().child("ChatList").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-//                                        for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-//                                            for (DataSnapshot dataSnapshot2: dataSnapshot){
+//                                db.getReference().child("ChatList").addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 //
-//                                            }
+////                                        for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+////                                            for (DataSnapshot dataSnapshot2: dataSnapshot){
+////
+////                                            }
+////
+////                                        }
+//                                    }
 //
-//                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                                //Remove group chat.
-                                root.child(group.getId()).removeValue();
-
-                                Toast.makeText(v.getContext(), "Group chat deleted", Toast.LENGTH_SHORT).show();
-
-                                String currentMillis = String.valueOf(System.currentTimeMillis());
-                                AdminAction adminAction = new AdminAction(currentMillis, "Delete group chat", "Delete " + group.toString() + holder.group_member.getText() + "\n");
-                                db.getReference().child("AdminActions").push().setValue(adminAction);
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                    }
+//                                });
+//                                //Remove group chat.
+//                                root.child(group.getId()).removeValue();
+//
+//                                Toast.makeText(v.getContext(), "Group chat deleted", Toast.LENGTH_SHORT).show();
+//
+//                                String currentMillis = String.valueOf(System.currentTimeMillis());
+//                                AdminAction adminAction = new AdminAction(currentMillis,
+//                                        "Delete group chat", "Delete " + group.toString());
+//                                db.getReference().child("AdminActions").push().setValue(adminAction);
                             }
                         })
                         .setNegativeButton("No", null)
@@ -129,11 +138,9 @@ public class ManageGroupChatAdapter extends RecyclerView.Adapter<ManageGroupChat
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(v.getContext())
-                        .setIcon(R.drawable.info)
-                        .setTitle("Desciption")
-                        .setMessage("Halo")
-                        .show();
+                Intent intent = new Intent(context, AdminSettingGroupActivity.class);
+                intent.putExtra("groupId", group.getId());
+                context.startActivity(intent);
             }
         });
     }
