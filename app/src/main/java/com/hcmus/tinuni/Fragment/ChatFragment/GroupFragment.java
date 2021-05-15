@@ -99,13 +99,13 @@ public class GroupFragment extends Fragment {
 
                     for (ChatList chatList : mChatLists) {
                         if (group.getId().equals(chatList.getId())) {
-                            //mItems.add(group);
-                            getLastMessageFromGroup(group);
+                            mItems.add(group);
+//                            getLastMessageFromGroup(group);
                         }
                     }
                 }
 
-                groupAdapter = new GroupAdapter(getContext(), mItems, true,mIsSeen);
+                groupAdapter = new GroupAdapter(getContext(), mItems, true, mIsSeen);
                 recyclerView.setAdapter(groupAdapter);
 
             }

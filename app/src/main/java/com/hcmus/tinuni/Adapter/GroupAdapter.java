@@ -74,7 +74,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 .load(group.getImageURL())
                 .into(holder.imageView);
 
-        getLastMessageFromGroup(group.getId(), holder,mIsSeen.get(position));
+        if(!mIsSeen.isEmpty())
+            getLastMessageFromGroup(group.getId(), holder,mIsSeen.get(position));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

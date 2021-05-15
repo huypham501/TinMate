@@ -36,7 +36,7 @@ public class AddGroupActivity extends Activity {
     FirebaseUser mUser;
     DatabaseReference mRef;
 
-    final String DEFAULT_URL = "https://firebasestorage.googleapis.com/v0/b/tinuni.appspot.com/o/images%2Favatars%2Fdefault_group.png?alt=media&token=ac09066b-0948-4d70-a73d-ea96e3967470";
+    final String DEFAULT_URL = "https://firebasestorage.googleapis.com/v0/b/tinuni.appspot.com/o/images%2Fgroups%2Fdefault_group.png?alt=media&token=9cb2fb22-99ec-417d-8eba-1edbc8304be9&fbclid=IwAR3RX1aMnueA5TANRAy4m2eYakS-EbIkUz80w0dd_rSKDGYAW0-E5RBHQHU";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
